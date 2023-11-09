@@ -1,0 +1,79 @@
+.login-container {
+    display: flex;
+    justify-content: center; /* Horizontally center the content */
+    align-items: center; /* Vertically center the content */
+    min-height: 80vh; /* Set a minimum height to cover the entire viewport */
+    flex-direction: column;
+ }
+  
+.login{
+    background-color: white;
+    height: 280px;
+    width: 470px;
+    padding: 30px 20px ;
+    border-radius: 20px;
+}
+.loginInput{
+    background-color: #f0f0f0;
+    text-indent: 10px;
+    border:none;
+    font-size: 15px;
+    border-radius: 50px;
+    height: 35px;
+    width: 200px;
+    margin-left: 20px;
+    align-items: center;
+}
+
+body{
+    background-color: #1d284d;
+}
+.header{
+    color: white;
+    font-weight: bolder;
+    margin-top: 4rem;
+    margin-bottom: -2rem;
+}
+
+.loginButton{
+    font-weight: bolder;
+    margin-top: -2rem;
+    padding: 10px 30px;
+    font-size: 15px;
+    border: 1px solid #000;
+    border-radius: 50px;
+    background-color: white;
+}
+.loginButton:hover{
+    background-color: #1d284d;
+    border: none;
+    color: white;
+}
+.googleSignIn{
+     color: white;
+     margin-top: -5rem; /* Add margin to separate the "Login with Google" button */
+     cursor: pointer; /* Add a pointer cursor for better usability */
+     text-align: center; /* Center the text within the button */
+}
+.googleSignIn:hover{
+    text-decoration: underline;
+}
+
+.forgotPass{
+    margin-left: 13rem;
+    font-size: 12px;
+    margin-bottom: 2rem;
+}
+.forgotPass:hover{
+    text-decoration: underline;
+}
+.loginLabel{
+    font-weight: lighter;
+}
+
+.accountCreate{
+    color: white;
+}
+.accountCreate:hover{
+    text-decoration: underline;
+}
