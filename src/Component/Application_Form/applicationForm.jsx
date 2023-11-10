@@ -8,17 +8,13 @@ import * as Yup from 'yup';
 import {CID , create} from 'ipfs-http-client'
 
 
-
-
-
 const ApplicationForm = () => {
-
-
     const ipfs = create({
         host:'localhost',
         port:'5001',
         protocol:'http',
     })
+
     const[landOwnership, setLandOwnership] = useState('');
     const handlelandOwnership = (e) => {
         setLandOwnership(e.target.value);
