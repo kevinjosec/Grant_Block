@@ -6,10 +6,7 @@ import signUp from '../Signup/signUp';
 import { useNavigate } from 'react-router-dom';
 
 const LoginPage = () => {
-  const navigate = useNavigate();
-  const goToSignUp = () => {
-    navigate('/signUp');
-  }
+ 
      const handleLogin = async(e) =>  {
         e.preventDefault();
         try{
@@ -53,7 +50,7 @@ const LoginPage = () => {
             </div>
             </div>
       </div>
-      <div className='accountCreate' onClick={goToSignUp}>
+      <div className='accountCreate' >
         Create an account
       </div>
       <br/>

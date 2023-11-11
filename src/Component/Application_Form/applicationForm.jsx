@@ -1,4 +1,3 @@
-
 import React from 'react'
 import './applicationForm.css'
 import { Formik, Field, Form, ErrorMessage } from 'formik';
@@ -8,12 +7,7 @@ import * as Yup from 'yup';
 import {CID , create} from 'ipfs-http-client'
 
 
-
-
-
 const ApplicationForm = () => {
-
-
     const ipfs = create({
         host:'localhost',
         port:'5001',
