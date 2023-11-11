@@ -13,6 +13,7 @@ const ApplicationForm = () => {
         port:'5001',
         protocol:'http',
     })
+
     const[landOwnership, setLandOwnership] = useState('');
     const handlelandOwnership = (e) => {
         setLandOwnership(e.target.value);
