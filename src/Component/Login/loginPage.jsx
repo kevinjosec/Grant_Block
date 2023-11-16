@@ -4,9 +4,10 @@ import {auth, provider} from '../../firebase'
 import { signInWithPopup } from 'firebase/auth';
 import signUp from '../Signup/signUp';
 import { useNavigate } from 'react-router-dom';
-
+import HomePage from '../HomePage/HomePage'
 const LoginPage = () => {
  
+  const navigate = useNavigate();
      const handleLogin = async(e) =>  {
         e.preventDefault();
         try{
@@ -44,7 +45,7 @@ const LoginPage = () => {
             <p className='forgotPass'>
               Forgot password
             </p>
-            <button type='submit' className='loginButton'>
+            <button type='submit' className='loginButton' onClick={navigate('./HomePage')}>
                 LOGIN
             </button>
             </div>
