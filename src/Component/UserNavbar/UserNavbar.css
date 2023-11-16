@@ -1,0 +1,63 @@
+.userNavbar{
+    height: 80px;
+    background-color: #1d284d;
+    color: white;
+    font-size: 40px;
+    text-align: left;
+    justify-self: center;
+    padding-left: 30px;
+    padding-top: 10px;
+    font-weight: bolder;
+}
+.userProfile{
+    float: right;
+    margin-right: 2rem;
+    margin-top: .8rem;
+}
+.userNavbarList{
+    font-size: 16px;
+    font-weight: 500;
+    color: white;
+    text-align: center;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    margin-top:-2rem;
+    margin-left: 10rem;
+}
+.li 
+{
+    display: inline-block;
+    margin-right: 4rem;
+    cursor: pointer;
+  }
+.li:hover{
+    font-size: 20px;
+}
+.userHeader{
+    font-size: 50px;
+    margin-left: 2rem;
+}
+.headerBody{
+    line-height: 30px;
+    font-weight: 300;
+    margin-left: 2rem;
+}
+.footerBody{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    text-align: center;
+}
+.footerContent{
+    line-height: 40px;
+    font-size: 25px;
+    font-weight: 600;
+}
+.footerFooter{
+    line-height: 25px;
+    font-weight:400 ;
+    font-size: 15px;
+}
+.footerButton{
+    padding: 10px;
+}

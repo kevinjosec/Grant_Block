@@ -44,8 +44,9 @@
     text-align: left;
   }
   .signupButton{
+    margin-left: 36rem;
     font-weight: bolder;
-    margin-top: -2rem;
+    margin-top: -3rem;
     padding: 10px 30px;
     font-size: 15px;
     border: 1px solid #000;

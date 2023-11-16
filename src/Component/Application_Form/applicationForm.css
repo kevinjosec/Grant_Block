@@ -44,13 +44,6 @@ label{
     padding-top: 0;
     color: #FF0000;
 }
-
-body
-{
-    font-family: 'Open Sans', sans-serif;
-    background-color: #1d284d;
-}
-
 .submitButton{
     border: none;
     font-weight: bold;

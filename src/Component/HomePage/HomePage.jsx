@@ -8,6 +8,7 @@ export default function HomePage() {
     <div>
       <Navbar/>
       <img src={homeImage} className='homeImage'/>
+      <br/>
       <div>
         <div className='disclaimer'>
             <p className='Disclaimer'>
@@ -18,6 +19,7 @@ export default function HomePage() {
         </p>
         </div>
         <br/>
+      
         <div className='listHeader'>
             List of Schemes
         </div>
@@ -48,6 +50,23 @@ export default function HomePage() {
                 Download Documents
             </div>
         </div>
+     </div>
+     <div className="listHeader">
+      About Us
+     </div>
+     <div className="disclaimer">
+      <p className="Disclaimer">
+      At Grant Block, we are committed to making a positive
+      impact through our innovative projects and initiatives.
+       One such endeavor is our ongoing project to streamline the
+        government grants system. This initiative reflects our dedication
+         to improving public
+      services and fostering transparency, efficiency, and
+       accessibility in the public sector.
+      </p>
+     </div>
+     <div className="footer">
+     Copyright © Grant Block 2023. All Rights Reserved .Designed and Developed by Group 16
      </div>
       </div>
     </div>
