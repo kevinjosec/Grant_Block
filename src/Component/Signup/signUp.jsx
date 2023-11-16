@@ -2,21 +2,35 @@ import React, { useState } from 'react'
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import Login from '../Login/loginPage'
-import firebase from 'firebase/app';
 import './signUp.css'
-import {auth} from '../../firebase'
+import {auth, db} from '../../firebase'
+import { doc, setDoc } from 'firebase/firestore';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
+
 
 const SignUp = () => {
 
   const navigate = useNavigate();
 
   const handleSignUp = async (event) => {
-    navigate('/Login');
+    const userRef = doc(db, "users", formik.values.email);
+    try {
+      await setDoc(userRef, {
+        fname: formik.values.fname,
+        lname: formik.values.lname,
+        phone: formik.values.phone,
+        email: formik.values.email,
+        adharCard: formik.values.adharCard,
+        rationCard: formik.values.rationCard
+      });
+    } catch (error) {
+      console.error("Error adding details to Firestore:", error);
+    }      
     try {
       const result = await createUserWithEmailAndPassword(auth, formik.values.email, formik.values.password);
       console.log("user created", result);
+      navigate('/Login');
     } catch (err) {
       console.log(err.message);
     }
@@ -33,8 +47,8 @@ const SignUp = () => {
     rationCard:'',
   },
   validationSchema: yup.object({
-    fname: yup.string().matches(/^[a-zA-Z]+$/,"Invalid").min(3,'Too short').required('First Name is required'),
-    lname: yup.string().matches(/^[a-zA-Z]+$/,"Invalid").min(3,'Too short').required('Last Name is required'),
+    fname: yup.string().trim().matches(/^[a-zA-Z]+$/,"Invalid").min(3,'Too short').required('First Name is required'),
+    lname: yup.string().trim().matches(/^[a-zA-Z]+$/,"Invalid").min(3,'Too short').required('Last Name is required'),
     phone : yup.string().matches(/^[0-9]{10}$/,"Invalid").required('Phone Number is required'),
     email: yup.string().email().required('Email is requied'),
     password: yup.string().trim().matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{6,}$/,

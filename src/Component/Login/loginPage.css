@@ -25,10 +25,6 @@
     margin-left: 20px;
     align-items: center;
 }
-
-body{
-    background-color: #1d284d;
-}
 .header{
     color: white;
     font-weight: bolder;
@@ -78,4 +74,11 @@ body{
 }
 .accountCreate:hover{
     text-decoration: underline;
+}
+
+.errorMessage{
+    color: red;
+    font-size: 12px;
+    margin-bottom: 1rem;
+    margin-top: -1rem;
 }
