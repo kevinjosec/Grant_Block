@@ -20,7 +20,7 @@ export  function AuthContext({children}) {
                         const firestoreEmail = userDocSnapshot.data().email;
                         if(firestoreEmail == userEmail){
                             console.log('Email Exist')
-                            setCurrentUser(userDocSnapshot.data());
+                            setCurrentUser(userEmail); //firestoreEmail
                         }else{
                             console.log('Email doesnt exist')
                         }
