@@ -23,7 +23,7 @@ const LoginPage = () => {
       }
       try{
         await signInWithEmailAndPassword(auth ,email, password)
-      navigate('/HomePage')
+      navigate('/UserHomePage')
      }
       catch(err) {
         if(err.code === 'auth/wrong-password') {
