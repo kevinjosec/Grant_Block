@@ -5,6 +5,7 @@ import { useState } from 'react'
 import { useFormik } from 'formik'
 import * as Yup from 'yup';
 import {CID , create} from 'ipfs-http-client'
+import UserNavbar from '../UserNavbar/UserNavbar';
 
 
 const ApplicationForm = () => {
@@ -147,6 +148,7 @@ const ApplicationForm = () => {
 
   return (
     <div>
+        <UserNavbar/>
         <div className='mainBody'>
             <form className='applicationForm' onSubmit={formik.handleSubmit}>
                 <div className='header'>

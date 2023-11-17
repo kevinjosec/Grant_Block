@@ -1,0 +1,19 @@
+.schemeCard{
+    margin-left: 4rem;
+    margin-top: 4rem;
+    border: 1px solid #000;
+    background-color:white;
+    height: 20rem;
+    width: 15rem;
+    border-radius: 20px;
+}
+.schemeName{
+    padding: 10px;
+}
+.subHeading{
+    color: gray;
+}
+.schemeCard:hover{
+    background-color: #1d284d;
+    color: white;
+}

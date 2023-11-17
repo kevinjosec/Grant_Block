@@ -1,0 +1,46 @@
+.userHeader{
+    font-size: 50px;
+    margin-left: 2rem;
+}
+.headerBody{
+    line-height: 30px;
+    font-weight: 300;
+    margin-left: 2rem;
+}
+.footerBody{
+    text-align: justify;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    text-align: center;
+}
+.footerContent{
+    text-align: center;
+    line-height: 40px;
+    font-size: 25px;
+    font-weight: 600;
+}
+.footerFooter{
+    text-align: center;
+    line-height: 25px;
+    font-weight:400 ;
+    font-size: 15px;
+}
+.footerButton1,.footerButton2,.footerButton3,.footerButton11,.footerButton21,.footerButton31{
+    padding-top: 10px;
+    padding-bottom: 10px;  
+}
+.footerButtonGrid{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+    margin-bottom: 2rem;
+    padding: 20px;
+    gap: 20px;
+}
+.footerButton1,.footerButton2,.footerButton3{
+    margin-left: 4rem;
+}
+.footerButton11,.footerButton21,.footerButton31{
+    background-color: white;
+    border: 1px solid #000;
+    margin-right: 4rem;
+}
