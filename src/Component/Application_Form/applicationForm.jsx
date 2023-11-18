@@ -156,6 +156,8 @@ const ApplicationForm = () => {
                 Application Form
             </h1>
             </div>
+            <br/>
+            <br/>
                 <label htmlFor='name'>
                     Full Name
                 </label>

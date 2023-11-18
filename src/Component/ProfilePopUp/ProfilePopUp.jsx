@@ -2,6 +2,7 @@ import React, { useEffect, useState,useRef } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { auth } from '../../firebase';
 import './ProfilePopUp.css';
+import ProfileSettings from '../ProfileSettings/ProfileSettings'
 const ProfilePopUp = (props) => {
     const navigate = useNavigate();
     const handleSignOut =()=>{
@@ -28,7 +29,7 @@ const ProfilePopUp = (props) => {
   return(props.trigger)? (
     <div className='ProfileSettings' ref={popUpRef}>
         <li>
-            <button className='settingsButton'>
+            <button className='settingsButton' onClick={()=>navigate('/ProfileSettings')}>
                 Profile Settings
                 </button></li> 
                 <li>
