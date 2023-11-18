@@ -1,18 +1,18 @@
 import React, { useState} from 'react'
 import './loginPage.css';
-import {auth, provider} from '../../firebase'
+import {auth, provider, db} from '../../firebase'
 import { signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
 import signUp from '../Signup/signUp';
 import { useNavigate } from 'react-router-dom';
 import HomePage from '../HomePage/HomePage'
-const LoginPage = () => {
+import { doc, getDoc, setDoc } from 'firebase/firestore';
 
+const LoginPage = () => {
   const[email, setEmail]= useState('');
   const[password, setPassword]= useState('');
   const[error, setError]= useState('');
   const navigate = useNavigate();
   
-
      const handleManualLogin = async(e)=>{
       e.preventDefault();
       const emailReg = /^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -44,7 +44,20 @@ const LoginPage = () => {
         try{
           const result = await signInWithPopup(auth,provider);
           const user = result.user;
-          console.log("SUCCESS", user);
+          const userDocRef = doc(db,"users",user.email);
+          const userDocSnap = await getDoc(userDocRef);
+          if(!userDocSnap.exists()) {
+            await setDoc(userDocRef,{
+              email:user.email,
+              fname: '',
+              lname: '',
+              phone: '',
+              adharCard: '',
+              rationCard: ''
+            });
+          }
+          navigate('/UserHomePage')
+          console.log("SUCCESS");
         }
         catch(error)
         {
@@ -54,7 +67,7 @@ const LoginPage = () => {
   
 
     return (
-      <div>
+      <div className='loginMainBody'>
         <h1 className='header'>
           Grant Block
         </h1>
