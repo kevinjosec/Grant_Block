@@ -1,0 +1,24 @@
+/* ProfilePopUp.css */
+
+.ProfileSettings {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    position: absolute;
+    top: 2em;
+    right: 2rem;
+    width: 30%;
+    height: 40%;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    border: 1px solid red;
+    border-radius: 4px;
+    z-index: 1;
+  }
+  .settingsButton,.logoutButton{
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    width: 32.6vh;
+    height: 50px;
+  }
+  

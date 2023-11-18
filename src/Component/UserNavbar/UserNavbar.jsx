@@ -3,42 +3,27 @@ import './UserNavbar.css'
 import { CgProfile } from "react-icons/cg";
 import { useNavigate } from 'react-router-dom';
 import {auth} from '../../firebase'
+import ProfilePopUp from '../ProfilePopUp/ProfilePopUp';
+import { isObject } from 'formik';
+
 function UserNavbar() {
   const navigate = useNavigate();
-
-  const [popUp, setPopUp] = useState('');
-
-  const popUpRef = useRef(null);
-
-  const togglePopUp = setPopUp(!popUp)
-
-  const handleSignOut =()=>{
+  const [isPopUp, setIsPopUp] = useState(false);    
+  const handleProfileClick =()=>{
+    console.log("here");
     try{
-      auth.signOut();
-      console.log('Sign out')
-      navigate('/');
-      }catch(err){
-        console.log(err);
-      }
-    }
-
-  const profileSettings =()=>{
-    <button className='profileSettings'>Profile Setings</button>
+            setIsPopUp(!isPopUp);
+            console.log('isPopUp:', isPopUp);
+          }catch(e){
+            console.log(e)}
   }
-
-  useEffect(()=>{const handleClick = (event)=>{
-    if(popUpRef.current && !popUpRef.current.contains(event.target)){
-      setPopUp(false);
-    }
-  };document.addEventListener('click',handleClick);
-  return ()=>{document.removeEventListener('click',handleClick);};
-
-  },[])
-  
   return (
     <div>
         <div className="userNavbar">
-          Grant Block <CgProfile className="userProfile" onClick={profileSettings}></CgProfile>
+          Grant Block
+           <CgProfile className="userProfile" onClick={handleProfileClick}>
+          </CgProfile>
+          <ProfilePopUp trigger={isPopUp} />
           <ul className="userNavbarList">
             <li className='li' onClick={()=>navigate('/UserHomePage')}>
               Home
