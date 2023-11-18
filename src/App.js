@@ -8,6 +8,7 @@ import HomePage from './Component/HomePage/HomePage.jsx';
 import { AuthContext } from './Component/AuthContext.jsx';
 import UserHomePage from './Component/UserHomePage/UserHomePage.jsx';
 import Schemes from './Component/Schemes/Schemes.jsx';
+import ProfileSettings from './Component/ProfileSettings/ProfileSettings.jsx';
 function App() {
  return (
   <AuthContext>
@@ -15,10 +16,11 @@ function App() {
   <Routes>          
   <Route path="/" element={<HomePage/>} />
   <Route path="/UserHomePage" element={<UserHomePage/>} />
-  <Route path="/signUp" element={<SignUp/>} />
+  <Route path="/SignUp" element={<SignUp/>} />
   <Route path="/Login" element={<Login/>} />
   <Route path="/Schemes" element={<Schemes/>} />
   <Route path="/ApplicationForm" element={<Application_Form/>} />
+  <Route path="/ProfileSettings" element={<ProfileSettings/>}/>
   </Routes>      
   </Router>
   </AuthContext>

@@ -6,8 +6,15 @@ import signUp from '../Signup/signUp';
 import { useNavigate } from 'react-router-dom';
 import HomePage from '../HomePage/HomePage'
 import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { useEffect } from 'react';
 
 const LoginPage = () => {
+  useEffect(() => {
+    document.body.style.backgroundColor = '#1d284d'; // Change this to the desired color
+    return () => {
+      document.body.style.backgroundColor = ''; // Reset to default
+      };
+  }, []);
   const[email, setEmail]= useState('');
   const[password, setPassword]= useState('');
   const[error, setError]= useState('');

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import Login from '../Login/loginPage'
@@ -12,7 +12,13 @@ import { useNavigate } from 'react-router-dom';
 const SignUp = () => {
 
   const navigate = useNavigate();
-
+  
+  useEffect(() => {
+    document.body.style.backgroundColor = '#1d284d'; // Change this to the desired color
+    return () => {
+      document.body.style.backgroundColor = ''; // Reset to default
+      };
+  }, []);
   const handleSignUp = async (event) => {
     const userRef = doc(db, "users", formik.values.email);
     try {
