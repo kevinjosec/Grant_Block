@@ -98,7 +98,7 @@ const ApplicationForm = () => {
             onSubmit: async(values)=>{
                 console.log('Submitting form data...');
                 try{
-                    const applicatiionData = {
+                    const applicationData = {
                         name:values.name,
                         address:values.address,
                         phoneNo:values.phoneNo,
@@ -122,9 +122,12 @@ const ApplicationForm = () => {
                         incomePic:values.incomePic,
                         landPic:values.landPic
                 };
-                const applicationDataJson =JSON.stringify(applicatiionData);
+                const applicationDataJson =JSON.stringify(applicationData);
                 const cid = await ipfs.add(applicationDataJson);
-                console.log("File uploaded with CID:  ", cid);
+                console.log(cid);
+                const gatewayURL = 'https://gateway.ipfs.io/ipfs/';
+                const fileURL = gatewayURL + cid.path;
+                console.log("File at:  ", fileURL);
             }
             catch(error){
                 console.log("error", error);
