@@ -6,6 +6,9 @@
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "arweave": "^1.14.4",
+    "crypto-js": "^4.2.0",
+    "filecoin.js": "^0.0.5-alpha",
     "firebase": "^10.6.0",
     "formik": "^2.4.5",
     "ipfs-http-client": "^60.0.1",
@@ -15,7 +18,7 @@
     "react-router-dom": "^6.18.0",
     "timers-browserify": "^2.0.12",
     "web-vitals": "^2.1.4",
-    "web3": "^4.1.2",
+    "web3": "^4.3.0",
     "web3.storage": "^4.5.5",
     "yup": "^1.3.2"
   },
