@@ -1,26 +1,25 @@
 import React from 'react'
+import CryptoJS from 'crypto-js';
 import './applicationForm.css'
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import { useState } from 'react'
 import { useFormik } from 'formik'
 import * as Yup from 'yup';
 import {CID , create} from 'ipfs-http-client'
-import UserNavbar from '../UserNavbar/UserNavbar';
-
-
+import UserNavbar from '../UserNavbar/UserNavbar'; 
 const ApplicationForm = () => {
     const ipfs = create({
         host:'localhost',
         port:'5001',
         protocol:'http',
     })
-
+      
+    const [formData,setFormData] = useState(null);
     const[landOwnership, setLandOwnership] = useState('');
     const handlelandOwnership = (e) => {
         setLandOwnership(e.target.value);
         formik.values.land=e.target.value;
     }
-
     const formik = useFormik(
         {
             initialValues:{
@@ -92,12 +91,34 @@ const ApplicationForm = () => {
                     otherwise:(schema)=>schema,
                 })
               }),
-            
-           
-            
-            onSubmit: async(values)=>{
+             onSubmit: async(values)=>{
                 console.log('Submitting form data...');
-                try{
+
+                const convertFileToBase64 = (file) => {
+                    return new Promise((resolve, reject) => {
+                      if (!file || !(file instanceof Blob)) {
+                        resolve(null);
+                      }
+                  
+                      const reader = new FileReader();
+                      reader.onload = (event) => {
+                        resolve(event.target.result.split(',')[1]); // Extract base64 string
+                      };
+                      reader.onerror = (error) => {
+                        reject(error);
+                      };
+                  
+                      reader.readAsDataURL(file);
+                    });
+                  };
+                  
+                  try {
+                    // Convert PDF and JPEG files to base64 strings
+                    const base64RationPic = await convertFileToBase64(values.rationPic);
+                    const base64AdharPic = await convertFileToBase64(values.adharPic);
+                    const base64IncomePic = await convertFileToBase64(values.incomePic);
+                    const base64LandPic = await convertFileToBase64(values.landPic);
+
                     const applicationData = {
                         name:values.name,
                         address:values.address,
@@ -117,37 +138,28 @@ const ApplicationForm = () => {
                         surveyNo:values.surveyNo,
 			            land:values.land,
 			            toilet:values.toilet,
-                        rationPic:values.rationPic,
-                        adharPic:values.adharPic,
-                        incomePic:values.incomePic,
-                        landPic:values.landPic
+                        rationPic:base64RationPic,
+                        adharPic:base64AdharPic,
+                        incomePic:base64IncomePic,
+                        landPic:base64LandPic
                 };
-                const applicationDataJson =JSON.stringify(applicationData);
-                const cid = await ipfs.add(applicationDataJson);
-                console.log(cid);
+                const applicationFormJSON = JSON.stringify(applicationData);
+                const encryptedData = CryptoJS.AES.encrypt(applicationFormJSON,secretKey).toString();
+                const cid = await ipfs.add(encryptedData);
+                console.log("CID : ",cid);
                 const gatewayURL = 'https://gateway.ipfs.io/ipfs/';
                 const fileURL = gatewayURL + cid.path;
-                console.log("File at:  ", fileURL);
+                console.log("File at:  ", fileURL);  
+                const decryptedData = CryptoJS.AES.decrypt(encryptedData,secretKey);   
+                const decryptedJSON = decryptedData.toString(CryptoJS.enc.Utf8);
+                const application = JSON.parse(decryptedJSON);  
+                setFormData(application);
             }
             catch(error){
                 console.log("error", error);
             }
-              },  
+              },   
     });
-  
-
-        const [profilePic, setProfilePic] = useState(null);
-        const handleProfilePic = (e) => {
-            const file = e.target.files[0];
-            if (file)
-            {
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    setProfilePic(e.target.result);
-                };
-                reader.readAsDataURL(file);
-            }  
-        };
 
   return (
     <div>
@@ -368,6 +380,17 @@ const ApplicationForm = () => {
                         <br/>
                         <br/>
             </form>
+             {formData ? (
+        <div>
+          <h1>Decrypted Application Form Data</h1>
+          <p>Name: {formData.name}</p>
+          <p>Address: {formData.address}</p>
+          <iframe title="Income Document" src={`data:application/pdf;base64,${formData.incomePic}`} width="600" height="400" />
+</div>
+      ) : (
+        <p>Loading...</p>
+      )
+      }
         </div>
     </div>
   )
