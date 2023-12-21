@@ -6,7 +6,10 @@ import { useState } from 'react'
 import { useFormik } from 'formik'
 import * as Yup from 'yup';
 import {CID , create} from 'ipfs-http-client'
-import UserNavbar from '../UserNavbar/UserNavbar'; 
+import UserNavbar from '../UserNavbar/UserNavbar';
+
+
+
 const ApplicationForm = () => {
     const ipfs = create({
         host:'localhost',
@@ -15,11 +18,37 @@ const ApplicationForm = () => {
     })
       
     const [formData,setFormData] = useState(null);
-    const[landOwnership, setLandOwnership] = useState('');
+    const [landOwnership, setLandOwnership] = useState('');
     const handlelandOwnership = (e) => {
         setLandOwnership(e.target.value);
         formik.values.land=e.target.value;
     }
+    const convertFileToBuffer = async (file) => {
+        try {
+          return new Promise((resolve, reject) => {
+            if (!file || !(file instanceof Blob)) {
+              resolve(null);
+            }
+      
+            const reader = new FileReader();
+      
+            reader.onload = () => {
+              const arrayBuffer = reader.result;
+              const uint8Array = new Uint8Array(arrayBuffer);
+              resolve(uint8Array);
+            };
+      
+            reader.onerror = (error) => {
+              reject(error);
+            };
+      
+            reader.readAsArrayBuffer(file);
+          });
+        } catch (e) {
+          console.error("Error: ", e);
+        }
+      };
+      
     const formik = useFormik(
         {
             initialValues:{
@@ -91,35 +120,15 @@ const ApplicationForm = () => {
                     otherwise:(schema)=>schema,
                 })
               }),
+
              onSubmit: async(values)=>{
-                console.log('Submitting form data...');
-
-                const convertFileToBase64 = (file) => {
-                    return new Promise((resolve, reject) => {
-                      if (!file || !(file instanceof Blob)) {
-                        resolve(null);
-                      }
-                  
-                      const reader = new FileReader();
-                      reader.onload = (event) => {
-                        resolve(event.target.result.split(',')[1]); // Extract base64 string
-                      };
-                      reader.onerror = (error) => {
-                        reject(error);
-                      };
-                  
-                      reader.readAsDataURL(file);
-                    });
-                  };
-                  
+                console.log('Submitting form data...');                
                   try {
-                    // Convert PDF and JPEG files to base64 strings
-                    const base64RationPic = await convertFileToBase64(values.rationPic);
-                    const base64AdharPic = await convertFileToBase64(values.adharPic);
-                    const base64IncomePic = await convertFileToBase64(values.incomePic);
-                    const base64LandPic = await convertFileToBase64(values.landPic);
-
-                    const applicationData = {
+                    const bufferRationPic = await convertFileToBuffer(values.rationPic);
+                    const bufferAdharPic = await convertFileToBuffer(values.adharPic);
+                    const bufferIncomePic = await convertFileToBuffer(values.incomePic);
+                    const bufferLandPic = await convertFileToBuffer(values.landPic);
+                        const applicationData = {
                         name:values.name,
                         address:values.address,
                         phoneNo:values.phoneNo,
@@ -138,30 +147,30 @@ const ApplicationForm = () => {
                         surveyNo:values.surveyNo,
 			            land:values.land,
 			            toilet:values.toilet,
-                        rationPic:base64RationPic,
-                        adharPic:base64AdharPic,
-                        incomePic:base64IncomePic,
-                        landPic:base64LandPic
-                };
+                        rationPic:values.rationPic,
+                        adharPic:values.adharPic,
+                        incomePic:bufferIncomePic,
+                        landPic:values.landPic
+                };      
                 const secretKey = 'MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCxNpbdlhePxcSh78s2bx0eVczNYjTdScgpluZiDoVSWoAWDL8TSAZsytVSk1xhTZ+OyyslGlvIIp6NHeFuBbvqiEPqGdczB5vzAZeGE29/iqlvhfWUqx/vt8y8rx3q/LRmz1bpyZdoncEH2K291zpLSN1VzPWFma/YCUP112eWzDv7f6PKuD4W+g9Rl2Bf2MHApgmnqp1XpCWIgCYd7RKKoDkr3IuSRnF/+0T89t5Evwz2xebi6+PrdqAB2WCoipCs4/XQHmocaEsRGolfF4IaAWfsieKwuyPV1ek+RtavNJQ3Z0d7F3fDQlo3KbJOftXNIQGBmhiKQMvLForXjb2vAgMBAAECggEBAI9iHdsX7+RyHdDwljlq2eKLhXPAPAm4Au4znCBGo3SoqO4uTgOpyRkJXGS9uoc4KRt+I2CX3R8nc6W2QYmltg/jRSAK3GX7iCCsbw8adqJ5bPJBLxylAOgSjOM1xT02TjjJFgd/BrSsv1w74wexNwdm4z7i4NzCJtbjWEt3h+cn60Toa/RXrZWwYj40VKKSSOz341VppU2gf7vzYXauCw7diGm18rzx1Rb4DHWDqcQkNbIYXsPNUkkvvrxcM2ExIkMdsuSeRDJwXVlyjP58YNIFMmgOOhiSm/dQWShzlJ6XAOw9PQscCvVBke+NGxbziQz6o0yp6sdPBCX+7xj463ECgYEA4R6CdlrBHewTJHMs20gcaD6DGOUNavDhp9aqW5wt4clBIcEW/493LbPXso1pfT0qejwtysOAfp7g5DJCHQ8nnFqgWNyv8TwhVeJbpjD4nsCeaHu9Krrn9I0CtcBF7b2eTvSa9ouXC+uv44EmMMtHT5gXf3HEEhMe8zKcbJ4rhW0CgYEAyYXFZIdc25seujYRNfhUxqjIufLR51Agu66EkhQ3M6DbqZGJjeO3ON0Fa5Lrl7NnESEgijcsBnpy9FMp7MJfTCrKw1cXabkVDHuJlg44sPlIto3F8InXrn92+lOy2TuvqtAeBpDt1rHdQp0HjuUfP/0m3B+WkjIkxjxAMsCjygsCgYAI9Hy+FogeF5j/VzGOm4S9xNbUM7Bf86sWURy/viu5Epdrr1Gp4twbzk6jRKrQl5FMAX7U1QgUgV9y1Gj63PJ3bsd4IXdCQmEVGIcKymHpdsIWZ+2zeHHnsYBNGJPvjB5zB5nueskMaVi61RVe1YdFrEgrAqyJB4ewpu/ABl621QKBgDNXoo/XMOA+aBi3F7FxYF/wtpsxcysEriJC90GkZt//dpeAHdSJlK+nF+9tUhqnOXYSw5CTN+M6pTj8Sy0n5FGqgVg9QxjLb8JrYwVZADaOfGkOO8TpyYqKrQxf8KwJ2dqiBVRU7lOJoz6KdVeBpnGOFK12Ws1KezYKOaz0iYY7AoGACyrviPNm5jU2h/F+rMV98mgp8xaq96d5DWd5KB8riax/pxYGdBfy5pe9Mm36lq4bkT2fN9rD+ja6kSp92Tr/R3vRkhfjSeBZvWdMVCKm0Xi1hEC3uPQ8mgM04q5bjei5EMGW3PD/Ko5KqnLP7oMpEdefrJE+RG2IOjiBT4QvC+M=';
+                console.log("Before : ",applicationData);
                 const applicationFormJSON = JSON.stringify(applicationData);
                 const encryptedData = CryptoJS.AES.encrypt(applicationFormJSON,secretKey).toString();
                 const cid = await ipfs.add(encryptedData);
                 console.log("CID : ",cid);
                 const gatewayURL = 'https://gateway.ipfs.io/ipfs/';
                 const fileURL = gatewayURL + cid.path;
-                console.log("File at:  ", fileURL);  
-                const decryptedData = CryptoJS.AES.decrypt(encryptedData,secretKey);   
-                const decryptedJSON = decryptedData.toString(CryptoJS.enc.Utf8);
-                const application = JSON.parse(decryptedJSON);  
-                setFormData(application);
+                console.log("File : ", fileURL);
+                const decryptedData = CryptoJS.AES.decrypt(encryptedData,secretKey).toString(CryptoJS.enc.Utf8); 
+                const application = JSON.parse(decryptedData);
+                console.log("After : ",application); 
+                setFormData(application);             
             }
             catch(error){
                 console.log("error", error);
             }
               },   
     });
-
   return (
     <div>
         <UserNavbar/>
@@ -200,8 +209,12 @@ const ApplicationForm = () => {
                 </label>
                 <br/>
                 <input  id='rationNo' type='text' className='inputTag' style={{height:"35px", width:"400px"}} onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.rationNo}/>
-                <input type='file' className='documentTag' name='rationPic' onBlur={formik.handleBlur} value={formik.values.rationPic || ''} onChange={formik.handleChange} />
-                {formik.touched && formik.errors.rationPic ? (<div className='error'>{formik.errors.rationPic}</div>):null}
+                <input
+  type="file" accept='.pdf' className="documentTag" name="rationPic" onBlur={formik.handleBlur}
+  onChange={(event) => {
+    formik.setFieldValue('rationPic', event.currentTarget.files[0]);
+  }}/>
+ {formik.touched && formik.errors.rationPic ? (<div className='error'>{formik.errors.rationPic}</div>):null}
                 {formik.touched.rationNo && formik.errors.rationNo ? (<div className='error'>{formik.errors.rationNo}</div>):null} 
                 <br/>
                 <label htmlFor='adharNo' className='label1'>
@@ -209,7 +222,9 @@ const ApplicationForm = () => {
                 </label>
                 <br/>
                 <input  id='adharNo' type='text' className='inputTag1' style={{height:"35px", width:"400px"}} onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.adharNo}/>
-                <input type='file' className='documentTag' name ='adharPic' onBlur={formik.handleBlur} onChange={formik.handleChange} value={formik.values.adharPic || ''}/>
+                <input type='file' accept=".pdf" className='documentTag' name ='adharPic' onBlur={formik.handleBlur} onChange={(event) => {
+    formik.setFieldValue('adharPic', event.currentTarget.files[0]);
+  }}/>
                 {formik.touched && formik.errors.adharPic ? (<div className='error'>{formik.errors.adharPic}</div>):null}
                 {formik.touched.adharNo && formik.errors.adharNo ? (<div className='error'>{formik.errors.adharNo}</div>):null}
                <br/>
@@ -282,7 +297,9 @@ const ApplicationForm = () => {
                 <br/>
                 <input type='text' id='income' style={{height:"35px", width:"400px"}} className='inputTag' onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.income}/>
                 {formik.touched && formik.errors.income ? (<div className='error'>{formik.errors.income}</div>):null}
-                <input type='file' className='documentTag' name='incomePic' onBlur={formik.handleBlur} onChange={formik.handleChange} value={formik.values.incomePic}/>
+                <input type='file' accept=".pdf" className='documentTag' name='incomePic' onBlur={formik.handleBlur} onChange={(event) => {
+    formik.setFieldValue('incomePic', event.currentTarget.files[0]);
+  }}/>
                 {formik.touched && formik.errors.incomePic ? (<div className='error'>{formik.errors.incomePic || ''}</div>):null}
                 <br/>
                 <label htmlFor='yesAPL'>
@@ -336,7 +353,9 @@ const ApplicationForm = () => {
                     <input type='text' id='area'  style={{height:"35px", width:"400px"}} className='inputTag1' onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.area}/> 
                     {formik.touched && formik.errors.area ? (<div className='error'>{formik.errors.area}</div>):null}
                     <br/>
-                    <input type='file' className='documentTag' name='landPic' onBlur={formik.handleBlur} onChange={formik.handleChange} value={formik.values.landPic || ''}/>
+                    <input type='file' accept=".pdf" className='documentTag' name='landPic' onBlur={formik.handleBlur} onChange={(event) => {
+    formik.setFieldValue('landPic', event.currentTarget.files[0]);
+  }}/>
                     {formik.touched && formik.errors.landPic ? (<div className='error'>{formik.errors.landPic}</div>):null}
                     </div>
                     )} 
@@ -381,17 +400,18 @@ const ApplicationForm = () => {
                         <br/>
                         <br/>
             </form>
-             {formData ? (
-        <div>
-          <h1>Decrypted Application Form Data</h1>
-          <p>Name: {formData.name}</p>
-          <p>Address: {formData.address}</p>
-          <iframe title="Income Document" src={`data:application/pdf;base64,${formData.incomePic}`} width="600" height="400" />
-</div>
-      ) : (
-        <p>Loading...</p>
-      )
-      }
+            {formData ? (
+  <iframe
+    title="Income PDF"
+    src={`data:application/pdf;base64,${formData.incomePic}`}
+    width="100%"
+    height="600px"
+    onError={(e) => console.error("Error loading PDF:", e)}
+  />
+) : (
+  <p>No PDF data found.</p>
+)}
+
         </div>
     </div>
   )
