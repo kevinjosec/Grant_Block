@@ -8,7 +8,13 @@ import * as Yup from 'yup';
 import {CID , create} from 'ipfs-http-client'
 import UserNavbar from '../UserNavbar/UserNavbar';
 
-
+const uint8ArrayToBase64 = (uint8Array) => {
+    let binary = '';
+    uint8Array.forEach((byte) => {
+      binary += String.fromCharCode(byte);
+    });
+    return window.btoa(binary);
+  };
 
 const ApplicationForm = () => {
     const ipfs = create({
@@ -16,7 +22,7 @@ const ApplicationForm = () => {
         port:'5001',
         protocol:'http',
     })
-      
+  
     const [formData,setFormData] = useState(null);
     const [landOwnership, setLandOwnership] = useState('');
     const handlelandOwnership = (e) => {
@@ -48,7 +54,7 @@ const ApplicationForm = () => {
           console.error("Error: ", e);
         }
       };
-      
+    
     const formik = useFormik(
         {
             initialValues:{
@@ -403,8 +409,8 @@ const ApplicationForm = () => {
             {formData ? (
   <iframe
     title="Income PDF"
-    src={`data:application/pdf;base64,${formData.incomePic}`}
-    width="100%"
+ src={`data:application/pdf;base64,${uint8ArrayToBase64(new Uint8Array(formData.incomePic))}`}
+         width="100%"
     height="600px"
     onError={(e) => console.error("Error loading PDF:", e)}
   />
