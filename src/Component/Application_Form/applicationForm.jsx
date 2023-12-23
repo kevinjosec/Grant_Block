@@ -8,15 +8,27 @@ import * as Yup from 'yup';
 import {CID , create} from 'ipfs-http-client'
 import UserNavbar from '../UserNavbar/UserNavbar';
 
-const uint8ArrayToBase64 = (uint8Array) => {
-    let binary = '';
-    uint8Array.forEach((byte) => {
-      binary += String.fromCharCode(byte);
-    });
-    return window.btoa(binary);
-  };
+
 
 const ApplicationForm = () => {
+    function concatenateUint8Arrays(a, b) {
+        const result = new Uint8Array(a.length + b.length);
+        result.set(a, 0);
+        result.set(b, a.length);
+        return result;
+      }
+      
+      function uint8ArrayToString(uint8Array) {
+        return new TextDecoder().decode(uint8Array);
+      }
+    const uint8ArrayToBase64 = (uint8Array) => {
+        let binary = '';
+        Uint8Array.from(uint8Array).forEach((byte) => {
+          binary += String.fromCharCode(byte);
+        });
+        return window.btoa(binary);
+      };
+      
     const ipfs = create({
         host:'localhost',
         port:'5001',
@@ -131,10 +143,15 @@ const ApplicationForm = () => {
                 console.log('Submitting form data...');                
                   try {
                     const bufferRationPic = await convertFileToBuffer(values.rationPic);
+                    values.rationPic = uint8ArrayToBase64(new Uint8Array(bufferRationPic));
                     const bufferAdharPic = await convertFileToBuffer(values.adharPic);
+                    values.adharPic = uint8ArrayToBase64(new Uint8Array(bufferAdharPic));
                     const bufferIncomePic = await convertFileToBuffer(values.incomePic);
+                    values.incomePic = uint8ArrayToBase64(new Uint8Array(bufferIncomePic));
                     const bufferLandPic = await convertFileToBuffer(values.landPic);
-                        const applicationData = {
+                    values.landPic = uint8ArrayToBase64(new Uint8Array(bufferLandPic));
+                       
+                    const applicationData = {
                         name:values.name,
                         address:values.address,
                         phoneNo:values.phoneNo,
@@ -155,21 +172,28 @@ const ApplicationForm = () => {
 			            toilet:values.toilet,
                         rationPic:values.rationPic,
                         adharPic:values.adharPic,
-                        incomePic:bufferIncomePic,
+                        incomePic:values.incomePic,
                         landPic:values.landPic
                 };      
                 console.log("Before : ",applicationData);
                 const applicationFormJSON = JSON.stringify(applicationData);
-                const encryptedData = CryptoJS.AES.encrypt(applicationFormJSON,secretKey).toString();
-                const cid = await ipfs.add(encryptedData);
+                const encryptedData = CryptoJS.AES.encrypt(applicationFormJSON,"secretKey").toString();
+                const cid = (await ipfs.add(encryptedData)).path;
                 console.log("CID : ",cid);
                 const gatewayURL = 'https://gateway.ipfs.io/ipfs/';
-                const fileURL = gatewayURL + cid.path;
-                console.log("File : ", fileURL);
-                const decryptedData = CryptoJS.AES.decrypt(encryptedData,secretKey).toString(CryptoJS.enc.Utf8); 
-                const application = JSON.parse(decryptedData);
-                console.log("After : ",application); 
-                setFormData(application);             
+                const fileURL = gatewayURL + cid;
+                console.log("File : ", fileURL); 
+                const ipfsContentGenerator = ipfs.cat(cid);
+                let ipfsContent = new Uint8Array(0); 
+                for await (const chunk of ipfsContentGenerator) {
+                  ipfsContent = concatenateUint8Arrays(ipfsContent, chunk);
+                }
+                console.log("IPFS Content : ",ipfsContent);
+                const decryptedData = CryptoJS.AES.decrypt(uint8ArrayToString(ipfsContent),"secretKey").toString(CryptoJS.enc.Utf8);
+                const application = JSON.parse(decryptedData); 
+                setFormData(application);  
+                console.log("After : ",application);  
+                      
             }
             catch(error){
                 console.log("error", error);
@@ -408,8 +432,8 @@ const ApplicationForm = () => {
             {formData ? (
   <iframe
     title="Income PDF"
- src={`data:application/pdf;base64,${uint8ArrayToBase64(new Uint8Array(formData.incomePic))}`}
-         width="100%"
+    src={`data:application/pdf;base64,${formData.incomePic}`}
+    width="100%"
     height="600px"
     onError={(e) => console.error("Error loading PDF:", e)}
   />
