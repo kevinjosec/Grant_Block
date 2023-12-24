@@ -7,7 +7,8 @@ import { useFormik } from 'formik'
 import * as Yup from 'yup';
 import {CID , create} from 'ipfs-http-client'
 import UserNavbar from '../UserNavbar/UserNavbar';
-
+import { db, addDoc, collection, doc } from '../../firebase';
+import { documentId, getDoc, getDocs } from 'firebase/firestore';
 
 
 const ApplicationForm = () => {
@@ -183,7 +184,13 @@ const ApplicationForm = () => {
                 console.log("CID : ",cid);
                 const gatewayURL = 'https://gateway.ipfs.io/ipfs/';
                 const fileURL = gatewayURL + cid;
-                console.log("File : ", fileURL); 
+                console.log("File : ", fileURL);                 
+                const collectionReference = collection(db,'applicantForm');
+                const dataToAdd = {
+                  Submitted : new Date(),
+                  CID : cid,
+                };
+                await addDoc(collectionReference,dataToAdd);
                 const ipfsContentGenerator = ipfs.cat(cid);
                 let ipfsContent = new Uint8Array(0); 
                 for await (const chunk of ipfsContentGenerator) {
@@ -193,9 +200,10 @@ const ApplicationForm = () => {
                 const decryptedData = CryptoJS.AES.decrypt(uint8ArrayToString(ipfsContent),"secretKey").toString(CryptoJS.enc.Utf8);
                 const application = JSON.parse(decryptedData); 
                 setFormData(application);  
-                console.log("After : ",application);  
-                      
-            }
+                console.log("After : ",application);    
+            
+          }
+         
             catch(error){
                 console.log("error", error);
             }
