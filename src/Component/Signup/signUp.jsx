@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import Login from '../Login/loginPage'
 import './signUp.css'
 import {auth, db} from '../../firebase'
-import { doc, setDoc } from 'firebase/firestore';
+import { doc, setDoc, getDoc, updateDoc } from 'firebase/firestore';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 
@@ -19,6 +19,7 @@ const SignUp = () => {
       document.body.style.backgroundColor = ''; // Reset to default
       };
   }, []);
+
   const handleSignUp = async (event) => {
     const userRef = doc(db, "users", formik.values.email);
     try {
@@ -34,9 +35,26 @@ const SignUp = () => {
       console.error("Error adding details to Firestore:", error);
     }      
     try {
-      const result = await createUserWithEmailAndPassword(auth, formik.values.email, formik.values.password);
+      const userDoc = await getDoc(userRef);
+      if(userDoc.exists())
+      {
+        await updateDoc(userRef,{
+          fname: formik.values.fname,
+        lname: formik.values.lname,
+        phone: formik.values.phone,
+        adharCard: formik.values.adharCard,
+        rationCard: formik.values.rationCard
+        })
+        navigate('/Login');
+      }
+      else{
+
+     const result = await createUserWithEmailAndPassword(auth, formik.values.email, formik.values.password);
       console.log("user created", result);
       navigate('/Login');
+      
+      }
+      
     } catch (err) {
       console.log(err.message);
     }
