@@ -4,7 +4,6 @@ import { documentId, getDoc, getDocs } from 'firebase/firestore';
 import CryptoJS from 'crypto-js';
 import {CID , create} from 'ipfs-http-client'
 
-
 const ApplicantForm = () => {
     const ipfs = create({
         host:'localhost',
@@ -28,6 +27,7 @@ const ApplicantForm = () => {
       }
 
       useEffect(()=>{
+        //database retrival
         const collectionName = 'applicantForm';
         const fetchData = async() =>{
             try{
@@ -38,6 +38,8 @@ const ApplicantForm = () => {
                     ...doc.data(),
                 }));
                 console.log("CIDs : ",data);
+                //decryption key
+    //cid formation
     for(let i=0;i<data.length; i++)
     {
       const currentCID = data[i].CID;
@@ -48,12 +50,12 @@ const ApplicantForm = () => {
         ipfsContent = concatenateUint8Arrays(ipfsContent, chunk);
       }
       console.log("IPFS Content : ", ipfsContent);
+      //decryption
       const decryptedData = CryptoJS.AES.decrypt(uint8ArrayToString(ipfsContent),"secretKey").toString(CryptoJS.enc.Utf8);
       const application = JSON.parse(decryptedData); 
       setFormData(prevData => [...prevData,application]); 
     } 
             }
-        
             catch(e){
                 console.log("ERROR : ",e);
             }
@@ -63,7 +65,7 @@ const ApplicantForm = () => {
        
   return (
     <div>
-         {formData.length>0 ? formData.map((form, index)=> ( 
+         {formData.length > 0 ? formData.map((form, index)=> ( 
   <iframe 
     key={index}
     title="Income PDF"
@@ -80,3 +82,4 @@ const ApplicantForm = () => {
 }
 
 export default ApplicantForm
+// two times

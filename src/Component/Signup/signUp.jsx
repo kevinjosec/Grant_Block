@@ -20,9 +20,11 @@ const SignUp = () => {
       };
   }, []);
 
+  //creating new user
   const handleSignUp = async (event) => {
     const userRef = doc(db, "users", formik.values.email);
     try {
+      //values from signup form
       await setDoc(userRef, {
         fname: formik.values.fname,
         lname: formik.values.lname,
@@ -39,7 +41,7 @@ const SignUp = () => {
       if(userDoc.exists())
       {
         await updateDoc(userRef,{
-          fname: formik.values.fname,
+        fname: formik.values.fname,
         lname: formik.values.lname,
         phone: formik.values.phone,
         adharCard: formik.values.adharCard,
@@ -60,6 +62,7 @@ const SignUp = () => {
     }
   };
 
+  //validation of signup function
   const formik = useFormik({initialValues:{
     fname:'',
     lname:'',

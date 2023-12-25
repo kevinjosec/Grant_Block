@@ -10,8 +10,9 @@ import UserNavbar from '../UserNavbar/UserNavbar';
 import { db, addDoc, collection, doc } from '../../firebase';
 import { documentId, getDoc, getDocs } from 'firebase/firestore';
 
-
 const ApplicationForm = () => {
+
+  //for ipfs.cat()
     function concatenateUint8Arrays(a, b) {
         const result = new Uint8Array(a.length + b.length);
         result.set(a, 0);
@@ -19,9 +20,12 @@ const ApplicationForm = () => {
         return result;
       }
       
+      //for PDFs
       function uint8ArrayToString(uint8Array) {
         return new TextDecoder().decode(uint8Array);
       }
+
+      //for PDFs
     const uint8ArrayToBase64 = (uint8Array) => {
         let binary = '';
         Uint8Array.from(uint8Array).forEach((byte) => {
@@ -29,47 +33,52 @@ const ApplicationForm = () => {
         });
         return window.btoa(binary);
       };
-      
+
+       //for PDFs
+    const convertFileToBuffer = async (file) => {
+      try {
+        return new Promise((resolve, reject) => {
+          if (!file || !(file instanceof Blob)) {
+            resolve(null);
+          }
+    
+          const reader = new FileReader();
+    
+          reader.onload = () => {
+            const arrayBuffer = reader.result;
+            const uint8Array = new Uint8Array(arrayBuffer);
+            resolve(uint8Array);
+          };
+    
+          reader.onerror = (error) => {
+            reject(error);
+          };
+    
+          reader.readAsArrayBuffer(file);
+        });
+      } catch (e) {
+        console.error("Error: ", e);
+      }
+    };
+
+      //ipfs create function
     const ipfs = create({
         host:'localhost',
         port:'5001',
         protocol:'http',
     })
-  
+    // For testing purposes
     const [formData,setFormData] = useState(null);
+
+    //conditional validation for land
     const [landOwnership, setLandOwnership] = useState('');
-    
     const handlelandOwnership = (e) => {
         const newLandOwnership = e.target.value;
     setLandOwnership(newLandOwnership);
     formik.setFieldValue('land', newLandOwnership);
     }
-    const convertFileToBuffer = async (file) => {
-        try {
-          return new Promise((resolve, reject) => {
-            if (!file || !(file instanceof Blob)) {
-              resolve(null);
-            }
-      
-            const reader = new FileReader();
-      
-            reader.onload = () => {
-              const arrayBuffer = reader.result;
-              const uint8Array = new Uint8Array(arrayBuffer);
-              resolve(uint8Array);
-            };
-      
-            reader.onerror = (error) => {
-              reject(error);
-            };
-      
-            reader.readAsArrayBuffer(file);
-          });
-        } catch (e) {
-          console.error("Error: ", e);
-        }
-      };
-    
+
+    // for validation purposes
     const formik = useFormik(
         {
             initialValues:{
@@ -98,6 +107,7 @@ const ApplicationForm = () => {
                 
             },
 
+            //validation schema
                 validationSchema : Yup.object().shape({
                 name: Yup.string().matches(/^[A-Za-z\s]+$/, 'Invalid').min(2, 'Too short').required('Name is required'),
                 address: Yup.string().matches(/^[A-Za-z0-9\s]+$/).required('Address is required'),
@@ -143,6 +153,7 @@ const ApplicationForm = () => {
                 incomePic:Yup.mixed().required("Income certificate is required"),
                  }),           
 
+                 //submit function
              onSubmit: async(values)=>{
                 console.log('Submitting form data...');                
                   try {
@@ -178,6 +189,7 @@ const ApplicationForm = () => {
                         incomePic:values.incomePic,
                         landPic:values.landPic
                 };      
+                //onSubmit functionality 
                 console.log("Before : ",applicationData);
                 const applicationFormJSON = JSON.stringify(applicationData);
                 const encryptedData = CryptoJS.AES.encrypt(applicationFormJSON,"secretKey").toString();
@@ -186,6 +198,7 @@ const ApplicationForm = () => {
                 const gatewayURL = 'https://gateway.ipfs.io/ipfs/';
                 const fileURL = gatewayURL + cid;
                 console.log("File : ", fileURL);                 
+                //database addition
                 const collectionReference = collection(db,'applicantForm');
                 const dataToAdd = {
                   Submitted : new Date(),
@@ -211,6 +224,9 @@ const ApplicationForm = () => {
             }
               },   
     });
+
+    //validation and submit function ends here
+
   return (
     <div>
         <UserNavbar/>
@@ -440,7 +456,8 @@ const ApplicationForm = () => {
                         <br/>
                         <br/>
             </form>
-            {formData ? (
+            {/* Line 455 to 465 should be deleted. for testing purposes */ }
+  {formData ? (
   <iframe
     title="Income PDF"
     src={`data:application/pdf;base64,${formData.incomePic}`}

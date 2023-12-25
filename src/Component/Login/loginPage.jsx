@@ -20,7 +20,8 @@ const LoginPage = () => {
   const[password, setPassword]= useState('');
   const[error, setError]= useState('');
   const navigate = useNavigate();
-  
+
+  //login function
      const handleManualLogin = async(e)=>{
       e.preventDefault();
       const emailReg = /^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -46,7 +47,7 @@ const LoginPage = () => {
       }
      }
 
-
+     //google login function + database creation
      const handleLogin = async(e) =>  {
         e.preventDefault();
         try{
