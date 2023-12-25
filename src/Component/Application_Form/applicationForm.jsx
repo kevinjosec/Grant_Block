@@ -38,9 +38,11 @@ const ApplicationForm = () => {
   
     const [formData,setFormData] = useState(null);
     const [landOwnership, setLandOwnership] = useState('');
+    
     const handlelandOwnership = (e) => {
-        setLandOwnership(e.target.value);
-        formik.values.land=e.target.value;
+        const newLandOwnership = e.target.value;
+    setLandOwnership(newLandOwnership);
+    formik.setFieldValue('land', newLandOwnership);
     }
     const convertFileToBuffer = async (file) => {
         try {
@@ -96,7 +98,7 @@ const ApplicationForm = () => {
                 
             },
 
-                validationSchema : Yup.object({
+                validationSchema : Yup.object().shape({
                 name: Yup.string().matches(/^[A-Za-z\s]+$/, 'Invalid').min(2, 'Too short').required('Name is required'),
                 address: Yup.string().matches(/^[A-Za-z0-9\s]+$/).required('Address is required'),
                 phoneNo: Yup.string().matches(/^[0-9]{10}$/, 'Invalid').required('Phone number is required'),
@@ -111,34 +113,35 @@ const ApplicationForm = () => {
                 water: Yup.string().required('Choose an option'),
                 kudumbasree: Yup.string().required('Choose an option'),
                 land: Yup.string().required('Choose an option'),
-                village:Yup.string().when('land',{
-                    is: (value) => value === 'yes',
-                    then:(schema)=> schema.matches(/^[A-Za-z]{0,26}$/, 'Invalid').required('Enter Village name'),
-                    otherwise: (schema)=>schema,
-                }
-                ),
-                area:Yup.string().when('land',{
-                    is: (value) => value === 'yes',
-                    then:(schema)=> schema.matches(/^[0-9]{0,26}$/, 'Invalid').required('Enter Village name'),
-                    otherwise: (schema)=>schema,
-                }
-                ),
-                surveyNo:Yup.string().when('land',{
-                    is: (value) => value === 'yes',
-                    then:(schema)=> schema.matches(/^[A-Za-z]{0,26}$/, 'Invalid').required('Enter Village name'),
-                    otherwise: (schema)=>schema,
-                }
-                ),
+  village: Yup.string().test({
+    test: function(value) {
+      return this.parent.land === 'yes' ? Yup.string().matches(/^[A-Za-z]{0,26}$/, 'Invalid').required('Enter Village name').isValidSync(value) : true;
+    },
+    message: 'Invalid Village name',
+  }),
+  area: Yup.string().test({
+    test: function(value) {
+      return this.parent.land === 'yes' ? Yup.string().matches(/^[0-9]{0,26}$/, 'Invalid').required('Enter Area').isValidSync(value) : true;
+    },
+    message: 'Invalid Area',
+  }),
+  surveyNo: Yup.string().test({
+    test: function(value) {
+      return this.parent.land === 'yes' ? Yup.string().matches(/^[0-9]{0,26}$/, 'Invalid').required('Enter Survey Number').isValidSync(value) : true;
+    },
+    message: 'Invalid Survey Number',
+  }),
+  landPic: Yup.mixed().test({
+    test: function(value) {
+      return this.parent.land === 'yes' ? Yup.mixed().required('Adharam is required').isValidSync(value) : true;
+    },
+    message: 'Adharam is required',
+  }), 
                 toilet: Yup.string().required('choose an option'),
                 rationPic:Yup.mixed().required("Ration card image is required"),
                 adharPic:Yup.mixed().required("Adhar card image is required"),
                 incomePic:Yup.mixed().required("Income certificate is required"),
-                landPic:Yup.mixed().when('land',{
-                    is:(value)=> value === 'yes',
-                    then:(schema)=>schema.mixed().required("Adharam is required"),
-                    otherwise:(schema)=>schema,
-                })
-              }),
+                 }),           
 
              onSubmit: async(values)=>{
                 console.log('Submitting form data...');                
@@ -151,7 +154,6 @@ const ApplicationForm = () => {
                     values.incomePic = uint8ArrayToBase64(new Uint8Array(bufferIncomePic));
                     const bufferLandPic = await convertFileToBuffer(values.landPic);
                     values.landPic = uint8ArrayToBase64(new Uint8Array(bufferLandPic));
-                       
                     const applicationData = {
                         name:values.name,
                         address:values.address,
@@ -337,8 +339,8 @@ const ApplicationForm = () => {
                 <input type='text' id='income' style={{height:"35px", width:"400px"}} className='inputTag' onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.income}/>
                 {formik.touched && formik.errors.income ? (<div className='error'>{formik.errors.income}</div>):null}
                 <input type='file' accept=".pdf" className='documentTag' name='incomePic' onBlur={formik.handleBlur} onChange={(event) => {
-    formik.setFieldValue('incomePic', event.currentTarget.files[0]);
-  }}/>
+                   formik.setFieldValue('incomePic', event.currentTarget.files[0]);
+                 }}/>
                 {formik.touched && formik.errors.incomePic ? (<div className='error'>{formik.errors.incomePic || ''}</div>):null}
                 <br/>
                 <label htmlFor='yesAPL'>

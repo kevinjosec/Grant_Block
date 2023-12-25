@@ -12,8 +12,9 @@ import ProfileSettings from './Component/ProfileSettings/ProfileSettings.jsx';
 import { AppleLogoSvg } from '@chainsafe/common-components';
 import ApplicantForm from './Component/ApplicantForm/ApplicantForm.jsx';
 function App() {
- return ( <ApplicantForm/>
-  /*<AuthContext>
+ return ( 
+ //<ApplicantForm/>
+  <AuthContext>
   <Router>
   <Routes>          
   <Route path="/" element={<HomePage/>} />
@@ -25,7 +26,7 @@ function App() {
   <Route path="/ProfileSettings" element={<ProfileSettings/>}/>
   </Routes>      
   </Router>
-  </AuthContext>*/
+  </AuthContext>
   );
 }
 
