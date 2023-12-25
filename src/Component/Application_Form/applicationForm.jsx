@@ -169,8 +169,8 @@ const ApplicationForm = () => {
                         village:values.village,
                         area:values.area,
                         surveyNo:values.surveyNo,
-			            land:values.land,
-			            toilet:values.toilet,
+			                  land:values.land,
+			                  toilet:values.toilet,
                         rationPic:values.rationPic,
                         adharPic:values.adharPic,
                         incomePic:values.incomePic,
@@ -191,7 +191,7 @@ const ApplicationForm = () => {
                   CID : cid,
                 };
                 await addDoc(collectionReference,dataToAdd);
-                const ipfsContentGenerator = ipfs.cat(cid);
+               /* const ipfsContentGenerator = ipfs.cat(cid);
                 let ipfsContent = new Uint8Array(0); 
                 for await (const chunk of ipfsContentGenerator) {
                   ipfsContent = concatenateUint8Arrays(ipfsContent, chunk);
@@ -200,7 +200,8 @@ const ApplicationForm = () => {
                 const decryptedData = CryptoJS.AES.decrypt(uint8ArrayToString(ipfsContent),"secretKey").toString(CryptoJS.enc.Utf8);
                 const application = JSON.parse(decryptedData); 
                 setFormData(application);  
-                console.log("After : ",application);    
+                console.log("After : ",application);   
+                */ 
             
           }
          
