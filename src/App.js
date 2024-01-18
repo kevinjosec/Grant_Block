@@ -1,4 +1,5 @@
 import './App.css';
+import React, { useState } from 'react';
 import Login from './Component/Login/loginPage'
 import SignUp from './Component/Signup/signUp';
 import Application_Form from "./Component/Application_Form/applicationForm"
@@ -9,12 +10,24 @@ import { AuthContext } from './Component/AuthContext.jsx';
 import UserHomePage from './Component/UserHomePage/UserHomePage.jsx';
 import Schemes from './Component/Schemes/Schemes.jsx';
 import ProfileSettings from './Component/ProfileSettings/ProfileSettings.jsx';
-import { AppleLogoSvg } from '@chainsafe/common-components';
 import ApplicantForm from './Component/ApplicantForm/ApplicantForm.jsx';
+import ApplicantList from './Component/ApplicantList/ApplicantList.jsx';
 function App() {
+
+  const [selectedFormData, setSelectedFormData] = useState();
+
+  const handleExportData = (form) => {
+    setSelectedFormData(form);
+  };
+
  return ( 
- //<ApplicantForm/>
-  <AuthContext>
+  <Router>
+    <Routes>
+    <Route path ="/" element ={<ApplicantList onExportData={handleExportData} />} />
+      <Route path ="/ApplicantForm" element ={ <ApplicantForm form={selectedFormData} />} />
+    </Routes>
+  </Router>
+ /*<AuthContext>
   <Router>
   <Routes>          
   <Route path="/" element={<HomePage/>} />
@@ -26,7 +39,7 @@ function App() {
   <Route path="/ProfileSettings" element={<ProfileSettings/>}/>
   </Routes>      
   </Router>
-  </AuthContext>
+  </AuthContext>*/
   );
 }
 
