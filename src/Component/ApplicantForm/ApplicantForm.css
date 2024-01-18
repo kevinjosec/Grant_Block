@@ -1,0 +1,21 @@
+.form-group{
+    display: flex;
+    flex-direction: column;
+}
+label{
+    font-weight: bold;
+    padding-left: 15px;
+    font-size: 15px;
+}
+.input-tag
+{
+    margin-left: 2rem;
+    text-indent: 10px;;
+    margin-top: 10px;
+    font-size: 14px;
+    border-radius: 30px;
+    border: 1px solid black;
+    margin-bottom: 2rem;
+    height:35px; 
+    width:400px;
+}

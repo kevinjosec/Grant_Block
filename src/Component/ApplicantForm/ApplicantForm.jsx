@@ -3,78 +3,179 @@ import { db, addDoc, collection, doc } from '../../firebase';
 import { documentId, getDoc, getDocs } from 'firebase/firestore';
 import CryptoJS from 'crypto-js';
 import {CID , create} from 'ipfs-http-client'
+import { useLocation } from 'react-router-dom';
+import './ApplicantForm.css'
+import GoNavbar from '../GovNavbar/GoNavbar';
 
-const ApplicantForm = () => {
-    const ipfs = create({
-        host:'localhost',
-        port:'5001',
-        protocol:'http',
-    })
-    const [formData, setFormData] = useState([]);
-    const [contentID, setContentID] = useState(null);
+const ApplicantForm = ({exportedData}) => {
+    const location = useLocation();
+    const [formData, setFormData] = useState(location.state?.formData || null);
 
-    //concatenateUint8arrays
-    function concatenateUint8Arrays(a, b) {
-        const result = new Uint8Array(a.length + b.length);
-        result.set(a, 0);
-        result.set(b, a.length);
-        return result;
-      }
+     useEffect(() => {
+    if (exportedData) {
+      setFormData(exportedData);
+    }
+  }, [exportedData]); 
 
-      //uint8ArrayToString
-      function uint8ArrayToString(uint8Array) {
-        return new TextDecoder().decode(uint8Array);
-      }
-
-      useEffect(()=>{
-        //database retrival
-        const collectionName = 'applicantForm';
-        const fetchData = async() =>{
-            try{
-                const collectRef = collection(db, collectionName);
-                const snapshot = await getDocs(collectRef);
-                const data = snapshot.docs.map((doc)=>({
-                    id: doc.id,
-                    ...doc.data(),
-                }));
-                console.log("CIDs : ",data);
-                //decryption key
-    const secretKey = 'MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCxNpbdlhePxcSh78s2bx0eVczNYjTdScgpluZiDoVSWoAWDL8TSAZsytVSk1xhTZ+OyyslGlvIIp6NHeFuBbvqiEPqGdczB5vzAZeGE29/iqlvhfWUqx/vt8y8rx3q/LRmz1bpyZdoncEH2K291zpLSN1VzPWFma/YCUP112eWzDv7f6PKuD4W+g9Rl2Bf2MHApgmnqp1XpCWIgCYd7RKKoDkr3IuSRnF/+0T89t5Evwz2xebi6+PrdqAB2WCoipCs4/XQHmocaEsRGolfF4IaAWfsieKwuyPV1ek+RtavNJQ3Z0d7F3fDQlo3KbJOftXNIQGBmhiKQMvLForXjb2vAgMBAAECggEBAI9iHdsX7+RyHdDwljlq2eKLhXPAPAm4Au4znCBGo3SoqO4uTgOpyRkJXGS9uoc4KRt+I2CX3R8nc6W2QYmltg/jRSAK3GX7iCCsbw8adqJ5bPJBLxylAOgSjOM1xT02TjjJFgd/BrSsv1w74wexNwdm4z7i4NzCJtbjWEt3h+cn60Toa/RXrZWwYj40VKKSSOz341VppU2gf7vzYXauCw7diGm18rzx1Rb4DHWDqcQkNbIYXsPNUkkvvrxcM2ExIkMdsuSeRDJwXVlyjP58YNIFMmgOOhiSm/dQWShzlJ6XAOw9PQscCvVBke+NGxbziQz6o0yp6sdPBCX+7xj463ECgYEA4R6CdlrBHewTJHMs20gcaD6DGOUNavDhp9aqW5wt4clBIcEW/493LbPXso1pfT0qejwtysOAfp7g5DJCHQ8nnFqgWNyv8TwhVeJbpjD4nsCeaHu9Krrn9I0CtcBF7b2eTvSa9ouXC+uv44EmMMtHT5gXf3HEEhMe8zKcbJ4rhW0CgYEAyYXFZIdc25seujYRNfhUxqjIufLR51Agu66EkhQ3M6DbqZGJjeO3ON0Fa5Lrl7NnESEgijcsBnpy9FMp7MJfTCrKw1cXabkVDHuJlg44sPlIto3F8InXrn92+lOy2TuvqtAeBpDt1rHdQp0HjuUfP/0m3B+WkjIkxjxAMsCjygsCgYAI9Hy+FogeF5j/VzGOm4S9xNbUM7Bf86sWURy/viu5Epdrr1Gp4twbzk6jRKrQl5FMAX7U1QgUgV9y1Gj63PJ3bsd4IXdCQmEVGIcKymHpdsIWZ+2zeHHnsYBNGJPvjB5zB5nueskMaVi61RVe1YdFrEgrAqyJB4ewpu/ABl621QKBgDNXoo/XMOA+aBi3F7FxYF/wtpsxcysEriJC90GkZt//dpeAHdSJlK+nF+9tUhqnOXYSw5CTN+M6pTj8Sy0n5FGqgVg9QxjLb8JrYwVZADaOfGkOO8TpyYqKrQxf8KwJ2dqiBVRU7lOJoz6KdVeBpnGOFK12Ws1KezYKOaz0iYY7AoGACyrviPNm5jU2h/F+rMV98mgp8xaq96d5DWd5KB8riax/pxYGdBfy5pe9Mm36lq4bkT2fN9rD+ja6kSp92Tr/R3vRkhfjSeBZvWdMVCKm0Xi1hEC3uPQ8mgM04q5bjei5EMGW3PD/Ko5KqnLP7oMpEdefrJE+RG2IOjiBT4QvC+M=';
-    //cid formation
-    for(let i=0;i<data.length; i++)
-    {
-      const currentCID = data[i].CID;
-      console.log("Current CID : ",currentCID);
-      const ipfsContentGenerator = ipfs.cat(currentCID);
-      let ipfsContent = new Uint8Array(0); 
-      for await (const chunk of ipfsContentGenerator) {
-        ipfsContent = concatenateUint8Arrays(ipfsContent, chunk);
-      }
-      console.log("IPFS Content : ", ipfsContent);
-      //decryption
-      const decryptedData = CryptoJS.AES.decrypt(uint8ArrayToString(ipfsContent),"secretKey").toString(CryptoJS.enc.Utf8);
-      const application = JSON.parse(decryptedData); 
-      setFormData(prevData => [...prevData,application]); 
-    } 
-            }
-            catch(e){
-                console.log("ERROR : ",e);
-            }
-        };
-        fetchData();
-    },[]);
-       
   return (
     <div>
+      <GoNavbar/>
          {formData.length > 0 ? formData.map((form, index)=> ( 
-  <iframe 
-    key={index}
+          <div key={index} className='form-group'>
+            <label>
+              Name : 
+            </label>
+            <input type='text' className='input-tag'
+            value = {form.name}/>
+            <br/>
+            <label>
+              Address : 
+            </label>
+            <input type='text' className='input-tag'
+            value = {form.address}/>
+            <br/>
+            <label>
+              Phone Number : 
+            </label>
+            <input type='text' className='input-tag'
+            value = {form.phoneNo}/>
+            <br/>
+            <label>
+              Ration Number : 
+            </label>
+            <input type='text' className='input-tag'
+            value = {form.rationNo}/>
+            <br/>
+            <label>
+              Adhar Number  : 
+            </label>
+            <input type='text' className='input-tag'
+            value = {form.adharNo}/>
+            <br/>
+            <label>
+              Ward Number : 
+            </label>
+            <input type='text'  className='input-tag'
+            value = {form.wardNo}/>
+            <br/>
+            <label>
+              House Number : 
+            </label>
+            <input type='text' className='input-tag'
+            value = {form.houseNo}/>
+            <br/>
+            <label>
+              Kudumbasree : 
+            </label>
+            <input type='text' className='input-tag'
+            value = {form.kudumbasree}/>
+            <br/>
+            <label>
+              Disabled : 
+            </label>
+            <input type='text' className='input-tag'
+            value = {form.disable}/>
+            <br/>
+            <label>
+              Government : 
+            </label>
+            <input type='text' className='input-tag'
+            value = {form.government}/>
+            <br/>
+            <label>
+              Income : 
+            </label>
+            <input type='text' className='input-tag'
+            value = {form.income}/>
+            <br/>
+            <label>
+              Poverty Line : 
+            </label>
+            <input type='text' className='input-tag'
+            value = {form.pl}/>
+            <br/>
+            <label>
+              Land : 
+            </label>
+            <input type='text' className='input-tag'
+            value = {form.land}/>
+            <br/>
+            <label>
+              Village : 
+            </label>
+            <input type='text' className='input-tag'
+            value = {form.village || 'nil'}/>
+            <br/>
+            <label>
+              Survey Number : 
+            </label>
+            <input type='text' className='input-tag'
+            value = {form.surveyNo || 'nil'}/>
+            <br/>
+            <label>
+              Area : 
+            </label>
+            <input type='text' className='input-tag'
+            value = {form.area  || 'nil'}/>
+            <br/>
+            <label>
+              Toilet : 
+            </label>
+            <input type='text' className='input-tag'
+            value = {form.toilet}/>
+            <br/>
+            <label>
+              Water : 
+            </label>
+            <input type='text' className='input-tag'
+            value = {form.water}/>
+            <br/>
+            <label>
+              Ration Card : 
+            </label>
+            <iframe 
+    title="Income PDF"
+    src={`data:application/pdf;base64,${form.rationPic || ''}`}
+    width="100px"
+    height="100px"
+    onError={(e) => console.error("Error loading PDF:", e)}
+  />
+            <br/>
+            <label>
+              Adhar Card : 
+            </label>
+            <iframe 
+    title="Income PDF"
+    src={`data:application/pdf;base64,${form.adharPic || ''}`}
+    width="100px"
+    height="100px"
+    onError={(e) => console.error("Error loading PDF:", e)}
+  />
+            <br/>
+            <label>
+              Income Certificate : 
+            </label>
+            <iframe 
     title="Income PDF"
     src={`data:application/pdf;base64,${form.incomePic || ''}`}
-    width="100%"
-    height="600px"
+    width="100px"
+    height="100px"
     onError={(e) => console.error("Error loading PDF:", e)}
-  />)
+  />
+            <br/>
+            <label>
+              Land Image : 
+            </label>
+            <iframe 
+    title="Income PDF"
+    src={`data:application/pdf;base64,${form.landPic || ''}`}
+    width="100px"
+    height="100px"
+    onError={(e) => console.error("Error loading PDF:", e)}
+  />
+            <br/>
+
+  </div>)
 ) : (
   <p>No PDF data found.</p>
 )}
