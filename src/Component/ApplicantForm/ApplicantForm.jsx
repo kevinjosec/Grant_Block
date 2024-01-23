@@ -1,187 +1,59 @@
-import React, { useEffect, useState } from 'react'
-import { db, addDoc, collection, doc } from '../../firebase';
-import { documentId, getDoc, getDocs } from 'firebase/firestore';
-import CryptoJS from 'crypto-js';
-import {CID , create} from 'ipfs-http-client'
+import React from 'react';
 import { useLocation } from 'react-router-dom';
-import './ApplicantForm.css'
 import GoNavbar from '../GovNavbar/GoNavbar';
+import './ApplicantForm.css';
 
-const ApplicantForm = ({exportedData}) => {
-    const location = useLocation();
-    const [formData, setFormData] = useState(location.state?.formData || null);
+const ApplicantForm = ({ exportedData }) => {
+  const location = useLocation();
+  const formData = location.state?.formData;
 
-     useEffect(() => {
-    if (exportedData) {
-      setFormData(exportedData);
+  const openPdfInNewPage = (pdfData) => {
+    // Create a new window and write the PDF data to it
+    const newWindow = window.open();
+    newWindow.document.write(`<iframe width="100%" height="100%" src="data:application/pdf;base64,${pdfData}" frameborder="0" allowfullscreen></iframe>`);
+  };
+
+  const renderField = (label, value) => {
+    if (label.endsWith('Pic')) {
+      // Render a button for pictures
+      return (
+        <div className="result-card" key={label}>
+          <label className="result-label">{label}</label>
+          <br />
+          <button className='view-pdf' onClick={() => openPdfInNewPage(value)}>
+            View Document
+          </button>
+        </div>
+      );
+    } else {
+      // Render regular field
+      return (
+        <div className="result-card" key={label}>
+          <label className="result-label">{label}</label>
+          <br />
+          <p className="input-tag">{value}</p>
+        </div>
+      );
     }
-  }, [exportedData]); 
+  };
 
   return (
     <div>
-      <GoNavbar/>
-         {formData.length > 0 ? formData.map((form, index)=> ( 
-          <div key={index} className='form-group'>
-            <label>
-              Name : 
-            </label>
-            <input type='text' className='input-tag'
-            value = {form.name}/>
-            <br/>
-            <label>
-              Address : 
-            </label>
-            <input type='text' className='input-tag'
-            value = {form.address}/>
-            <br/>
-            <label>
-              Phone Number : 
-            </label>
-            <input type='text' className='input-tag'
-            value = {form.phoneNo}/>
-            <br/>
-            <label>
-              Ration Number : 
-            </label>
-            <input type='text' className='input-tag'
-            value = {form.rationNo}/>
-            <br/>
-            <label>
-              Adhar Number  : 
-            </label>
-            <input type='text' className='input-tag'
-            value = {form.adharNo}/>
-            <br/>
-            <label>
-              Ward Number : 
-            </label>
-            <input type='text'  className='input-tag'
-            value = {form.wardNo}/>
-            <br/>
-            <label>
-              House Number : 
-            </label>
-            <input type='text' className='input-tag'
-            value = {form.houseNo}/>
-            <br/>
-            <label>
-              Kudumbasree : 
-            </label>
-            <input type='text' className='input-tag'
-            value = {form.kudumbasree}/>
-            <br/>
-            <label>
-              Disabled : 
-            </label>
-            <input type='text' className='input-tag'
-            value = {form.disable}/>
-            <br/>
-            <label>
-              Government : 
-            </label>
-            <input type='text' className='input-tag'
-            value = {form.government}/>
-            <br/>
-            <label>
-              Income : 
-            </label>
-            <input type='text' className='input-tag'
-            value = {form.income}/>
-            <br/>
-            <label>
-              Poverty Line : 
-            </label>
-            <input type='text' className='input-tag'
-            value = {form.pl}/>
-            <br/>
-            <label>
-              Land : 
-            </label>
-            <input type='text' className='input-tag'
-            value = {form.land}/>
-            <br/>
-            <label>
-              Village : 
-            </label>
-            <input type='text' className='input-tag'
-            value = {form.village || 'nil'}/>
-            <br/>
-            <label>
-              Survey Number : 
-            </label>
-            <input type='text' className='input-tag'
-            value = {form.surveyNo || 'nil'}/>
-            <br/>
-            <label>
-              Area : 
-            </label>
-            <input type='text' className='input-tag'
-            value = {form.area  || 'nil'}/>
-            <br/>
-            <label>
-              Toilet : 
-            </label>
-            <input type='text' className='input-tag'
-            value = {form.toilet}/>
-            <br/>
-            <label>
-              Water : 
-            </label>
-            <input type='text' className='input-tag'
-            value = {form.water}/>
-            <br/>
-            <label>
-              Ration Card : 
-            </label>
-            <iframe 
-    title="Income PDF"
-    src={`data:application/pdf;base64,${form.rationPic || ''}`}
-    width="100px"
-    height="100px"
-    onError={(e) => console.error("Error loading PDF:", e)}
-  />
-            <br/>
-            <label>
-              Adhar Card : 
-            </label>
-            <iframe 
-    title="Income PDF"
-    src={`data:application/pdf;base64,${form.adharPic || ''}`}
-    width="100px"
-    height="100px"
-    onError={(e) => console.error("Error loading PDF:", e)}
-  />
-            <br/>
-            <label>
-              Income Certificate : 
-            </label>
-            <iframe 
-    title="Income PDF"
-    src={`data:application/pdf;base64,${form.incomePic || ''}`}
-    width="100px"
-    height="100px"
-    onError={(e) => console.error("Error loading PDF:", e)}
-  />
-            <br/>
-            <label>
-              Land Image : 
-            </label>
-            <iframe 
-    title="Income PDF"
-    src={`data:application/pdf;base64,${form.landPic || ''}`}
-    width="100px"
-    height="100px"
-    onError={(e) => console.error("Error loading PDF:", e)}
-  />
-            <br/>
-
-  </div>)
-) : (
-  <p>No PDF data found.</p>
-)}
+      <GoNavbar />
+      <h1 className="candidate-header">Candidate Marklist</h1>
+      {formData ? (
+        <div className="container">
+          <div className="form-group">
+            {Object.entries(formData).map(([label, value]) =>
+              renderField(label, value)
+            )}
+          </div>
+        </div>
+      ) : (
+        <p>No data </p>
+      )}
     </div>
-  )
-}
+  );
+};
 
-export default ApplicantForm
-// two times
+export default ApplicantForm;

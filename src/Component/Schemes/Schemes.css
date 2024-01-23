@@ -6,14 +6,13 @@
     height: 20rem;
     width: 15rem;
     border-radius: 20px;
+    font-size: 25px;
 }
-.schemeName{
-    padding: 10px;
-}
-.subHeading{
-    color: gray;
-}
+
 .schemeCard:hover{
     background-color: #1d284d;
     color: white;
+}
+.scheme-page{
+    margin-bottom: 4rem;
 }

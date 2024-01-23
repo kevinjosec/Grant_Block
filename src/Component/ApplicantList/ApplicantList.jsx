@@ -33,7 +33,7 @@ const ApplicantList = ({onExportdata}) => {
       function uint8ArrayToString(uint8Array) {
         return new TextDecoder().decode(uint8Array);
       }
-
+      
       useEffect(()=>{
         //database retrival
         const collectionName = 'applicantForm';
@@ -47,22 +47,30 @@ const ApplicantList = ({onExportdata}) => {
                 }));
                 console.log("CIDs : ",data);
                 //decryption key
+    
     //cid formation
-    for(let i=0;i<data.length; i++)
-    {
+    for (let i = 0; i < data.length; i++) {
       const currentCID = data[i].CID;
-      console.log("Current CID : ",currentCID);
+      console.log("Current CID : ", currentCID);
       const ipfsContentGenerator = ipfs.cat(currentCID);
-      let ipfsContent = new Uint8Array(0); 
+      let ipfsContent = new Uint8Array(0);
+    
       for await (const chunk of ipfsContentGenerator) {
         ipfsContent = concatenateUint8Arrays(ipfsContent, chunk);
       }
+    
       console.log("IPFS Content : ", ipfsContent);
-      //decryption
-      const decryptedData = CryptoJS.AES.decrypt(uint8ArrayToString(ipfsContent),"secretKey").toString(CryptoJS.enc.Utf8);
-      const application = JSON.parse(decryptedData); 
-      setFormData(prevData => [...prevData,application]); 
-    } 
+    
+      // Decryption
+      const decryptedData = CryptoJS.AES.decrypt(uint8ArrayToString(ipfsContent), "secretKey").toString(CryptoJS.enc.Utf8);
+      const application = JSON.parse(decryptedData);
+    
+      // Check if the application data is not already in the state
+      if (!formData.find((item) => item.id === application.id)) {
+        setFormData((prevData) => [...prevData, application]);
+      }
+    }
+    
             }
             catch(e){
                 console.log("ERROR : ",e);
@@ -72,9 +80,9 @@ const ApplicantList = ({onExportdata}) => {
     },[]);
    
     const handleExportData = (data) => {
-        if(onExportdata)
+        if(data)
         {
-            onExportdata (data);
+            setFormData (data);
             navigate('/ApplicantForm' , { state: { formData: data } } )
         }
     }
@@ -88,11 +96,12 @@ const ApplicantList = ({onExportdata}) => {
           <div className='list-group'>
          {formData.length > 0 ? formData.map((form, index)=> ( 
           <div key={index} >
-            <button className='input-Tag'> 
-                {form.name} <IoIosArrowForward 
+            <button className='input-Tag' 
+                onClick={()=>handleExportData(form)}> 
+                {form.name}
+                 <IoIosArrowForward 
                 className="arrow-icon" 
-                size={"2rem"}
-                onClick={()=>handleExportData(form)}/>
+                size={"2rem"}/>
             </button>
             <br/>
             <br/>
