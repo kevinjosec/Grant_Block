@@ -1,21 +1,40 @@
-.form-group{
-    display: flex;
-    flex-direction: column;
+.candidate-header{
+    text-align: center;
 }
-label{
-    font-weight: bold;
-    padding-left: 15px;
-    font-size: 15px;
+.container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.form-group{
+    margin-top: 3rem;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    margin-bottom: 2rem;
 }
 .input-tag
 {
-    margin-left: 2rem;
-    text-indent: 10px;;
-    margin-top: 10px;
-    font-size: 14px;
-    border-radius: 30px;
+    margin-left: 1rem;
+    font-size: 15px;
+    font-weight: bold;
+}
+.result-label{
+    margin-top: 5px;
+    font-weight: 500;
+    float: left;
+    font-size: 12px;
+}
+
+.result-card{
+    border-radius: 10px;
     border: 1px solid black;
-    margin-bottom: 2rem;
-    height:35px; 
-    width:400px;
+    width: 300px;
+}
+.view-pdf{
+    border-radius: 5px;
+    border: 1px solid black;
+    margin: 1rem;
+    padding: 5px;
 }

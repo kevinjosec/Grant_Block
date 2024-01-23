@@ -21,13 +21,15 @@ function App() {
   };
 
  return ( 
+/*
   <Router>
     <Routes>
-    <Route path ="/" element ={<ApplicantList onExportData={handleExportData} />} />
-      <Route path ="/ApplicantForm" element ={ <ApplicantForm form={selectedFormData} />} />
+    <Route path ="/" element ={<ApplicantList  />} />
+      <Route path ="/ApplicantForm" element ={ <ApplicantForm />} />
     </Routes>
-  </Router>
- /*<AuthContext>
+  </Router>*/
+  
+ <AuthContext>
   <Router>
   <Routes>          
   <Route path="/" element={<HomePage/>} />
@@ -39,7 +41,7 @@ function App() {
   <Route path="/ProfileSettings" element={<ProfileSettings/>}/>
   </Routes>      
   </Router>
-  </AuthContext>*/
+  </AuthContext>
   );
 }
 

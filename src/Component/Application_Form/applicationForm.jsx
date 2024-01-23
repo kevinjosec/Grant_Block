@@ -67,9 +67,6 @@ const ApplicationForm = () => {
         port:'5001',
         protocol:'http',
     })
-    // For testing purposes
-    const [formData,setFormData] = useState(null);
-
     //conditional validation for land
     const [landOwnership, setLandOwnership] = useState('');
     const handlelandOwnership = (e) => {
@@ -205,19 +202,7 @@ const ApplicationForm = () => {
                   Submitted : new Date(),
                   CID : cid,
                 };
-                await addDoc(collectionReference,dataToAdd);
-               /* const ipfsContentGenerator = ipfs.cat(cid);
-                let ipfsContent = new Uint8Array(0); 
-                for await (const chunk of ipfsContentGenerator) {
-                  ipfsContent = concatenateUint8Arrays(ipfsContent, chunk);
-                }
-                console.log("IPFS Content : ",ipfsContent);
-                const decryptedData = CryptoJS.AES.decrypt(uint8ArrayToString(ipfsContent),"secretKey").toString(CryptoJS.enc.Utf8);
-                const application = JSON.parse(decryptedData); 
-                setFormData(application);  
-                console.log("After : ",application);   
-                */ 
-            
+                await addDoc(collectionReference,dataToAdd);            
           }
          
             catch(error){
@@ -271,7 +256,7 @@ const ApplicationForm = () => {
   onChange={(event) => {
     formik.setFieldValue('rationPic', event.currentTarget.files[0]);
   }}/>
- {formik.touched && formik.errors.rationPic ? (<div className='error'>{formik.errors.rationPic}</div>):null}
+ {formik.touched.rationPic && formik.errors.rationPic ? (<div className='error'>{formik.errors.rationPic}</div>):null}
                 {formik.touched.rationNo && formik.errors.rationNo ? (<div className='error'>{formik.errors.rationNo}</div>):null} 
                 <br/>
                 <label htmlFor='adharNo' className='label1'>
@@ -282,7 +267,7 @@ const ApplicationForm = () => {
                 <input type='file' accept=".pdf" className='documentTag' name ='adharPic' onBlur={formik.handleBlur} onChange={(event) => {
     formik.setFieldValue('adharPic', event.currentTarget.files[0]);
   }}/>
-                {formik.touched && formik.errors.adharPic ? (<div className='error'>{formik.errors.adharPic}</div>):null}
+                {formik.touched.adharPic && formik.errors.adharPic ? (<div className='error'>{formik.errors.adharPic}</div>):null}
                 {formik.touched.adharNo && formik.errors.adharNo ? (<div className='error'>{formik.errors.adharNo}</div>):null}
                <br/>
                 <label htmlFor='wardNo'>
@@ -314,7 +299,7 @@ const ApplicationForm = () => {
                 No
                 </label>
                 <br/>
-                {formik.touched && formik.errors.kudumbasree ? (<div className='error'>{formik.errors.kudumbasree}</div>):null}
+                {formik.touched.kudumbasree && formik.errors.kudumbasree ? (<div className='error'>{formik.errors.kudumbasree}</div>):null}
                 <br/>
                 <label >
                     Disabled member
@@ -330,7 +315,7 @@ const ApplicationForm = () => {
                     No
                 </label>
                 <br/>
-                {formik.touched && formik.errors.disable ? (<div className='error'>{formik.errors.disable}</div>):null}
+                {formik.toucheddisable && formik.errors.disable ? (<div className='error'>{formik.errors.disable}</div>):null}
                 <br/>
                 <label>
                     Government employed member
@@ -346,18 +331,18 @@ const ApplicationForm = () => {
                     No
                 </label>
                 <br/>
-                {formik.touched && formik.errors.government ? (<div className='error'>{formik.errors.government}</div>):null}
+                {formik.touched.government && formik.errors.government ? (<div className='error'>{formik.errors.government}</div>):null}
                 <br/>
                 <label htmlFor='income'>
                     Annual Income
                 </label>
                 <br/>
                 <input type='text' id='income' style={{height:"35px", width:"400px"}} className='inputTag' onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.income}/>
-                {formik.touched && formik.errors.income ? (<div className='error'>{formik.errors.income}</div>):null}
+                {formik.touched.income && formik.errors.income ? (<div className='error'>{formik.errors.income}</div>):null}
                 <input type='file' accept=".pdf" className='documentTag' name='incomePic' onBlur={formik.handleBlur} onChange={(event) => {
                    formik.setFieldValue('incomePic', event.currentTarget.files[0]);
                  }}/>
-                {formik.touched && formik.errors.incomePic ? (<div className='error'>{formik.errors.incomePic || ''}</div>):null}
+                {formik.touched.incomePic && formik.errors.incomePic ? (<div className='error'>{formik.errors.incomePic || ''}</div>):null}
                 <br/>
                 <label htmlFor='yesAPL'>
                     <input type='radio' name='pl' id= 'yesAPL' value="APL" checked={formik.values.pl === 'APL'} onChange={formik.handleChange} />
@@ -368,7 +353,7 @@ const ApplicationForm = () => {
                     BPL
                     </label>
                     <br/>
-                    {formik.touched && formik.errors.pl ? (<div className='error'>{formik.errors.pl}</div>):null}
+                    {formik.touched.pl && formik.errors.pl ? (<div className='error'>{formik.errors.pl}</div>):null}
                     <br/>
                     <label >
                         Land Owned
@@ -392,7 +377,7 @@ const ApplicationForm = () => {
                     </label>
                     <br/>
                     <input type='text' id='village' style={{height:"35px", width:"400px"}} className='inputTag1' onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.village}/>
-                    {formik.touched && formik.errors.village ? (<div className='error'>{formik.errors.village}</div>):null}
+                    {formik.touched.village && formik.errors.village ? (<div className='error'>{formik.errors.village}</div>):null}
  
                     <br/>
                     <label htmlFor='surveyNo'>
@@ -400,7 +385,7 @@ const ApplicationForm = () => {
                         </label>
                     <br/>
                     <input type='text' id='surveyNo'  style={{height:"35px", width:"400px"}} className='inputTag1' onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.surveyNo}/> 
-                    {formik.touched && formik.errors.surveyNo ? (<div className='error'>{formik.errors.surveyNo}</div>):null}
+                    {formik.touched.surveyNo && formik.errors.surveyNo ? (<div className='error'>{formik.errors.surveyNo}</div>):null}
 
                     <br/>
                     <label htmlFor='area'>
@@ -408,12 +393,12 @@ const ApplicationForm = () => {
                         </label>
                     <br/>
                     <input type='text' id='area'  style={{height:"35px", width:"400px"}} className='inputTag1' onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.area}/> 
-                    {formik.touched && formik.errors.area ? (<div className='error'>{formik.errors.area}</div>):null}
+                    {formik.touched.area && formik.errors.area ? (<div className='error'>{formik.errors.area}</div>):null}
                     <br/>
                     <input type='file' accept=".pdf" className='documentTag' name='landPic' onBlur={formik.handleBlur} onChange={(event) => {
-    formik.setFieldValue('landPic', event.currentTarget.files[0]);
-  }}/>
-                    {formik.touched && formik.errors.landPic ? (<div className='error'>{formik.errors.landPic}</div>):null}
+                                     formik.setFieldValue('landPic', event.currentTarget.files[0]);
+                                    }}/>
+                    {formik.touched.landPic && formik.errors.landPic ? (<div className='error'>{formik.errors.landPic}</div>):null}
                     </div>
                     )} 
                     <br/>
@@ -433,7 +418,7 @@ const ApplicationForm = () => {
                         <br/>
                         </label>
                         <br/>
-                        {formik.touched && formik.errors.water ? (<div className='error'>{formik.errors.water}</div>):null}
+                        {formik.touched.water && formik.errors.water ? (<div className='error'>{formik.errors.water}</div>):null}
                         <br/>
                         <label>
                             Toilet
@@ -450,26 +435,13 @@ const ApplicationForm = () => {
                         <br/>
                         </label>
                         <br/>
-                        {formik.touched && formik.errors.toilet ? (<div className='error'>{formik.errors.toilet}</div>):null}
+                        {formik.touched.toilet && formik.errors.toilet ? (<div className='error'>{formik.errors.toilet}</div>):null}
                         <br/>
                         <input type='submit' className='submitButton' onSubmit={formik.handleSubmit}>
                         </input>
                         <br/>
                         <br/>
             </form>
-            {/* Line 455 to 465 should be deleted. for testing purposes */ }
-  {formData ? (
-  <iframe
-    title="Income PDF"
-    src={`data:application/pdf;base64,${formData.incomePic}`}
-    width="100%"
-    height="600px"
-    onError={(e) => console.error("Error loading PDF:", e)}
-  />
-) : (
-  <p>No PDF data found.</p>
-)}
-
         </div>
     </div>
   )

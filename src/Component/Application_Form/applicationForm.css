@@ -5,10 +5,6 @@
     margin-left: 5rem;
     background-color: white;
 }
-.header{
-    text-align: center;
-    color: black;
-}
 label{
     font-weight: bold;
     padding-left: 15px;
@@ -27,16 +23,10 @@ label{
     float: right;
 }
 
-.profilePic
-{
-    padding-right: 11rem;
-    float: right;
-    height: 100px;
-    width: 100px;
-}
-
 .header
 {
+    text-align: center;
+    color: black;
     font-family: 'Open Sans', sans-serif;
     text-align: center;
 }
@@ -52,12 +42,14 @@ label{
     font-weight: bold;
     border-color: #f0f0f0;
     border-radius: 30px;
-    font-size: 15px;
-    padding: 10px 40px;
+    font-size: 20px;
+    padding: 14px 40px;
+    
 }
 
 .submitButton:hover{
-    background-color: #366641;
+    background-color: #1d284d;
+    color: white;
 }
 
 .documentTag{
