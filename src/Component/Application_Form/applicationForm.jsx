@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import CryptoJS from 'crypto-js';
 import './applicationForm.css'
 import { Formik, Field, Form, ErrorMessage } from 'formik';
@@ -9,8 +9,11 @@ import {CID , create} from 'ipfs-http-client'
 import UserNavbar from '../UserNavbar/UserNavbar';
 import { db, addDoc, collection, doc } from '../../firebase';
 import { documentId, getDoc, getDocs } from 'firebase/firestore';
+import { authContext } from '../AuthContext';
 
 const ApplicationForm = () => {
+
+  const {updateFormData} = useContext(authContext);
 
   //for ipfs.cat()
     function concatenateUint8Arrays(a, b) {
@@ -185,7 +188,7 @@ const ApplicationForm = () => {
                         adharPic:values.adharPic,
                         incomePic:values.incomePic,
                         landPic:values.landPic
-                };      
+                };     
                 //onSubmit functionality 
                 console.log("Before : ",applicationData);
                 const applicationFormJSON = JSON.stringify(applicationData);
@@ -201,7 +204,9 @@ const ApplicationForm = () => {
                   Submitted : new Date(),
                   CID : cid,
                 };
-                await addDoc(collectionReference,dataToAdd);            
+                await addDoc(collectionReference,dataToAdd);   
+                updateFormData(applicationData); 
+                         
           }
          
             catch(error){

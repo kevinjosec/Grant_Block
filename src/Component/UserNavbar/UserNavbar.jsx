@@ -34,7 +34,7 @@ function UserNavbar() {
             <li className='li'>
               History
             </li>
-            <li className='li'>
+            <li className='li' onClick={()=>navigate('/Status')}>
               Status
             </li>
           </ul>
