@@ -12,6 +12,7 @@ import Schemes from './Component/Schemes/Schemes.jsx';
 import ProfileSettings from './Component/ProfileSettings/ProfileSettings.jsx';
 import ApplicantForm from './Component/ApplicantForm/ApplicantForm.jsx';
 import ApplicantList from './Component/ApplicantList/ApplicantList.jsx';
+import Status from './Component/Status/Status.jsx';
 function App() {
 
   const [selectedFormData, setSelectedFormData] = useState();
@@ -34,6 +35,7 @@ function App() {
   <Routes>          
   <Route path="/" element={<HomePage/>} />
   <Route path="/UserHomePage" element={<UserHomePage/>} />
+  <Route path="/Status" element={<Status/>} />
   <Route path="/SignUp" element={<SignUp/>} />
   <Route path="/Login" element={<Login/>} />
   <Route path="/Schemes" element={<Schemes/>} />

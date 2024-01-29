@@ -1,12 +1,12 @@
 .schemeCard{
-    margin-left: 4rem;
+    margin-left: 2rem;
     margin-top: 4rem;
     border: 1px solid #000;
     background-color:white;
     height: 20rem;
     width: 15rem;
     border-radius: 20px;
-    font-size: 25px;
+    font-size: 15px;
 }
 
 .schemeCard:hover{
@@ -14,5 +14,7 @@
     color: white;
 }
 .scheme-page{
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
     margin-bottom: 4rem;
 }
