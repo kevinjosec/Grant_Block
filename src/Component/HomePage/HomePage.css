@@ -1,87 +1,120 @@
-.disclaimer{
-    height: 100px;
-    background-color: #1d284d;
-    color: white;
-    font-size: 20px;
-    padding:20px;
-    margin: 10px;
-    border-radius: 10px;
-}
-.Disclaimer{
-    font-style: italic;
-}
-.homeImage{
-    width: 100%;
-}
-.listHeader{
-    background-color: #1d284d;
-    color: white;
-    font-size: 30px;
-    padding: 15px;
-    text-align: left;
-    font-weight: bold;
-    margin: 10px;
-    border-radius: 10px;
-}
-.footer{
-    text-align: center;
-    background-color: #1d284d;
-    color: white;
-    padding: 15px;
-    margin: 10px;
-    
-}
-.list{
-    list-style: none;
-    line-height: 50px;
-    text-align: left;
-}
-.listButton{
-    padding-left: 30px;
-    border-radius: 5px;
-    line-height: 50px;
-    text-align: left;
-    height: 50px;
-    width: 97%;
-    border: 1px solid #000;
-    background-color: white;
-    font-size: large;
-    margin-bottom: 1rem;
-}
-.listButton:hover{
-    background-color: #1d284d;
-    color: white;
-}
-.newsDownload{
-    margin: 40px;
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@600&display=swap');
+
+ .head-grid{
+    margin: 2em;
+    font-family: "roboto", sans-serif;
     display: grid;
-    grid-template-columns: 1fr, 1fr;
-    grid-gap: 20px;
+    grid-template-columns: repeat(2,1fr);
 }
-.news{
-    grid-column: 1;
-    height: 300px;
-    border: 1px solid #000;
-    border-radius:5px;
-    background-color: white;
-}
-.download{
-    height: 300px;
-    border: 1px solid #000;
-    border-radius:5px;
-    grid-column: 2;
-    background-color: white;
+.head-grid1, .head-grid2{
+    padding: 100px;
+    padding-left: 2em;
+    border: 1px solid black;
+    line-height: 90%;
 }
 
-.newsHeader,.downloadHeader{
-    font-weight: 600;
-    font-size: 20px;
-    padding: 10px;
-    color: white;
-    height: 30px;
-    background-color: #1d284d;
-    border-radius: 4px 4px 0 0;
+.sub-heading{
+    font-stretch: expanded;
+    font-size: 100%;
 }
-body{
-    background-color: white;
+
+.head-grid1{
+    border-radius: 10px 0px 0px 10px;
+    border-right: 0;
+    background-image: linear-gradient(to right, #FF9933, #FFC266);
+    color: white;
+}
+.head-grid2{
+    position: relative;
+    border-radius: 0px 10px 10px 0px;
+    border-left: 0;
+    background-size: cover;
+    background-position: 0px -80px;
+    background-image:linear-gradient(to left, #FF9933, #FFC266);
+}
+
+.grant-block{
+    font-size: 300%;
+}
+
+.grant{
+    border-radius: 10px;
+    margin: -4em;
+    margin-left: 5em;
+    width:90%;
+}
+
+.slogan{
+    position: relative;
+    padding-bottom: 35px;
+    padding-left: 13rem;
+    height: 150px;
+    border: 1px solid black;
+    margin: 3em 5em 2em 5em;
+    border-radius: 5px;
+    font-family: "roboto", sans-serif;
+}
+
+.grant-Block{
+    font-size: 200%;
+}
+
+.sub-heading2{
+    line-height: 1.5em;
+}
+
+.indian-map{
+    position: absolute;
+    top: 0.5em;
+    left: 0.5em;
+    border-radius: 5px 5px 5px 5px;
+    height: 170px;
+}
+
+.about-grant-block{
+    margin: 3em 5em 2em 5em;
+    font-family: "open-sans", sans-serif;
+    text-align: center;
+    padding: 0 40px 0 40px;
+}
+
+.help-line{
+    font-family: "open-sans", sans-serif;
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    margin: 4em;
+    gap: 3em;
+}
+
+.help-line1,
+.help-line2,
+.help-line3{
+    border: 1px solid black;
+    border-radius: 20px;
+    height: 400px;
+    padding-left: 2rem;
+    box-shadow: 0px 0px 10px rgba(0,0,0,0.5);
+}
+
+.who-can-apply{
+    font-size: 150%;
+}
+
+.wallet{
+    padding-top: 1rem;
+    padding-left: 5rem;
+    width: 100px;
+}
+
+.howto{
+    padding-top: 1.5rem;
+    padding-left: 1rem;
+    width: 90%;
+}
+
+.contactus{
+    padding-top: 3.8rem;
+    margin-left: -2.5rem;
+    width: 110%;
 }

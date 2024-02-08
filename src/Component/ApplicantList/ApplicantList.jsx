@@ -3,7 +3,6 @@ import { db, addDoc, collection, doc } from '../../firebase';
 import { documentId, getDoc, getDocs } from 'firebase/firestore';
 import CryptoJS from 'crypto-js';
 import {CID , create} from 'ipfs-http-client'
-import GoNavbar from '../GovNavbar/GoNavbar'
 import { IoIosArrowForward } from "react-icons/io";
 import ApplicantForm from '../ApplicantForm/ApplicantForm';
 import './ApplicantList.css'
@@ -90,7 +89,6 @@ const ApplicantList = ({onExportdata}) => {
 
   return (
     <div>
-          <GoNavbar/>
           <h1 className='candidates-header'>
             Candidates
           </h1>

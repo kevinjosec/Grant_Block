@@ -1,6 +1,5 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
-import GoNavbar from '../GovNavbar/GoNavbar';
 import './ApplicantForm.css';
 
 const ApplicantForm = ({ exportedData }) => {
@@ -39,7 +38,6 @@ const ApplicantForm = ({ exportedData }) => {
 
   return (
     <div>
-      <GoNavbar />
       <h1 className="candidate-header">Candidate Marklist</h1>
       {formData ? (
         <div className="container">
