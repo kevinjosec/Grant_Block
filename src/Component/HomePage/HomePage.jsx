@@ -1,73 +1,60 @@
 import React from 'react'
 import './HomePage.css'
 import Navbar from '../Navbar/Navbar'
-import homeImage from '../Assests/homeImage.png'
+import grant from '../Assests/grant.jpg'
+import { GiIndiaGate } from "react-icons/gi";
+import indianmap from "../Assests/indianmap.jpg"
+import wallet from "../Assests/wallet.svg"
+import howto from "../Assests/howto.svg"
+import contactus from "../Assests/contactus.svg"
 
 export default function HomePage() {
   return (
     <div>
-      <Navbar/>
-      <img src={homeImage} className='homeImage'/>
-      <br/>
-      <div>
-        <div className='disclaimer'>
-            <p className='Disclaimer'>
-        Beneficiary list at each local self government 
+      <Navbar />
+      <div className="head-grid">
+        <div className="head-grid1">
+          <p className="sub-heading">Embassy of India Organizes </p>
+          <h1 className="grant-block">Grant Block</h1>
+          <p className="sub-heading">Blockchain system to streamline grant distribution and allocation</p>
+        </div>
+        <div className="head-grid2">
+          <img src={grant} alt="Grant Block" className='grant' />
+        </div>
+      </div>
+
+      <div className="slogan">
+        <h3 className="grant-Block"> Yojana Vyavastha </h3>
+        <p className="sub-heading2">
+          Unlocking Opportunities, Bridging Divides: Join us on a journey of empowerment,
+          where innovation meets inclusivity, and every click paves the way for a brighter tomorrow!</p>
+        <img src={indianmap} alt="Indian Map" className='indian-map' />
+      </div>
+
+      <div className="about-grant-block">
+        <h2 className="grantblock">ABOUT GRANT BLOCK</h2>
+        <p className="sub-heading3">Beneficiary list at each local self government 
         level is available through this website for those who have login 
         permission and for those who are not, through the respective local 
-        self-government website.
-        </p>
+        self-government website.</p>
+      </div>
+
+      <div className="help-line">
+        <div className="help-line1">
+          <img src={wallet} alt="wallet" className='wallet' />
+          <h4 className="who-can-apply">Who can apply?</h4>
+          <p>Those experiencing economic challenges can apply when the applications open</p>
         </div>
-        <br/>
-      
-        <div className='listHeader'>
-            List of Schemes
+        <div className="help-line2">
+        <img src={howto} alt="wallet" className='howto' />
+          <h4 className="who-can-apply">How to apply?</h4>
+          <p>Visit nearby Akshaya to know about the necessary procedures and documents</p>
         </div>
-     <ol className='list'>
-        <li><button className='listButton'>Poultry Breeding (Female) </button> </li>
-        <li><button className='listButton'>Subsidy for milk to dairy farmer</button> </li>
-        <li><button className='listButton'>Fodder subsidy for dairy cows</button> </li>
-        <li><button className='listButton'>Scholarship for physically and mentally challenged</button> </li>
-        <li><button className='listButton'>Allowance of cochlear implantation expenses</button> </li>
-        <li><button className='listButton'>Cots for the elderly</button> </li>
-        <li><button className='listButton'>For post graduate diploma students</button> </li>
-        <li><button className='listButton'>Home renovation</button> </li>
-        <li><button className='listButton'>Home renovation general</button> </li>
-        <li><button className='listButton'>Wheelchair for elderly</button> </li>
-        <li><button className='listButton'>Ayur jack plow</button> </li>
-        <li><button className='listButton'>Pepper (female)</button> </li>
-        <li><button className='listButton'>Distribution of planting material (women)</button> </li>
-        <li><button className='listButton'>We are also into agriculture</button> </li>
-     </ol>
-     <div className='newsDownload'>
-        <div className='news'>
-            <div className='newsHeader'>
-                Latest News
-            </div>
+        <div className="help-line3">
+        <img src={contactus} alt="wallet" className='contactus' />
+          <h4 className="who-can-apply">Want to know more?</h4>
+          <p>Contact nearby Akshaya centre or dial respective district representatives</p>
         </div>
-        <div className='download'>
-            <div className='downloadHeader'>
-                Download Documents
-            </div>
-        </div>
-     </div>
-     <div className="listHeader">
-      About Us
-     </div>
-     <div className="disclaimer">
-      <p className="Disclaimer">
-      At Grant Block, we are committed to making a positive
-      impact through our innovative projects and initiatives.
-       One such endeavor is our ongoing project to streamline the
-        government grants system. This initiative reflects our dedication
-         to improving public
-      services and fostering transparency, efficiency, and
-       accessibility in the public sector.
-      </p>
-     </div>
-     <div className="footer">
-     Copyright © Grant Block 2023. All Rights Reserved .Designed and Developed by Group 16
-     </div>
       </div>
     </div>
   )

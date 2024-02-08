@@ -1,85 +1,94 @@
-.login-container {
-    display: flex;
-    justify-content: center; /* Horizontally center the content */
-    align-items: center; /* Vertically center the content */
-    min-height: 80vh; /* Set a minimum height to cover the entire viewport */
-    flex-direction: column;
- }
-  
-.login{
-    text-align: center;
-    background-color: white;
-    height: 280px;
-    width: 470px;
-    padding: 30px 20px ;
-    border-radius: 20px;
-}
-.loginInput{
-    background-color: #f0f0f0;
-    text-indent: 10px;
-    border:none;
-    font-size: 15px;
-    border-radius: 50px;
-    height: 35px;
-    width: 200px;
-    margin-left: 20px;
-    align-items: center;
-}
-.header{
-    color: white;
-    font-weight: bolder;
-    margin-top: 4rem;
-    margin-bottom: -2rem;
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@600&display=swap');
+
+.login-main{
+    font-family: "open-sans",sans-serif;
 }
 
-.loginButton{
-    font-weight: bolder;
-    margin-top: -2rem;
-    padding: 10px 30px;
-    font-size: 15px;
-    border: 1px solid #000;
-    border-radius: 50px;
+.login-container{
+    font-family: "open-sans", sans-serif;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    margin: 4em 5em 2em 5em;
+}
+
+.login1,.login2{
+    border: 1px solid black;
+    height: 500px;
+}
+
+.login1{
+    border-radius: 20px 0 0 20px;
     background-color: white;
 }
-.loginButton:hover{
-    background-color: #1d284d;
+
+.login2{
+    background-image: url(../Assests/login-background.jpg);
+    background-size: cover;
+    background-position: center;
+    border-radius: 0px 20px 20px 0px;
+    color: white;
+    padding-left: 2rem;
+}
+
+.welcome-to-grant-block{
+    font-family: "open-sans", sans-serif;
+    font-size: 350%;
+    margin-top: 10rem;
+}
+
+.login-label{
+    margin-top: 3em;
+    text-align: center;
+    font-family: "open-sans",sans-serif;
+    color: black;
+}
+
+.username-tag{
+    color: black;
+    font-weight: 300;
+}
+
+.username-input{
+    outline: none;
     border: none;
+    border-bottom: 1px solid gray;
+    height: 4%;
+    width: 80%;
+    margin-left: 2em;
+    float: left;
+}
+
+.forgot-password{
+    font-size: 80%;
+    float: right;
+    margin-right: 3.5em;
+}
+
+.login-button{
+    margin: 4em;
+    margin-left: 8rem;
+    border: 1px solid black;
+    border-radius: 25px;
+    padding: 10px 30px 10px 30px;
+    background-color: #1d284d;
     color: white;
-}
-.googleSignIn{
-     color: white;
-     margin-top: -5rem; /* Add margin to separate the "Login with Google" button */
-     cursor: pointer; /* Add a pointer cursor for better usability */
-     text-align: center; /* Center the text within the button */
-}
-.googleSignIn:hover{
-    text-decoration: underline;
+    font-weight: bolder;
+    cursor: pointer;
 }
 
-.forgotPass{
-    margin-left: 13rem;
-    font-size: 12px;
-    margin-bottom: 2rem;
-}
-.forgotPass:hover{
-    text-decoration: underline;
-}
-.loginLabel{
-    font-weight: lighter;
-}
-
-.accountCreate{
-    text-align: center;
-    color: white;
-}
-.accountCreate:hover{
-    text-decoration: underline;
-}
-
-.errorMessage{
+.error-message{
+    padding-left: 2.5em;
     color: red;
-    font-size: 12px;
-    margin-bottom: 1rem;
-    margin-top: -1rem;
+    font-size: 70%;
 }
 
+.create-account,.google-signin{
+    text-align: center;
+    font-size: 75%;
+    cursor: pointer;
+}
+
+.create-account:hover,.google-signin:hover{
+    text-decoration: underline;
+}
