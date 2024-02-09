@@ -31,10 +31,8 @@ label{
     text-align: center;
 }
 
-.error
-{
+.appplication-form-error{
     font-size: 13px;
-    padding-top: 0;
     color: #FF0000;
 }
 .submitButton{
