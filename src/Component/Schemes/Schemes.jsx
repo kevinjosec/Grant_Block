@@ -14,7 +14,7 @@ const Schemes = () => {
       <div className="scheme-page">
         {
           schemes.map((scheme) => (
-            <div key={scheme.id} className="scheme-card" style={{ backgroundImage: `url(${scheme.image})`, backgroundPosition: 'center', backgroundSize: 'cover' }}>
+            <div key={scheme.id} className="scheme-card" onClick={()=>(navigate('/ApplicationForm',{state:{param:`${scheme.name}`}}))} style={{ backgroundImage: `url(${scheme.image})`, backgroundPosition: 'center', backgroundSize: 'cover' }}>
               <div className="scheme-name">
                 <div className="scheme-title">{scheme.name}</div>
                 <p className="scheme-content">{scheme.content}</p>

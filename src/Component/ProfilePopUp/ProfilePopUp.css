@@ -1,22 +1,38 @@
-/* ProfilePopUp.css */
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=open+sans&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap');
 
-.ProfileSettings {
+.profile-settings {
+    font-family: "open sans", sans-serif ;
     list-style-type: none;
-    padding: 0;
-    margin: 0;
     position: absolute;
     top: 2em;
     right: 2rem;
     width:20%;
-    height: 40%;
+    height: 20%;
     background-color: #fff;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    border: 1px solid red;
-    border-radius: 4px;
+    box-shadow: 0 0 10px rgb(0, 0, 0.5);
+    border: 1px solid black;
+    border-radius: 15px;
     z-index: 1;
   }
-  .settingsButton,.logoutButton{
-    width: 38.8vh;
+
+  .settings-button,.logout-button{
+    padding-left: 0.5em;
+    font-weight: 600;
+    text-align: left;
+    font-family: "open sans", sans-serif ;
+    margin-left: 0.5em;
+    margin-bottom: -0.5em;
+    width:95%;
     height: 50px;
+    border-style: none;
+    border-radius: 15px;
+    background-color: white;
+    cursor: pointer;
   }
+
   
+  .settings-button:hover,.logout-button:hover{
+    background-color: #EAEAEA;
+  }
