@@ -1,55 +1,106 @@
-.applicationForm{
-    text-align: left;
-    padding-left: 30px;
-    border-radius: 20px ;
-    margin-left: 5rem;
-    background-color: white;
-}
-label{
-    font-weight: bold;
-    padding-left: 15px;
-    font-size: 15px;
-}
-.inputTag,.inputTag1{
-    text-indent: 10px;;
-    margin-top: 10px;
-    font-size: 14px;
-    border-radius: 30px;
-    border: 1px solid black;
-    margin-bottom: 2rem;
-}
-.inputImage{
-    margin-top: -4rem;
-    float: right;
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@600&display=swap');
+
+.appplication-form-body {
+    font-family: "open sans", sans-serif;
 }
 
-.header
-{
+.application-form {
+    font-family: "open sans", sans-serif;
+    border: 1px solid black;
+    text-align: left;
+    padding: 25px;
+    border-radius: 20px;
+    margin: 0 7rem 3rem 7rem;
+    background-color: white;
+}
+
+.application-form-grid {
+    padding: 0 0 0 1em;
+}
+
+.general-details-grid {
+    padding: 2em 2em 2em 1em;
+}
+
+.personal-details {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.general-details {
+    margin-top: -1em;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.personal-details-para,
+.general-details-para {
+    font-size: 125%;
+    font-weight: 600;
+}
+
+.application-form-label {
+    font-weight: 600;
+    font-size: 15px;
+}
+
+.inputTag,
+.inputTag1 {
+    text-indent: 10px;
+    margin-top: 3px;
+    font-size: 14px;
+    height: 35px;
+    width: 98%;
+    border: 1px solid black;
+    border-radius: 5px;
+}
+
+.inputTag.annual-income {
+    margin-top: 1.7em;
+}
+
+
+/* .inputImage{
+    margin-top: -4rem;
+    float: right;
+} */
+
+.header {
     text-align: center;
     color: black;
     font-family: 'Open Sans', sans-serif;
-    text-align: center;
 }
 
-.appplication-form-error{
+.application-form-error {
     font-size: 13px;
     color: #FF0000;
 }
-.submitButton{
-    border: none;
-    font-weight: bold;
-    border-color: #f0f0f0;
-    border-radius: 30px;
-    font-size: 20px;
-    padding: 14px 40px;
-    
+
+.application-submit-button {
+    border: 1px solid black;
+    font-weight: 600;
+    border-radius: 25px;
+    font-size: 15px;
+    padding: 10px 30px 10px 30px;
+    margin-left: 2rem;
+    background-color: white;
+    transition: 0.3s;
 }
 
-.submitButton:hover{
+.application-submit-button:hover {
     background-color: #1d284d;
     color: white;
 }
 
-.documentTag{
-    padding:20px 20px;
+.documentTag {
+    margin-top: 1em;
+}
+
+.documentTag.adhar-pic {
+    margin-bottom: 0.5em;
+}
+
+.application-form-label.scheme-header {
+    margin-top: 2em;
 }
