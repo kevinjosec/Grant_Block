@@ -10,12 +10,6 @@ import { useEffect } from 'react';
 import loginbackground from '../Assests/login-background.jpg'
 
 const LoginPage = () => {
-  useEffect(() => {
-    document.body.style.backgroundColor = '#1d284d'; // Change this to the desired color
-    return () => {
-      document.body.style.backgroundColor = ''; // Reset to default
-    };
-  }, []);
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');

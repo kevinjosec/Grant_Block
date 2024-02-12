@@ -3,10 +3,19 @@ import UserNavbar from '../UserNavbar/UserNavbar'
 import './ProfileSettings.css'
 import { auth, getDoc, doc, db } from '../../firebase';
 import { authContext } from '../AuthContext';
+import ChangePassword from '../ChangePassword/ChangePassword';
+import { useNavigate } from 'react-router-dom';
 
 export default function ProfileSettings() {
   const [userDetails, setUserDetails] = useState(null);
   const { currentUser } = useContext(authContext);
+  const [selectedOption, setSelectedoption] = useState(null);
+  
+  const handleOptionChange = (option) =>{
+    setSelectedoption(option);
+  }
+  
+  const navigate = useNavigate();
 
   useEffect(() => {
     console.log(currentUser);
@@ -40,9 +49,9 @@ export default function ProfileSettings() {
         <div className="settings-grid no1">
           <h1 className="settings-header">Settings</h1>
           <ul className="settings-list">
-            <li className='settings-list-items'>Personal details</li>
-            <li className='settings-list-items'>Change password</li>
-            <li className='settings-list-items'>Deactivate your acoount</li>
+            <li className='settings-list-items' onClick={()=>{handleOptionChange('PersonalSettings')}}>Personal details</li>
+            <li className='settings-list-items' onClick={()=>{handleOptionChange('ChangePassowrd')}}>Change password</li>
+            <li className='settings-list-items' onClick={()=>{handleOptionChange('DeactivateAccount')}}>Deactivate your acoount</li>
           </ul>
         </div>
         <div className="settings-grid no2">
