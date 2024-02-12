@@ -13,6 +13,7 @@ import ProfileSettings from './Component/ProfileSettings/ProfileSettings.jsx';
 import ApplicantForm from './Component/ApplicantForm/ApplicantForm.jsx';
 import ApplicantList from './Component/ApplicantList/ApplicantList.jsx';
 import Status from './Component/Status/Status.jsx';
+import ChangePassword from './Component/ChangePassword/ChangePassword.jsx';
 function App() {
 
   const [selectedFormData, setSelectedFormData] = useState();
@@ -22,13 +23,13 @@ function App() {
   };
 
   return (
-    /*
+    /* 
       <Router>
         <Routes>
         <Route path ="/" element ={<ApplicantList  />} />
           <Route path ="/ApplicantForm" element ={ <ApplicantForm />} />
         </Routes>
-      </Router>*/
+      </Router> */
 
     <AuthContext>
       <Router>
@@ -41,6 +42,7 @@ function App() {
           <Route path="/Schemes" element={<Schemes />} />
           <Route path="/ApplicationForm" element={<Application_Form />} />
           <Route path="/ProfileSettings" element={<ProfileSettings />} />
+          <Route path="/ChangePassword" element={<ChangePassword />} />
         </Routes>
       </Router>
     </AuthContext>

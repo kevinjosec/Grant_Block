@@ -6,6 +6,7 @@
     background-image: url(../Assests/user-bg.jpg);
     background-size:cover ;
     background-position: center;
+    background-attachment: fixed;
     padding-bottom: 35px;
 }
 

@@ -2,9 +2,10 @@
 @import url('https://fonts.googleapis.com/css2?family=open+sans&display=swap');
 
 .scheme-main-body{
-    background-image: url('../Assests/user-bg.jpg');
+    background-image: url(../Assests/user-bg.jpg);
     background-position: center;
     background-size: cover;
+    background-attachment: fixed;
 }
 
 .scheme-page {

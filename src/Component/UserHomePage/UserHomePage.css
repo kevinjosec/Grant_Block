@@ -6,6 +6,7 @@
     background-image: url(../Assests/user-bg.jpg);
     background-position: center;
     background-size: cover;
+    background-attachment: fixed;
     color: white;
 }
 
