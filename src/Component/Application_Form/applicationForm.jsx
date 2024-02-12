@@ -11,6 +11,7 @@ import { db, addDoc, collection, doc } from '../../firebase';
 import { documentId, getDoc, getDocs } from 'firebase/firestore';
 import { authContext } from '../AuthContext';
 import { useLocation, useNavigate } from 'react-router-dom';
+import userbg from '../Assests/user-bg.jpg'
 
 const ApplicationForm = () => {
 
@@ -225,7 +226,7 @@ const ApplicationForm = () => {
 
   return (
     <div className='application-form-body'>
-      <UserNavbar />
+      <UserNavbar backgroundColor="transparent"/>
       <h1 className='header'>
         Application Form
       </h1>

@@ -1,0 +1,89 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=open+sans&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap');
+
+.settings-main-body{
+    background-image: url(../Assests/user-bg.jpg);
+    background-size:cover ;
+    background-position: center;
+    padding-bottom: 35px;
+}
+
+.my-profile{
+    margin-top: 1em;
+}
+
+.current-user-profile-pic{
+    border: 2px solid white;
+    border-radius: 50%;
+    margin-bottom: 2em;
+}
+
+.settings-container{
+    font-family: "open sans", sans-serif;
+    display: grid;
+    grid-template-columns: 0.5fr 2fr;
+    margin: 0em 2em;
+    backdrop-filter: blur(10px);
+    color: white;
+}
+
+.settings-grid{
+    height: 900px;
+    border: 1px solid black;
+}
+
+.settings-header{
+    margin-left: 0.4em;
+    font-size: 250%;
+}
+
+.settings-list{
+    list-style: none;
+    line-height: 3em;
+    font-weight: 400;
+}
+
+.settings-list-items{
+    margin-bottom: 5px;
+    padding-left: 1em;
+    margin-left: -2.5em;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.settings-list-items:hover{
+    border: 1px solid white;
+    font-weight: bold;
+}
+
+.settings-list-items:active{
+    background-color: #EAEAEA;
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+.settings-grid.no2{
+    border-radius:0px 10px 10px 0px ;
+    padding-left: 2em;
+}
+.settings-grid.no1{
+    border-radius:10px 0 0px 10px ;
+}
+
+.settings-value{
+    margin: 0.5em 0 2em 0;
+    font-family: "open sans", sans-serif;
+    font-weight: 550;
+    width: 400px;
+    height: 35px;
+    border: none;
+    border-radius: 10px;
+    text-indent: 10px;
+    background-color: #eaeaea;
+}
+
+.settings-label{
+    font-family: "open sans", sans-serif;
+    font-weight: 1000;
+}

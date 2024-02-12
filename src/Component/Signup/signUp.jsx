@@ -99,7 +99,7 @@ const SignUp = () => {
         </div>
         <div className="signup-grid2">
           <h1 className="create-an-account">Create an Acoount</h1>
-          <form onSubmit={formik.handleSubmit} className='application-form'>
+          <form onSubmit={formik.handleSubmit} className='sign-up-form'>
             <input type='text' name="fname" className='signupInput fname-input' {...formik.getFieldProps('fname')} placeholder='First name' />
             <input type='text' name="lname" className='signupInput lname-input' {...formik.getFieldProps('lname')} placeholder='Last name' />
             <br />

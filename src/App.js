@@ -21,29 +21,29 @@ function App() {
     setSelectedFormData(form);
   };
 
- return ( 
-/*
-  <Router>
-    <Routes>
-    <Route path ="/" element ={<ApplicantList  />} />
-      <Route path ="/ApplicantForm" element ={ <ApplicantForm />} />
-    </Routes>
-  </Router>*/
-  
- <AuthContext>
-  <Router>
-  <Routes>          
-  <Route path="/" element={<HomePage/>} />
-  <Route path="/UserHomePage" element={<UserHomePage/>} />
-  <Route path="/Status" element={<Status/>} />
-  <Route path="/SignUp" element={<SignUp/>} />
-  <Route path="/Login" element={<Login/>} />
-  <Route path="/Schemes" element={<Schemes/>} />
-  <Route path="/ApplicationForm" element={<Application_Form/>} />
-  <Route path="/ProfileSettings" element={<ProfileSettings/>}/>
-  </Routes>      
-  </Router>
-  </AuthContext>
+  return (
+    /*
+      <Router>
+        <Routes>
+        <Route path ="/" element ={<ApplicantList  />} />
+          <Route path ="/ApplicantForm" element ={ <ApplicantForm />} />
+        </Routes>
+      </Router>*/
+
+    <AuthContext>
+      <Router>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/UserHomePage" element={<UserHomePage />} />
+          <Route path="/Status" element={<Status />} />
+          <Route path="/SignUp" element={<SignUp />} />
+          <Route path="/Login" element={<Login />} />
+          <Route path="/Schemes" element={<Schemes />} />
+          <Route path="/ApplicationForm" element={<Application_Form />} />
+          <Route path="/ProfileSettings" element={<ProfileSettings />} />
+        </Routes>
+      </Router>
+    </AuthContext>
   );
 }
 

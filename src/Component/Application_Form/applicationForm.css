@@ -1,8 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@600&display=swap');
 
-.appplication-form-body {
+.application-form-body {
     font-family: "open sans", sans-serif;
+    background-image: url(../Assests//user-bg.jpg);
+    background-position: center;
+    background-size: cover;padding-bottom: 25px;
 }
 
 .application-form {
@@ -11,8 +14,9 @@
     text-align: left;
     padding: 25px;
     border-radius: 20px;
-    margin: 0 7rem 3rem 7rem;
-    background-color: white;
+    margin: 0 7rem 0rem 7rem;
+    backdrop-filter: blur(10px);
+    color: white;
 }
 
 .application-form-grid {
@@ -60,15 +64,10 @@
     margin-top: 1.7em;
 }
 
-
-/* .inputImage{
-    margin-top: -4rem;
-    float: right;
-} */
-
 .header {
     text-align: center;
-    color: black;
+    color: white;
+    font-family: "roboto", sans-serif;
     font-family: 'Open Sans', sans-serif;
 }
 
@@ -78,18 +77,15 @@
 }
 
 .application-submit-button {
-    border: 1px solid black;
+    cursor: pointer;
+    border: 1px solid white;
     font-weight: 600;
     border-radius: 25px;
     font-size: 15px;
     padding: 10px 30px 10px 30px;
     margin-left: 2rem;
-    background-color: white;
+    background-color: transparent;
     transition: 0.3s;
-}
-
-.application-submit-button:hover {
-    background-color: #1d284d;
     color: white;
 }
 
