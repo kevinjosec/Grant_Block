@@ -1,15 +1,77 @@
-.status-input-tag{
-    padding: 5px;
-    text-align: left;
-    margin: 1rem;
-    font-weight: 500;
-    border-radius: 10px;
-    border: 1px solid black;
-    height: 25px;
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@600&display=swap');
+
+.status-bg-body{
+    color: white;
+    background-image: url(../Assests/user-bg.jpg);
+    background-position: center;
+    background-size: cover;
+    background-attachment: fixed;
+    padding-bottom: 2em;
 }
-.status-div{
-    padding: 10px;
+
+.status-main-body{
+    font-family: "open sans",sans-serif;
+    padding: 0 8em 0 8em;
+}
+.status-body{
     border: 1px solid black;
     border-radius: 20px;
-    margin-bottom: 1rem;
+    margin: 0;
+    backdrop-filter: blur(10px);
+}
+
+.status-header{
+    padding-left: 1em;
+}
+
+.status-application-form-icon{
+    width: 100px;
+}
+
+.status-steps{
+    line-height: 7em;
+}
+
+.status-icon{
+    padding-right: 1em;
+    margin-bottom: -0.3em;
+    margin-right: 2em;
+    margin-left: 2em;
+}
+
+.status-block{
+    position: relative;
+    border: 1px solid black;
+    border-radius: 10px;
+    margin: 2em;
+    padding-left: 1em;
+    padding-bottom: 7em;
+}
+
+.status-approved{
+    position: absolute;
+    right: 2em;
+    top: 1em;
+}
+
+.status-name{
+    font-weight: bolder;
+}
+
+.status-date{
+    font-size:75%;
+}
+
+.status-cancel-button{
+    border: 1px solid white;
+    color: white;
+    border-radius: 20px;
+    background-color: transparent;
+    font-family: "open sans", sans-serif;
+    font-weight: bolder;
+    padding: 1em;
+    margin-left: 2em;
+    margin-bottom: 2em;
+    cursor: pointer;
 }

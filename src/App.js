@@ -14,6 +14,8 @@ import ApplicantForm from './Component/ApplicantForm/ApplicantForm.jsx';
 import ApplicantList from './Component/ApplicantList/ApplicantList.jsx';
 import Status from './Component/Status/Status.jsx';
 import ChangePassword from './Component/ChangePassword/ChangePassword.jsx';
+import GovHome from './Component/GovHome/GovHome.jsx';
+import GovActive from './Component/GovActive/GovActive.jsx';
 function App() {
 
   const [selectedFormData, setSelectedFormData] = useState();
@@ -23,14 +25,12 @@ function App() {
   };
 
   return (
-    /* 
-      <Router>
-        <Routes>
-        <Route path ="/" element ={<ApplicantList  />} />
-          <Route path ="/ApplicantForm" element ={ <ApplicantForm />} />
-        </Routes>
-      </Router> */
-
+    /*    <Router>
+         <Routes>
+           <Route path="/" element={<GovHome />} />
+           <Route path="/GovActive" element={<GovActive />} />
+         </Routes>
+       </Router> */
     <AuthContext>
       <Router>
         <Routes>
