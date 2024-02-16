@@ -1,0 +1,124 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap');
+
+
+.gov-main-body {
+    padding-left:2em ;
+    padding-right:2em ;
+}
+
+.gov-body-half {
+    background-image: url(../Assests/gov-bg.png);
+    background-position: center;
+    background-size: cover;
+    background-attachment: fixed;
+    position: relative;
+    top: 4em;
+    margin-top: 2em;
+    margin-bottom:2em;
+    font-family: "plus-jakarta-sans", sans-serif;
+    border: 1px solid black;
+    border-radius: 25px;
+    height: 500px;
+    width: 99%;
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+    align-self: flex-end;
+    justify-content: space-evenly;
+    margin-left: 0.35em;
+    backdrop-filter: blur(50px);
+    padding-bottom: 20px;
+}
+
+.second-half.one {
+    margin-left: 0.7em;
+}
+
+.gov-home-icon {
+    margin-top: 10px;
+}
+
+.second-half {
+    border: 1px solid black;
+    border-radius: 20px;
+    height: 130px;
+    width: 200px;
+    margin-top: -4em;
+    z-index: 999;
+    background-color: white;
+    padding: 10px 40px;
+    padding-top: 1em;
+    line-height: 2em;
+    font-family: "Plus jakarta sans", sans-serif;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.status-help-container {
+    font-family: "plus jakarta sans", sans-serif;
+    font-size: 15px;
+    line-height: 5em;
+    margin-top: 0.5em;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    position: absolute;
+    right: 4em;
+    top: 10em;
+}
+
+.react-calendar {
+    position: absolute;
+    left: 26em;
+    top:8em;
+    max-width: 400px;
+    background-color: #f2f2f2;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-family: "plus jakarta sans",sans-serif;
+}
+
+.react-calendar__tile--active {
+    background-color: #1d284d;
+    color: #fff;
+}
+.react-calendar__navigation button {
+    font-family: "plus jakarta sans",sans-serif;
+    font-weight: bold;
+}
+
+
+.status-help-grid {
+    height: 260px;
+    padding: 10px;
+    text-align: left;
+}
+
+.status-help-grid.two {
+    text-align: center;
+}
+
+.status-help-grid.one {
+    position: absolute;
+    right: 16.5em;
+    top: 10em;
+}
+
+.status-help{
+    display: inline-block;
+    margin-right: 3em;
+    border: 1px solid white;
+    border-radius: 20px;
+    padding: 10px 20px;
+    background-color: white;
+    color: black;
+    font-family: "plus jakarta sans",sans-serif;
+    margin-top: 22em;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.status-help.download-ans,
+.status-help.user-guide-ans,
+.status-help.support-ans {
+    cursor: pointer;
+}
