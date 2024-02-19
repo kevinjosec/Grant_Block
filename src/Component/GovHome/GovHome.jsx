@@ -8,7 +8,7 @@ import Calendar  from 'react-calendar'
 import 'react-calendar/dist/Calendar.css'
 import { useNavigate } from 'react-router-dom';
 import GovActive from '../GovActive/GovActive';
-
+import GovActiveResult from '../GovActiveScheme/GovActiveScheme'
 
 const GovHome = () => {
 
@@ -24,13 +24,13 @@ const GovHome = () => {
         <div className="second-half one" onClick={()=>{navigate('/ApplicantList')}}>
             Applicant List <br/><CiViewList className='gov-home-icon' size={"3em"}/>
         </div>
-        <div className="second-half">
+        <div className="second-half" onClick={()=>navigate('/GovActiveScheme')}>
             Show active schemes <br/><HiOutlineStatusOnline className='gov-home-icon' size={"3em"}/>
         </div>
         <div className="second-half" onClick={()=>{navigate('/GovActive')}}>
             Activate/Deactivate <br/><VscActivateBreakpoints className='gov-home-icon' size={"3em"}/>
         </div>
-        <div className="second-half">
+        <div className="second-half" onClick={()=>{navigate('/GovResult')}}>
             Show result <br/><RiQuestionAnswerLine className='gov-home-icon' size={"3em"}/>
         </div>
         <br></br>

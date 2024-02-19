@@ -12,6 +12,7 @@ import { documentId, getDoc, getDocs } from 'firebase/firestore';
 import { authContext } from '../AuthContext';
 import { useLocation, useNavigate } from 'react-router-dom';
 import userbg from '../Assests/user-bg.jpg'
+import {scheme, updateApplicantCount} from '../SchemeList'
 
 const ApplicationForm = () => {
 
@@ -213,6 +214,7 @@ const ApplicationForm = () => {
           };
           await addDoc(collectionReference, dataToAdd);
           updateFormData(applicationData);
+          updateApplicantCount(param);
           navigate('/Schemes')
         }
 

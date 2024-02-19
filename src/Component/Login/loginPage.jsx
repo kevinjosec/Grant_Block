@@ -25,8 +25,13 @@ const LoginPage = () => {
       return;
     }
     try {
-      await signInWithEmailAndPassword(auth, email, password)
-      navigate('/UserHomePage')
+      if (email === 'govUser@example.in' && password === 'govUser@123') {
+        navigate('/GovHome');
+      }
+      else {
+        await signInWithEmailAndPassword(auth, email, password)
+        navigate('/UserHomePage')
+      }
     }
     catch (err) {
       if (err.code === 'auth/wrong-password') {
@@ -74,7 +79,7 @@ const LoginPage = () => {
         <div className="login1">
           <h2 className='login-label'>Login</h2>
           <br />
-          <input type='text' className='username-input' value={email} placeholder='Username'
+          <input type='text' className='username-input' value={email} placeholder='Username' autoComplete='username'
             onChange={(e) => setEmail(e.target.value)} />
           <br />
           <br />
@@ -83,7 +88,7 @@ const LoginPage = () => {
               onChange={(e) => setPassword(e.target.value)} />
           </div>
           <br />
-          <p className='forgot-password'>
+          <p className='forgot-password' onClick={()=>navigate('/ForgotPassword')}>
             Forgot password
           </p>
           {error && <p className="error-message">{error}</p>}

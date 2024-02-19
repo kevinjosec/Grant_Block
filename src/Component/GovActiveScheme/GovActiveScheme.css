@@ -1,0 +1,42 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap');
+
+.gov-active-scheme-main-body{
+    font-family: "plus-jakarta-sans", sans-serif;
+}
+
+.gov-active-scheme-grid-header{
+    font-weight: bold;
+}
+
+.gov-active-scheme-body-header{
+    padding-top: 1em;
+    padding-left: 2em;
+    margin-bottom: -0.2em;
+    font-size: 2em;
+}
+
+.gov-active-scheme-body-subheader{
+    padding-left: 4em;
+    margin-bottom: 4em;
+    font-size: 1em;
+}
+
+.gov-active-scheme-container{
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    border-radius: 10px;
+    font-family: "plus-jakarta-sans", sans-serif;
+    margin: 0em 4em 0em 4em;
+}
+
+
+.gov-active-scheme-container:nth-child(even){
+    background-color: #EAEAEA;
+}
+
+.gov-active-scheme-grid{
+    padding: 20px;
+    font-family: "plus-jakarta-sans", sans-serif;
+    text-align: left;
+    text-align: center;
+}

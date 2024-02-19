@@ -10,7 +10,6 @@ import { useNavigate } from 'react-router-dom';
 import { RiAccountBoxLine } from "react-icons/ri";
 import dp from '../Assests/applicant-dp.svg'
 
-
 const ApplicantList = ({ onExportdata }) => {
 
   const navigate = useNavigate();
@@ -43,27 +42,25 @@ const ApplicantList = ({ onExportdata }) => {
       try {
         const collectRef = collection(db, collectionName);
         const snapshot = await getDocs(collectRef);
-        const data = snapshot.docs.map((doc) => ({
-          id: doc.id,
-          Submitted: doc.Submitted,
-          ...doc.data(),
-        }));
-        console.log("CIDs : ", data);
+        const data = snapshot.docs.map((doc) => {        
+          return {
+            id: doc.id,
+            Submitted: doc.Submitted.toDate(), // Use the converted Date object or null if not available
+            ...doc.data(),
+          };
+        });
+        console.log("Fetched Data: ", data);
         //decryption key
 
         //cid formation
         for (let i = 0; i < data.length; i++) {
           const currentCID = data[i].CID;
-          console.log("Current CID : ", currentCID);
           const ipfsContentGenerator = ipfs.cat(currentCID);
           let ipfsContent = new Uint8Array(0);
 
           for await (const chunk of ipfsContentGenerator) {
             ipfsContent = concatenateUint8Arrays(ipfsContent, chunk);
           }
-
-          console.log("IPFS Content : ", ipfsContent);
-
           // Decryption
           const decryptedData = CryptoJS.AES.decrypt(uint8ArrayToString(ipfsContent), "secretKey").toString(CryptoJS.enc.Utf8);
           const application = JSON.parse(decryptedData);
@@ -88,12 +85,6 @@ const ApplicantList = ({ onExportdata }) => {
       navigate('/ApplicantForm', { state: { formData: data } })
     }
   }
-
-  const formatDate = (timestamp) => {
-    const date = new Date(timestamp);
-    return date.toLocaleDateString();
-  }
-
   return (
     <div className='applicant-list-main-body'>
       <h1 className='candidates-header'>
@@ -106,7 +97,7 @@ const ApplicantList = ({ onExportdata }) => {
               onClick={() => handleExportData(form)}>
               <img src={dp} alt="Profile" className="applicant-list-dp" style={{ width: "2em" }} />
               <span className='applicant-name'>{form.name}</span>
-              <span className='applicant-date'>Applied on {formatDate(form.Submitted)} </span>
+              <span className='applicant-date'>Applied on : {form.Submitted ? form.Submitted.toLocaleString() : 'Date not available'} </span>
               <IoIosArrowForward
                 className="arrow-icon"
                 size={"2rem"} />
