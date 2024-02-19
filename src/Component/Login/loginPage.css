@@ -66,6 +66,11 @@
     font-size: 80%;
     float: right;
     margin-right: 3.5em;
+    cursor: pointer;
+}
+
+.forgot-password:hover{
+    text-decoration: underline;
 }
 
 .login-button{

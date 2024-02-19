@@ -16,6 +16,10 @@ import Status from './Component/Status/Status.jsx';
 import ChangePassword from './Component/ChangePassword/ChangePassword.jsx';
 import GovHome from './Component/GovHome/GovHome.jsx';
 import GovActive from './Component/GovActive/GovActive.jsx';
+import GovResult from './Component/GovResult/GovResult.jsx';
+import GovActiveScheme from './Component/GovActiveScheme/GovActiveScheme.jsx';
+import ForgotPassowrd from './Component/ForgotPassword/ForgotPassowrd.jsx';
+
 function App() {
 
   const [selectedFormData, setSelectedFormData] = useState();
@@ -25,12 +29,6 @@ function App() {
   };
 
   return (
-    /*    <Router>
-         <Routes>
-           <Route path="/" element={<GovHome />} />
-           <Route path="/GovActive" element={<GovActive />} />
-         </Routes>
-       </Router> */
     <AuthContext>
       <Router>
         <Routes>
@@ -43,6 +41,12 @@ function App() {
           <Route path="/ApplicationForm" element={<Application_Form />} />
           <Route path="/ProfileSettings" element={<ProfileSettings />} />
           <Route path="/ChangePassword" element={<ChangePassword />} />
+          <Route path="/ForgotPassword" element={<ForgotPassowrd />} />
+          <Route path="/GovHome" element={<GovHome />} />
+          <Route path="/GovActive" element={<GovActive />} />
+          <Route path="/ApplicantList" element={<ApplicantList />} />
+          <Route path="/GovResult" element={<GovResult />} />
+          <Route path="/GovActiveScheme" element={<GovActiveScheme />} />
         </Routes>
       </Router>
     </AuthContext>
