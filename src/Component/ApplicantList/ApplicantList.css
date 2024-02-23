@@ -57,3 +57,11 @@ text-align: center;}
 .arrow-icon{
     float: right;
 }
+
+.no-activated-schemes{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50vh;
+    text-align: center;
+}

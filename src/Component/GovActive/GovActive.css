@@ -4,6 +4,7 @@
     background-color: #EAEAEA;
     padding: 20px;
     color: white;
+    height: 90vh;
 }
 
 .active-body {
@@ -13,7 +14,7 @@
     background-attachment: fixed;
     box-shadow: 0px 0px 1px rgb(0, 0, 0.5);
     border-radius: 20px;
-    margin: 1em 4em;
+    margin: 4em;
     position: relative;
     font-family: "plus jakarata sans", sans-serif;
     padding-bottom: 8em;
@@ -37,13 +38,8 @@
     background-color: transparent;
     padding: 10px 20px;
     margin-left: 2.5em;
-    cursor: pointer;
     color: white;
     transition: 0.3s;
-}
-
-.active-schemes-button:hover {
-    padding: 10px 25px;
 }
 
 .active-schemes-save-changes {
@@ -54,4 +50,5 @@
     margin-left: 40%;
     cursor: pointer;
     font-weight: bold;
+    transition: 0.3s;
 }

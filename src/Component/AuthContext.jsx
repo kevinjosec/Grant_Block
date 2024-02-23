@@ -1,5 +1,7 @@
 import React, { createContext, useEffect, useState, useContext } from 'react';
-import { auth } from '../firebase';
+import { db, addDoc, collection, doc, auth } from '../firebase';
+import { documentId, getDoc, getDocs, updateDoc } from 'firebase/firestore';
+
 
 export const authContext = createContext();
 
@@ -11,7 +13,6 @@ export function AuthContext({ children }) {
     const unsubscribe = auth.onAuthStateChanged(async (user) => {
       if (user) {
         setCurrentUser(user);
-
         const storedUserData = localStorage.getItem(`userData_${user.uid}`);
         if (storedUserData) {
           setUserData(JSON.parse(storedUserData));
@@ -26,7 +27,7 @@ export function AuthContext({ children }) {
     return () => {
       unsubscribe();
     };
-  }, []);
+  }, [currentUser]);
 
   const updateFormData = (formData) => {
     // Use the callback form of setUserData to ensure you are using the updated state
