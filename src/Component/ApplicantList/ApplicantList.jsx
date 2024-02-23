@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { db, addDoc, collection, doc } from '../../firebase';
 import { documentId, getDoc, getDocs } from 'firebase/firestore';
 import CryptoJS from 'crypto-js';
@@ -9,10 +9,13 @@ import './ApplicantList.css'
 import { useNavigate } from 'react-router-dom';
 import { RiAccountBoxLine } from "react-icons/ri";
 import dp from '../Assests/applicant-dp.svg'
+import { schemesActivated, authContext } from '../AuthContext';
 
-const ApplicantList = ({ onExportdata }) => {
+const ApplicantList = () => {
 
   const navigate = useNavigate();
+  const { schemesActivated } = useContext(authContext);
+
   const ipfs = create({
     host: 'localhost',
     port: '5001',
@@ -42,10 +45,10 @@ const ApplicantList = ({ onExportdata }) => {
       try {
         const collectRef = collection(db, collectionName);
         const snapshot = await getDocs(collectRef);
-        const data = snapshot.docs.map((doc) => {        
+        const data = snapshot.docs.map((doc) => {
           return {
             id: doc.id,
-            Submitted: doc.Submitted.toDate(), // Use the converted Date object or null if not available
+            Submitted: doc.Submitted, // Use the converted Date object or null if not available
             ...doc.data(),
           };
         });
@@ -90,24 +93,29 @@ const ApplicantList = ({ onExportdata }) => {
       <h1 className='candidates-header'>
         Applicants List
       </h1>
-      <div className='list-group'>
-        {formData.length > 0 ? formData.map((form, index) => (
-          <div key={index} >
-            <p className='input-Tag'
-              onClick={() => handleExportData(form)}>
-              <img src={dp} alt="Profile" className="applicant-list-dp" style={{ width: "2em" }} />
-              <span className='applicant-name'>{form.name}</span>
-              <span className='applicant-date'>Applied on : {form.Submitted ? form.Submitted.toLocaleString() : 'Date not available'} </span>
-              <IoIosArrowForward
-                className="arrow-icon"
-                size={"2rem"} />
-            </p>
-          </div>
-        )
-        ) : (
-          <p>No Applicants found.</p>
-        )}
-      </div>
+      {schemesActivated ? (
+        <div className='list-group'>
+          {formData.length > 0 ? formData.map((form, index) => (
+            <div key={index} >
+              <p className='input-Tag'
+                onClick={() => handleExportData(form)}>
+                <img src={dp} alt="Profile" className="applicant-list-dp" style={{ width: "2em" }} />
+                <span className='applicant-name'>{form.name}</span>
+                <span className='applicant-date'>Applied on : {form.Submitted ? form.Submitted.toLocaleString() : 'Date not available'} </span>
+                <IoIosArrowForward
+                  className="arrow-icon"
+                  size={"2rem"} />
+              </p>
+            </div>
+          )
+          ) : (
+            <p>No Applicants found.</p>
+          )}
+        </div>
+      ) : (
+        <p className="no-activated-schemes">
+          No schemes are currently activate to view the applicants.<br /></p>
+      )}
     </div>
   )
 }

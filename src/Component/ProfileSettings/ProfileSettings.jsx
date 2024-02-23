@@ -10,11 +10,11 @@ export default function ProfileSettings() {
   const [userDetails, setUserDetails] = useState(null);
   const { currentUser } = useContext(authContext);
   const [selectedOption, setSelectedoption] = useState(null);
-  
-  const handleOptionChange = (option) =>{
+
+  const handleOptionChange = (option) => {
     setSelectedoption(option);
   }
-  
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -44,19 +44,21 @@ export default function ProfileSettings() {
 
   return (
     <div className='settings-main-body'>
-      <UserNavbar backgroundColor="transparent"/>
+      <UserNavbar backgroundColor="transparent" />
       <div className="settings-container">
         <div className="settings-grid no1">
           <h1 className="settings-header">Settings</h1>
           <ul className="settings-list">
-            <li className='settings-list-items' onClick={()=>{handleOptionChange('PersonalSettings')}}>Personal details</li>
-            <li className='settings-list-items' onClick={()=>{handleOptionChange('ChangePassowrd')}}>Change password</li>
-            <li className='settings-list-items' onClick={()=>{handleOptionChange('DeactivateAccount')}}>Deactivate your acoount</li>
+            <li className='settings-list-items' onClick={() => { handleOptionChange('PersonalSettings') }}>Personal details</li>
+            <li className='settings-list-items' onClick={() => { handleOptionChange('ChangePassowrd') }}>Change password</li>
+            <li className='settings-list-items' onClick={() => { handleOptionChange('DeactivateAccount') }}>Deactivate your acoount</li>
           </ul>
         </div>
         <div className="settings-grid no2">
           <h1 className="my-profile">My Profile</h1>
-          <img src={currentUser.photoURL} alt="Profile" className='current-user-profile-pic' style={{width:'15%'}} />
+          {currentUser && currentUser.photoURL &&
+            <img src={currentUser.photoURL} alt="Profile" className='current-user-profile-pic' style={{ width: '15%' }} />
+          }
           <div className="settings-grid-no2">
             <label className="settings-label First-Name">
               FIRST NAME <br />

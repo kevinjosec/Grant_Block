@@ -21,13 +21,6 @@ import GovActiveScheme from './Component/GovActiveScheme/GovActiveScheme.jsx';
 import ForgotPassowrd from './Component/ForgotPassword/ForgotPassowrd.jsx';
 
 function App() {
-
-  const [selectedFormData, setSelectedFormData] = useState();
-
-  const handleExportData = (form) => {
-    setSelectedFormData(form);
-  };
-
   return (
     <AuthContext>
       <Router>
@@ -44,9 +37,10 @@ function App() {
           <Route path="/ForgotPassword" element={<ForgotPassowrd />} />
           <Route path="/GovHome" element={<GovHome />} />
           <Route path="/GovActive" element={<GovActive />} />
-          <Route path="/ApplicantList" element={<ApplicantList />} />
-          <Route path="/GovResult" element={<GovResult />} />
           <Route path="/GovActiveScheme" element={<GovActiveScheme />} />
+          <Route path="/ApplicantList" element={<ApplicantList />} />
+          <Route path="/ApplicantForm" element={<ApplicantForm />} />
+          <Route path="/GovResult" element={<GovResult />} />
         </Routes>
       </Router>
     </AuthContext>

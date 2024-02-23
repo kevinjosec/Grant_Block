@@ -1,11 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=open+sans&display=swap');
 
-.scheme-main-body{
+.scheme-main-body {
     background-image: url(../Assests/user-bg.jpg);
     background-position: center;
     background-size: cover;
     background-attachment: fixed;
+    padding-bottom: 3em;
 }
 
 .scheme-page {
@@ -15,7 +16,7 @@
     padding: 2em;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    margin:0 2rem 0rem 2rem;
+    margin: 0 2rem 0rem 2rem;
 }
 
 .scheme-card {
@@ -42,12 +43,18 @@
     color: white;
     width: 15rem;
     border-radius: 20px;
-    transition: 0.5s;
+    transition: 1s;
     box-shadow: 0px -20px 10px -10px rgba(0, 0, 0, 0.5);
     cursor: grabbing;
 }
 
-.scheme-title{
+.scheme-name:hover {
+    background-color: transparent;
+    height: 15rem;
+    transition: 1s ease-in-out;
+}
+
+.scheme-title {
     font-family: "open sans", sans-serif;
     font-size: 15px;
     font-weight: 600;
@@ -56,21 +63,31 @@
     padding-left: 1em;
 }
 
-.scheme-name:hover {
-    background-color: transparent;
-    height: 15rem;
-}
-
 .scheme-content {
     opacity: 0;
     margin-left: 1em;
     font-size: 13px;
+    text-shadow: 1px 1px 2px rgb(0, 0, 0.5);
 }
 
-.scheme-name:hover .scheme-content{
+.scheme-name:hover .scheme-content {
     opacity: 1;
+    transition: opacity 7s;
 }
 
 .poultry {
     margin: 1em;
+}
+
+.no-schemes-activated {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 75vh;
+    text-align: center;
+    line-height: 2em;
+    font-size: 1.5em;
+    color: white;
+    font-family: "plus jakarta-sans", sans-serif;
 }

@@ -9,6 +9,7 @@ import { isObject } from 'formik';
 const UserNavbar = ({ backgroundColor }) => {
   const navigate = useNavigate();
   const [isPopUp, setIsPopUp] = useState(false);
+  
   const handleProfileClick = () => {
     console.log("here");
     try {

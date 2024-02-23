@@ -21,6 +21,7 @@ const ApplicationForm = () => {
 
   const { updateFormData } = useContext(authContext);
   const navigate = useNavigate();
+  
   //for ipfs.cat()
   function concatenateUint8Arrays(a, b) {
     const result = new Uint8Array(a.length + b.length);
@@ -50,19 +51,15 @@ const ApplicationForm = () => {
         if (!file || !(file instanceof Blob)) {
           resolve(null);
         }
-
         const reader = new FileReader();
-
         reader.onload = () => {
           const arrayBuffer = reader.result;
           const uint8Array = new Uint8Array(arrayBuffer);
           resolve(uint8Array);
         };
-
         reader.onerror = (error) => {
           reject(error);
         };
-
         reader.readAsArrayBuffer(file);
       });
     } catch (e) {

@@ -25,7 +25,7 @@ const LoginPage = () => {
       return;
     }
     try {
-      if (email === 'govUser@example.in' && password === 'govUser@123') {
+      if (email === 'govuser@example.in' && password === 'govUser@123') {
         navigate('/GovHome');
       }
       else {
