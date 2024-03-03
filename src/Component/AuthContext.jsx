@@ -22,8 +22,12 @@ export function AuthContext({ children }) {
           setUserData(initialUserData);
         }
       }
+      else
+      {
+        setUserData(null);
+        localStorage.clear();
+      }
     });
-
     return () => {
       unsubscribe();
     };

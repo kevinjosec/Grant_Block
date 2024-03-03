@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import CryptoJS from 'crypto-js';
 import './applicationForm.css'
 import { Formik, Field, Form, ErrorMessage } from 'formik';
@@ -12,7 +12,7 @@ import { documentId, getDoc, getDocs } from 'firebase/firestore';
 import { authContext } from '../AuthContext';
 import { useLocation, useNavigate } from 'react-router-dom';
 import userbg from '../Assests/user-bg.jpg'
-import {scheme, updateApplicantCount} from '../SchemeList'
+import { scheme, updateApplicantCount } from '../SchemeList'
 
 const ApplicationForm = () => {
 
@@ -21,7 +21,23 @@ const ApplicationForm = () => {
 
   const { updateFormData } = useContext(authContext);
   const navigate = useNavigate();
-  
+  const [secretKey, setSecretKey] = useState();
+
+  useEffect(() => {
+    const fetchSecretKey = async () => {
+      const docRef = doc(db, 'secretKey', '0wP9TC9QAOkdvquWPYuS');
+      const docRefsnapshot = await getDoc(docRef);
+      if (docRefsnapshot.exists()) {
+        const secretdata = docRefsnapshot.data().secretkey.
+          setSecretKey(secretdata);
+      }
+      else {
+        console.log("Not present");
+      }
+      console.log(secretKey);
+    }
+  }, [])
+
   //for ipfs.cat()
   function concatenateUint8Arrays(a, b) {
     const result = new Uint8Array(a.length + b.length);
@@ -224,7 +240,7 @@ const ApplicationForm = () => {
 
   return (
     <div className='application-form-body'>
-      <UserNavbar backgroundColor="transparent"/>
+      <UserNavbar backgroundColor="transparent" />
       <h1 className='header'>
         Application Form
       </h1>
