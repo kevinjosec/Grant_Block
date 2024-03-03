@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { db, addDoc, collection, doc } from '../../firebase';
-import { documentId, getDoc, getDocs } from 'firebase/firestore';
+import { documentId, getDoc, getDocs, updateDoc } from 'firebase/firestore';
 import CryptoJS from 'crypto-js';
 import { CID, create } from 'ipfs-http-client'
 import { IoIosArrowForward } from "react-icons/io";
@@ -9,12 +9,11 @@ import './ApplicantList.css'
 import { useNavigate } from 'react-router-dom';
 import { RiAccountBoxLine } from "react-icons/ri";
 import dp from '../Assests/applicant-dp.svg'
-import { schemesActivated, authContext } from '../AuthContext';
 
 const ApplicantList = () => {
 
   const navigate = useNavigate();
-  const { schemesActivated } = useContext(authContext);
+  const [schemeActivated, setSchemeActivated] = useState(false);
 
   const ipfs = create({
     host: 'localhost',
@@ -40,9 +39,18 @@ const ApplicantList = () => {
 
   useEffect(() => {
     //database retrival
-    const collectionName = 'applicantForm';
     const fetchData = async () => {
       try {
+
+        const docRef = doc(db, 'schemeActivation', 'hk9qbigYr3rjrHi0RJ9t')
+        const docRefSnapshot = await getDoc(docRef);
+        if (docRefSnapshot.exists()) {
+          const data = docRefSnapshot.data().activate;
+          console.log(data);
+          setSchemeActivated(data);
+        }
+
+        const collectionName = 'applicantForm';
         const collectRef = collection(db, collectionName);
         const snapshot = await getDocs(collectRef);
         const data = snapshot.docs.map((doc) => {
@@ -93,7 +101,7 @@ const ApplicantList = () => {
       <h1 className='candidates-header'>
         Applicants List
       </h1>
-      {schemesActivated ? (
+      {schemeActivated ? (
         <div className='list-group'>
           {formData.length > 0 ? formData.map((form, index) => (
             <div key={index} >
