@@ -21,9 +21,9 @@ const GovHome = () => {
   return (
     <div className='gov-main-body'>
       <div className="gov-body-half">
-        <div className="second-half one" onClick={()=>{navigate('/ApplicantList')}}>
+       {/*  <div className="second-half one" onClick={()=>{navigate('/ApplicantList')}}>
             Applicant List <br/><CiViewList className='gov-home-icon' size={"3em"}/>
-        </div>
+        </div> */}
         <div className="second-half" onClick={()=>navigate('/GovActiveScheme')}>
             Show active schemes <br/><HiOutlineStatusOnline className='gov-home-icon' size={"3em"}/>
         </div>

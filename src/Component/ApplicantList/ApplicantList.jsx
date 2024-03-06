@@ -6,22 +6,24 @@ import { CID, create } from 'ipfs-http-client'
 import { IoIosArrowForward } from "react-icons/io";
 import ApplicantForm from '../ApplicantForm/ApplicantForm';
 import './ApplicantList.css'
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { RiAccountBoxLine } from "react-icons/ri";
 import dp from '../Assests/applicant-dp.svg'
 
 const ApplicantList = () => {
 
   const navigate = useNavigate();
+  const location = useLocation();
+  const schemeParameter = location.state?.schemeParameter;
   const [schemeActivated, setSchemeActivated] = useState(false);
+  const [formData, setFormData] = useState([]);
+  const [contentID, setContentID] = useState(null);
 
   const ipfs = create({
     host: 'localhost',
     port: '5001',
     protocol: 'http',
   })
-  const [formData, setFormData] = useState([]);
-  const [contentID, setContentID] = useState(null);
 
   //concatenateUint8arrays
   function concatenateUint8Arrays(a, b) {
@@ -41,7 +43,6 @@ const ApplicantList = () => {
     //database retrival
     const fetchData = async () => {
       try {
-
         const docRef = doc(db, 'schemeActivation', 'hk9qbigYr3rjrHi0RJ9t')
         const docRefSnapshot = await getDoc(docRef);
         if (docRefSnapshot.exists()) {
@@ -53,15 +54,15 @@ const ApplicantList = () => {
         const collectionName = 'applicantForm';
         const collectRef = collection(db, collectionName);
         const snapshot = await getDocs(collectRef);
+        const formDataArray = [];
         const data = snapshot.docs.map((doc) => {
           return {
             id: doc.id,
-            Submitted: doc.Submitted, // Use the converted Date object or null if not available
+            Submitted: doc.Submitted,
             ...doc.data(),
           };
-        });
+        })
         console.log("Fetched Data: ", data);
-        //decryption key
 
         //cid formation
         for (let i = 0; i < data.length; i++) {
@@ -75,13 +76,11 @@ const ApplicantList = () => {
           // Decryption
           const decryptedData = CryptoJS.AES.decrypt(uint8ArrayToString(ipfsContent), "secretKey").toString(CryptoJS.enc.Utf8);
           const application = JSON.parse(decryptedData);
-
-          // Check if the application data is not already in the state
           if (!formData.find((item) => item.id === application.id)) {
             setFormData((prevData) => [...prevData, application]);
           }
         }
-
+        console.log(schemeParameter)
       }
       catch (e) {
         console.log("ERROR : ", e);
@@ -92,7 +91,6 @@ const ApplicantList = () => {
 
   const handleExportData = (data) => {
     if (data) {
-      setFormData(data);
       navigate('/ApplicantForm', { state: { formData: data } })
     }
   }
@@ -103,20 +101,22 @@ const ApplicantList = () => {
       </h1>
       {schemeActivated ? (
         <div className='list-group'>
-          {formData.length > 0 ? formData.map((form, index) => (
-            <div key={index} >
-              <p className='input-Tag'
-                onClick={() => handleExportData(form)}>
-                <img src={dp} alt="Profile" className="applicant-list-dp" style={{ width: "2em" }} />
-                <span className='applicant-name'>{form.name}</span>
-                <span className='applicant-date'>Applied on : {form.Submitted ? form.Submitted.toLocaleString() : 'Date not available'} </span>
-                <IoIosArrowForward
-                  className="arrow-icon"
-                  size={"2rem"} />
-              </p>
-            </div>
-          )
-          ) : (
+          {formData.length > 0 ? formData.filter((form) => form.param === schemeParameter)
+            .map((form, index) => (
+              <div key={index} >
+                <p className='input-Tag'
+                  onClick={() => handleExportData(form)}>
+                  <img src={dp} alt="Profile" className="applicant-list-dp" style={{ width: "2em" }} />
+                  <span className='applicant-name'>{form.name}</span>
+                  <span className='applicant-date'>Applied on : {form.Submitted ? form.Submitted.toLocaleString() : 'Date not available'} </span>
+                  <IoIosArrowForward
+                    className="arrow-icon"
+                    size={"2rem"} />
+                </p>
+              </div>
+            )
+            )
+            : (
             <p>No Applicants found.</p>
           )}
         </div>

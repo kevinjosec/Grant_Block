@@ -5,7 +5,9 @@
     font-family: "open sans", sans-serif;
     background-image: url(../Assests//user-bg.jpg);
     background-position: center;
-    background-size: cover;padding-bottom: 25px;
+    background-size: cover;
+    background-attachment: fixed;
+    padding-bottom: 25px;
 }
 
 .application-form {
@@ -60,7 +62,7 @@
     border-radius: 5px;
 }
 
-.inputTag.annual-income {
+.inputTag.annual-income,.inputTag.caste {
     margin-top: 1.7em;
 }
 

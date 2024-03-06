@@ -3,11 +3,18 @@ import './GovActiveScheme.css'
 import { scheme, updateApplicantCount } from '../SchemeList'
 import { db, addDoc, collection, doc } from '../../firebase';
 import { documentId, getDoc, getDocs, updateDoc } from 'firebase/firestore';
+import { useNavigate } from 'react-router-dom';
 
 const GovActiveScheme = () => {
 
     const [schemeCount, setSchemeCount] = useState({});
     const [schemeActivated, setSchemeActivated] = useState(false);
+    const navigate = useNavigate();
+
+    const redirectApplicant = (parameter) =>{
+        console.log(parameter)
+        navigate('/ApplicantList', {state:{schemeParameter: parameter}});
+    }
 
     useEffect(() => {
         const fetchSchemeCount = async () => {
@@ -51,7 +58,7 @@ const GovActiveScheme = () => {
                     </div>
                     {
                         scheme.map((schemes, index) => (
-                            <div className="gov-active-scheme-container" key={index}>
+                            <div className="gov-active-scheme-container two" key={index} onClick={()=>redirectApplicant(schemes.name)}>
                                 <div className="gov-active-scheme-grid"><span className='gov-active-scheme-name'>{schemes.name}</span></div>
                                 <div className="gov-active-scheme-grid">{schemeCount[schemes.name] ? schemeCount[schemes.name] : "0"}</div>
                                 <div className="gov-active-scheme-grid">29-02-2023</div>
