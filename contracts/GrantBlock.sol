@@ -1,61 +1,38 @@
-// SPDX-License-Identifier: MIT 
-pragma solidity ^0.8.18;
+// SPDX-License-Identifier:MIT
+pragma solidity ^0.8.24;
 
-contract ApplicationStorage{
-    struct Application {
-        string name;
-        string add;
-        string phone;
-        string ration;
-        string adhar;
-        string ward;
-        string house;
-        string disable;
-        string government;
-        string income;
+contract applicationEvaluation {
+
+    struct FieldMark {
+        string fieldName;
+        uint256 fieldMark;
+    }
+
+    struct FormData {
+        uint256 income;
+        string kudumbasree;
+        string disabled;
         string pl;
+        string government;
+        string water;
+        string toilet;
         string land;
-        string village;
-        string survey;
         string area;
     }
-    mapping(address => Application) public Applications;
 
-    event ApplicationAdded(address indexed applicant, string name);
+    function calculateMarks (FormData memory formData) public pure returns (FieldMark[] memory) {
+        FieldMark[] memory marks = new FieldMark[](9);
+        marks[0] = FieldMark("income",0);
+        marks[1] = FieldMark("kudumbasree",0);
+        marks[2] = FieldMark("disabled",0);
+        marks[3] = FieldMark("pl",0);
+        marks[4] = FieldMark("government",0);
+        marks[5] = FieldMark("water",0);
+        marks[6] = FieldMark("toilet",0);
+        marks[7] = FieldMark("land",0);
+        marks[8] = FieldMark("area",0);
 
-    function addApplication(
-        string memory _name,
-        string memory _add,
-        string memory _phone,
-        string memory _ration,
-        string memory _adhar,
-        string memory _ward,
-        string memory _house,
-        string memory _disable,
-        string memory _government,
-        string memory _income,
-        string memory _pl,
-        string memory _land,
-        string memory _village,
-        string memory _survey,
-        string memory _area ) public { 
-            Application storage newApplication = Applications[msg.sender];
-        newApplication.name = _name;
-        newApplication.add = _add;
-        newApplication.phone = _phone;
-        newApplication.ration = _ration;
-        newApplication.adhar = _adhar;
-        newApplication.ward = _ward;
-        newApplication.house = _house;
-        newApplication.disable = _disable;
-        newApplication.government = _government;
-        newApplication.income = _income;
-        newApplication.pl = _pl;
-        newApplication.land = _land;
-        newApplication.village = _village;
-        newApplication.survey = _survey;
-        newApplication.area = _area;
+        return marks;
+    }
 
-        emit ApplicationAdded(msg.sender, _name);
-        } 
 }

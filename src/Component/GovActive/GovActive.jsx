@@ -36,7 +36,7 @@ const GovActive = () => {
       <div className="active-body">
         <h3 className="active-schemes">Scheme Settings</h3>
         <button className="active-schemes-button">
-          {activateStatus ? 'Deactivate schemes' : 'Activate schemes'}
+          {activateStatus ? 'Activate schemes' : 'Deactivate schemes'}
           <BsFillDoorOpenFill
             className='active-schemes-icon' />
         </button>

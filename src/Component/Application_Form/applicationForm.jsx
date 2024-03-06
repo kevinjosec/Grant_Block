@@ -124,6 +124,13 @@ const ApplicationForm = () => {
         incomePic: '',
         landPic: '',
         param: param || '',
+        agriculture: '',
+        widow: '',
+        disease: '',
+        unmarried: '',
+        previous: '',
+        caste: '',
+        castePic: '',
       },
 
       //validation schema
@@ -139,6 +146,12 @@ const ApplicationForm = () => {
         government: Yup.string().required('Choose an option'),
         income: Yup.string().matches(/^[0-9]{1,5}$/, 'Ineligible to apply').required('Income is required'),
         pl: Yup.string().required('Choose an option'),
+        agriculture: Yup.string().required('Choose an option'),
+        widow: Yup.string().required('Choose an option'),
+        disease: Yup.string().required('Choose an option'),
+        unmarried: Yup.string().required('Choose an option'),
+        caste: Yup.string().matches(/^[A-Za-z\s]+$/, 'Invalid').required('Enter your caste'),
+        previous: Yup.string().required('Required Field'),
         water: Yup.string().required('Choose an option'),
         kudumbasree: Yup.string().required('Choose an option'),
         land: Yup.string().required('Choose an option'),
@@ -170,6 +183,7 @@ const ApplicationForm = () => {
         rationPic: Yup.mixed().required("Ration card is required"),
         adharPic: Yup.mixed().required("Adhar card is required"),
         incomePic: Yup.mixed().required("Income certificate is required"),
+        castePic: Yup.mixed().required("Caste certificate is required"),
       }),
 
       //submit function
@@ -178,12 +192,19 @@ const ApplicationForm = () => {
         try {
           const bufferRationPic = await convertFileToBuffer(values.rationPic);
           values.rationPic = uint8ArrayToBase64(new Uint8Array(bufferRationPic));
+
+          const bufferCastePic = await convertFileToBuffer(values.castePic);
+          values.castePic = uint8ArrayToBase64(new Uint8Array(bufferCastePic));
+
           const bufferAdharPic = await convertFileToBuffer(values.adharPic);
           values.adharPic = uint8ArrayToBase64(new Uint8Array(bufferAdharPic));
+
           const bufferIncomePic = await convertFileToBuffer(values.incomePic);
           values.incomePic = uint8ArrayToBase64(new Uint8Array(bufferIncomePic));
+
           const bufferLandPic = await convertFileToBuffer(values.landPic);
           values.landPic = uint8ArrayToBase64(new Uint8Array(bufferLandPic));
+
           const applicationData = {
             name: values.name,
             address: values.address,
@@ -207,7 +228,13 @@ const ApplicationForm = () => {
             adharPic: values.adharPic,
             incomePic: values.incomePic,
             landPic: values.landPic,
-            param: values.param,
+            agriculture: values.agriculture,
+            widow: values.widow,
+            disease: values.disease,
+            unmarried: values.unmarried,
+            previous: values.previous,
+            caste: values.caste,
+            castePic: values.castePic,
           };
           //onSubmit functionality 
           console.log("Before : ", applicationData);
@@ -259,6 +286,7 @@ const ApplicationForm = () => {
             {formik.touched.name && formik.errors.name ? (<div className='application-form-error'>{formik.errors.name}</div>) : null}
             <br />
           </div>
+
           <div className="application-form-grid">
             <br />
             <input id='address' name='address' type='text' className='inputTag address'
@@ -269,6 +297,7 @@ const ApplicationForm = () => {
             {formik.touched.address && formik.errors.address ? (<div className='application-form-error'>{formik.errors.address}</div>) : null}
             <br />
           </div>
+
           <div className="application-form-grid">
             <br />
             <input id='phoneNo' type='text' className='inputTag phone-number'
@@ -279,6 +308,7 @@ const ApplicationForm = () => {
             {formik.touched.phoneNo && formik.errors.phoneNo ? (<div className='application-form-error'>{formik.errors.phoneNo}</div>) : null}
             <br />
           </div>
+
           <div className="application-form-grid">
             <br />
             <input id='wardNo' type='text' className='inputTag ward-number'
@@ -289,6 +319,7 @@ const ApplicationForm = () => {
             {formik.touched.wardNo && formik.errors.wardNo ? (<div className='application-form-error'>{formik.errors.wardNo}</div>) : null}
             <br />
           </div>
+
           <div className="application-form-grid">
             <br />
             <input id='houseNo' type='text' className='inputTag house-number'
@@ -300,6 +331,7 @@ const ApplicationForm = () => {
             {formik.touched.houseNo && formik.errors.houseNo ? (<div className='application-form-error'>{formik.errors.houseNo}</div>) : null}
             <br />
           </div>
+
           <div className="application-form-grid">
             <br />
             <input id='rationNo' type='text' className='inputTag ration-card-number'
@@ -316,6 +348,7 @@ const ApplicationForm = () => {
             {formik.touched.rationPic && formik.errors.rationPic ? (<div className='application-form-error'>{formik.errors.rationPic}</div>) : null}
             <br />
           </div>
+
           <div className="application-form-grid">
             <br />
             <input id='adharNo' type='text' className='inputTag adhar-card-number'
@@ -330,6 +363,7 @@ const ApplicationForm = () => {
             {formik.touched.adharPic && formik.errors.adharPic ? (<div className='application-form-error'>{formik.errors.adharPic}</div>) : null}
             <br />
           </div>
+
           <div className="application-form-grid">
             <input type='text' id='income' className='inputTag annual-income'
               onChange={formik.handleChange}
@@ -343,6 +377,21 @@ const ApplicationForm = () => {
             {formik.touched.incomePic && formik.errors.incomePic ? (<div className='application-form-error'>{formik.errors.incomePic || ''}</div>) : null}
             <br />
           </div>
+
+          <div className="application-form-grid">
+            <input type='text' id='caste' className='inputTag caste'
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.caste}
+              placeholder='Caste' />
+            {formik.touched.caste && formik.errors.caste ? (<div className='application-form-error'>{formik.errors.caste}</div>) : null}
+            <input type='file' accept=".pdf" className='documentTag' name='castePic' onBlur={formik.handleBlur} onChange={(event) => {
+              formik.setFieldValue('castePic', event.currentTarget.files[0]);
+            }} />
+            {formik.touched.castePic && formik.errors.castePic ? (<div className='application-form-error'>{formik.errors.castePic || ''}</div>) : null}
+            <br />
+          </div>
+
           <div className="application-form-grid">
             <label htmlFor="scheme" className="application-form-label scheme-header">
               Scheme
@@ -476,6 +525,7 @@ const ApplicationForm = () => {
                 onChange={handlelandOwnership} />
               No
               <br />
+              {formik.touched.land && formik.errors.land ? (<div className='application-form-error'>{formik.errors.land}</div>) : null}
               <br />
             </label>
             {landOwnership === 'yes' && (
@@ -547,6 +597,94 @@ const ApplicationForm = () => {
             <br />
             {formik.touched.toilet && formik.errors.toilet ? (<div className='application-form-error'>{formik.errors.toilet}</div>) : null}
           </div>
+
+          <div className="general-details-grid">
+            <label className='application-form-label'>
+              Is agriculture the only source of your income?
+            </label>
+            <br />
+            <label htmlFor='yesagriculture'>
+              <input type='radio' name='agriculture' id='yesagriculture' value="yes" checked={formik.values.agriculture === 'yes'} onChange={formik.handleChange} />
+              Yes
+              <br />
+            </label>
+            <label htmlFor='noagriculture'>
+              <input type='radio' name='agriculture' id='noagriculture' value="no" checked={formik.values.agriculture === 'no'} onChange={formik.handleChange} />
+              No
+              <br />
+            </label>
+            <br />
+            {formik.touched.agriculture && formik.errors.agriculture ? (<div className='application-form-error'>{formik.errors.agriculture}</div>) : null}
+          </div>
+
+          <div className="general-details-grid">
+            <label className='application-form-label'>
+              Are you a widow/divorced?
+            </label>
+            <br />
+            <label htmlFor='yeswidow'>
+              <input type='radio' name='widow' id='yeswidow' value="yes" checked={formik.values.widow === 'yes'} onChange={formik.handleChange} />
+              Yes
+              <br />
+            </label>
+            <label htmlFor='nowidow'>
+              <input type='radio' name='widow' id='nowidow' value="no" checked={formik.values.widow === 'no'} onChange={formik.handleChange} />
+              No
+              <br />
+            </label>
+            <br />
+            {formik.touched.widow && formik.errors.widow ? (<div className='application-form-error'>{formik.errors.widow}</div>) : null}
+          </div>
+
+          <div className="general-details-grid">
+            <label className='application-form-label'>
+              Are you infected by any disease?
+            </label>
+            <br />
+            <label htmlFor='yesdisease'>
+              <input type='radio' name='disease' id='yesdisease' value="yes" checked={formik.values.disease === 'yes'} onChange={formik.handleChange} />
+              Yes
+              <br />
+            </label>
+            <label htmlFor='nowidow'>
+              <input type='radio' name='disease' id='nodisease' value="no" checked={formik.values.disease === 'no'} onChange={formik.handleChange} />
+              No
+              <br />
+            </label>
+            <br />
+            {formik.touched.disease && formik.errors.disease ? (<div className='application-form-error'>{formik.errors.disease}</div>) : null}
+          </div>
+
+          <div className="general-details-grid">
+            <label className='application-form-label'>
+              Do you have unmarried daughters?
+            </label>
+            <br />
+            <label htmlFor='yesunmarried'>
+              <input type='radio' name='unmarried' id='yesunmarried' value="yes" checked={formik.values.unmarried === 'yes'} onChange={formik.handleChange} />
+              Yes
+              <br />
+            </label>
+            <label htmlFor='nounmarried'>
+              <input type='radio' name='unmarried' id='nounmarried' value="no" checked={formik.values.unmarried === 'no'} onChange={formik.handleChange} />
+              No
+              <br />
+            </label>
+            <br />
+            {formik.touched.unmarried && formik.errors.unmarried ? (<div className='application-form-error'>{formik.errors.unmarried}</div>) : null}
+          </div>
+
+          <div className="general-details-grid">
+            <br />
+            <input id='previous' name='previous' type='text' className='inputTag previous'
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.previous}
+              placeholder='Previously granted schemes (If so any)' />
+            {formik.touched.previous && formik.errors.previous ? (<div className='application-form-error'>{formik.errors.previous}</div>) : null}
+            <br />
+          </div>
+
         </div>
         {/* general ends */}
 

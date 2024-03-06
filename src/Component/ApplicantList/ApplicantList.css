@@ -1,45 +1,44 @@
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap');
 
-.applicant-list-main-body{
-    font-family: "plus jakarta sans",sans-serif;
+.applicant-list-main-body {
+    font-family: "plus jakarta sans", sans-serif;
     padding-bottom: 3em;
     margin-top: -2em;
 }
 
-.input-Tag
-{
+.input-Tag {
     cursor: pointer;
     text-indent: 10px;
     text-align: left;
     font-size: 17px;
     border-radius: 5px;
     border: 1px solid black;
-    height:50px; 
-    width:170vh;
-    font-family: "plus jakarta sans",sans-serif;
+    height: 50px;
+    width: 90vw;
+    font-family: "plus jakarta sans", sans-serif;
     font-weight: 500;
     background-color: transparent;
     padding-top: 1em;
     position: relative;
 }
 
-.applicant-name{
+.applicant-name {
     position: absolute;
     top: 0.75em;
 }
 
-.applicant-date{
+.applicant-date {
     position: absolute;
     top: 3em;
     font-size: 13px;
     padding-bottom: 1em;
 }
 
-.applicant-list-dp{
+.applicant-list-dp {
     margin-top: -0.1em;
 }
 
-.list-group{
+.list-group {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -48,17 +47,19 @@
     border-radius: 25px;
     padding: 2rem;
     margin: 2rem;
-    font-family: "plus jakarta sans",sans-serif;
+    font-family: "plus jakarta sans", sans-serif;
 }
 
-.candidates-header{
+.candidates-header {
     padding-top: 2em;
-text-align: center;}
-.arrow-icon{
+    text-align: center;
+}
+
+.arrow-icon {
     float: right;
 }
 
-.no-activated-schemes{
+.no-activated-schemes {
     display: flex;
     justify-content: center;
     align-items: center;
