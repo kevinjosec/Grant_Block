@@ -45,21 +45,24 @@ const scheme = [
     },
 ];
 
-const updateApplicantCount = async (schemeName) =>{
-    try{
-        const schemeDocRef = doc(db,'scheme',schemeName);
-        const schemeDocSnapshot = await getDoc(schemeDocRef);
-        if(schemeDocSnapshot.exists()){
-            const currentCount = schemeDocSnapshot.data().count || 0;
-            await updateDoc(schemeDocRef,{count:currentCount+1});
+const updateApplicantCount = async (schemeName, increment) => {
+    try {
+      const schemeDocRef = doc(db, 'scheme', schemeName);
+      const schemeDocSnapshot = await getDoc(schemeDocRef);
+      if (schemeDocSnapshot.exists()) {
+        let currentCount = schemeDocSnapshot.data().count || 0;
+        if (increment) {
+          currentCount++;
+        } else {
+          currentCount--;
         }
-        else{
-            console.log("No Scheme found")
-        }
+        await updateDoc(schemeDocRef, { count: currentCount });
+      } else {
+        console.log("No Scheme found");
+      }
+    } catch (e) {
+      console.error(e.message);
     }
-    catch(e){
-        console.error(e.message);
-    }
-}
-
+  };
+  
 export {scheme, updateApplicantCount};

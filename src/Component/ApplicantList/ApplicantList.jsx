@@ -16,6 +16,7 @@ const ApplicantList = () => {
   const location = useLocation();
   const schemeParameter = location.state?.schemeParameter;
   const [schemeActivated, setSchemeActivated] = useState(false);
+
   const [formData, setFormData] = useState([]);
   const [contentID, setContentID] = useState(null);
 
@@ -47,14 +48,12 @@ const ApplicantList = () => {
         const docRefSnapshot = await getDoc(docRef);
         if (docRefSnapshot.exists()) {
           const data = docRefSnapshot.data().activate;
-          console.log(data);
           setSchemeActivated(data);
         }
 
         const collectionName = 'applicantForm';
         const collectRef = collection(db, collectionName);
         const snapshot = await getDocs(collectRef);
-        const formDataArray = [];
         const data = snapshot.docs.map((doc) => {
           return {
             id: doc.id,
@@ -62,28 +61,28 @@ const ApplicantList = () => {
             ...doc.data(),
           };
         })
-        console.log("Fetched Data: ", data);
-
         //cid formation
-        for (let i = 0; i < data.length; i++) {
+        const formDataArray = [];
+          for (let i = 0; i < data.length; i++) {
           const currentCID = data[i].CID;
           const ipfsContentGenerator = ipfs.cat(currentCID);
           let ipfsContent = new Uint8Array(0);
-
           for await (const chunk of ipfsContentGenerator) {
             ipfsContent = concatenateUint8Arrays(ipfsContent, chunk);
           }
           // Decryption
           const decryptedData = CryptoJS.AES.decrypt(uint8ArrayToString(ipfsContent), "secretKey").toString(CryptoJS.enc.Utf8);
           const application = JSON.parse(decryptedData);
+          application.CID = currentCID;
+          console.log(application);
+          formDataArray.push(application);
           if (!formData.find((item) => item.id === application.id)) {
             setFormData((prevData) => [...prevData, application]);
           }
         }
-        console.log(schemeParameter)
       }
       catch (e) {
-        console.log("ERROR : ", e);
+        console.error("ERROR : ", e);
       }
     };
     fetchData();
@@ -101,11 +100,12 @@ const ApplicantList = () => {
       </h1>
       {schemeActivated ? (
         <div className='list-group'>
-          {formData.length > 0 ? formData.filter((form) => form.param === schemeParameter)
+          {formData.length>0 ? (
+            formData.filter((form) => form.param === schemeParameter)
             .map((form, index) => (
               <div key={index} >
                 <p className='input-Tag'
-                  onClick={() => handleExportData(form)}>
+                  onClick={() => {handleExportData(form)}}>
                   <img src={dp} alt="Profile" className="applicant-list-dp" style={{ width: "2em" }} />
                   <span className='applicant-name'>{form.name}</span>
                   <span className='applicant-date'>Applied on : {form.Submitted ? form.Submitted.toLocaleString() : 'Date not available'} </span>
@@ -115,7 +115,7 @@ const ApplicantList = () => {
                 </p>
               </div>
             )
-            )
+            ))
             : (
             <p>No Applicants found.</p>
           )}

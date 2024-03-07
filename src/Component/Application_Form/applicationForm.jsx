@@ -136,7 +136,7 @@ const ApplicationForm = () => {
       //validation schema
       validationSchema: Yup.object().shape({
         name: Yup.string().matches(/^[A-Za-z\s]+$/, 'Invalid').min(2, 'Too short').required('Full name is required'),
-        address: Yup.string().matches(/^[A-Za-z0-9\s]+$/).required('Address is required'),
+        address: Yup.string().matches(/^[a-zA-Z0-9\s,.'-]{5,100}$/).required('Address is required'),
         phoneNo: Yup.string().matches(/^[0-9]{10}$/, 'Invalid').required('Phone no. is required'),
         rationNo: Yup.string().matches(/^\d{11}$/, 'Invalid').required('Ration no. is required'),
         adharNo: Yup.string().matches(/^\d{12}$/, 'Invalid').required('Adhar no. is required'),
@@ -235,6 +235,7 @@ const ApplicationForm = () => {
             previous: values.previous,
             caste: values.caste,
             castePic: values.castePic,
+            param: values.param,
           };
           //onSubmit functionality 
           console.log("Before : ", applicationData);
@@ -253,7 +254,7 @@ const ApplicationForm = () => {
           };
           await addDoc(collectionReference, dataToAdd);
           updateFormData(applicationData);
-          updateApplicantCount(param);
+          updateApplicantCount(param, true);
           navigate('/Schemes')
         }
 
@@ -494,6 +495,7 @@ const ApplicationForm = () => {
                 onChange={formik.handleChange} />
               APL
             </label>
+            <br />
             <label htmlFor='yesBPL'>
               <input type='radio' name='pl' id='yesBPL'
                 value="BPL"
