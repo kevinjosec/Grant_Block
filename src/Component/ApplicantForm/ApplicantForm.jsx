@@ -1,17 +1,36 @@
 import React, { useState } from 'react';
+import { db, addDoc, collection, doc } from '../../firebase';
+import { documentId, getDoc, getDocs, updateDoc, deleteDoc, query, where, increment } from 'firebase/firestore';
 import { useLocation, useNavigate } from 'react-router-dom';
 import './ApplicantForm.css';
 
 const ApplicantForm = ({ exportedData }) => {
   const location = useLocation();
   const formData = location.state?.formData;
-
   const [showPopUp, setPopUp] = useState(false);
   const navigate = useNavigate();
 
-  const confirmCandidate = () => {
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    confirmCandidate();
+  };
+
+  const confirmCandidate = async () => {
     const confirmed = window.confirm('Once changes are made, they cannot be reverted. \n Are you sure you want to confirm?');
     if (confirmed) {
+      try {
+        const q = query(collection(db, 'applicantForm'), where('CID', '==', formData.CID));
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach(async (doc) => {
+          await deleteDoc(doc.ref);
+        })
+        const schemeRef = doc(db, 'scheme', formData.param);
+        await updateDoc(schemeRef, {
+          count: increment(-1)
+        });
+      } catch (e) {
+        console.error(e);
+      }
       navigate('/ApplicantList')
     }
   }
@@ -20,11 +39,6 @@ const ApplicantForm = ({ exportedData }) => {
     // Create a new window and write the PDF data to it
     const newWindow = window.open();
     newWindow.document.write(`<iframe width="100%" height="100%" src="data:application/pdf;base64,${pdfData}" frameborder="0" allowfullscreen></iframe>`);
-  };
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    confirmCandidate();
   };
 
   const renderField = (label, value) => {
@@ -143,7 +157,7 @@ const ApplicantForm = ({ exportedData }) => {
                 {formData && formData.adharPic && renderField("Adhar card file", formData.adharPic)}
               </div>
               <div className="no-mark-items">
-                {formData && formData.income && renderField("Annual income file", formData.rationPic)}
+                {formData && formData.incomePic && renderField("Annual income file", formData.incomePic)}
               </div>
               <div className="no-mark-items">
                 {formData && formData.landPic && renderField("Land file", formData.landPic)}
