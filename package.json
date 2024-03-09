@@ -22,6 +22,7 @@
     "react-pdf-viewer": "^0.1.0",
     "react-router-dom": "^6.18.0",
     "timers-browserify": "^2.0.12",
+    "truffle": "^5.11.5",
     "web-vitals": "^2.1.4",
     "web3": "^4.3.0",
     "web3.storage": "^4.5.5",

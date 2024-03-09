@@ -84,3 +84,7 @@
     background-color: transparent;
     cursor: pointer;
 }
+
+.color-change-btn.clicked{
+    background-color: #182d4d;
+}

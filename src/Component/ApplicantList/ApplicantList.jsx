@@ -57,12 +57,11 @@ const ApplicantList = () => {
         const data = snapshot.docs.map((doc) => {
           return {
             id: doc.id,
-            Submitted: doc.Submitted,
+            Submitted: doc.data().Submitted ? doc.data().Submitted.toDate() : null,
             ...doc.data(),
           };
         })
         //cid formation
-        const formDataArray = [];
           for (let i = 0; i < data.length; i++) {
           const currentCID = data[i].CID;
           const ipfsContentGenerator = ipfs.cat(currentCID);
@@ -75,7 +74,6 @@ const ApplicantList = () => {
           const application = JSON.parse(decryptedData);
           application.CID = currentCID;
           console.log(application);
-          formDataArray.push(application);
           if (!formData.find((item) => item.id === application.id)) {
             setFormData((prevData) => [...prevData, application]);
           }
@@ -105,10 +103,11 @@ const ApplicantList = () => {
             .map((form, index) => (
               <div key={index} >
                 <p className='input-Tag'
-                  onClick={() => {handleExportData(form)}}>
+                  onClick={() => {
+                    handleExportData(form)}}>
                   <img src={dp} alt="Profile" className="applicant-list-dp" style={{ width: "2em" }} />
                   <span className='applicant-name'>{form.name}</span>
-                  <span className='applicant-date'>Applied on : {form.Submitted ? form.Submitted.toLocaleString() : 'Date not available'} </span>
+                  <span className='applicant-date'>Applied on : {form.Submitted ? form.Submitted.toDate().toLocaleString() : 'Date not available'} </span>
                   <IoIosArrowForward
                     className="arrow-icon"
                     size={"2rem"} />

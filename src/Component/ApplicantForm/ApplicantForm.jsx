@@ -1,14 +1,71 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { db, addDoc, collection, doc } from '../../firebase';
 import { documentId, getDoc, getDocs, updateDoc, deleteDoc, query, where, increment } from 'firebase/firestore';
 import { useLocation, useNavigate } from 'react-router-dom';
 import './ApplicantForm.css';
+import Web3 from 'web3';
+import Evaluation from '../../Evaluation.json'
 
 const ApplicantForm = ({ exportedData }) => {
   const location = useLocation();
   const formData = location.state?.formData;
   const [showPopUp, setPopUp] = useState(false);
+  const [decission, setDecission] = useState();
   const navigate = useNavigate();
+
+  const [web3, setWeb3] = useState(null);
+  const [contract, setContract] = useState(null);
+  const [applicant, setApplicant] = useState(null);
+  const [totalMarks, setTotalMarks] = useState(null);
+  const [mark, setMark] = useState(null);
+
+  useEffect(() => {
+    const initWeb3 = async () => {
+      if (window.ethereum) {
+        const web3Instance = new Web3(window.ethereum);
+        setWeb3(web3Instance);
+        try {
+          await window.ethereum.request({ method: 'eth_requestAccounts' });
+          const networkId = await web3Instance.eth.net.getId();
+          const deployedNetwork = Evaluation.networks[networkId];
+          const contractInstance = new web3Instance.eth.Contract(
+            Evaluation.abi,
+            deployedNetwork && deployedNetwork.address
+          );
+          setContract(contractInstance);
+        } catch (e) {
+          console.error(e);
+        }
+      }
+    }
+    initWeb3();
+  }, []);
+  useEffect(()=>{calculateMarks()},[]);
+
+  const calculateMarks = async () =>{
+    if(!contract || !formData) return;
+    try{
+      const fields = [
+        formData.agriculture,   
+        formData.pl,   
+        formData.widow,   
+        formData.disabled,   
+        formData.disease,   
+        formData.unmarried,   
+        formData.previous,   
+        formData.caste,   
+        formData.government,   
+        formData.land,   
+        formData.water,   
+        formData.toilet   
+      ];
+      const marks = await contract.methods.calculateMarks(fields).call();
+      setTotalMarks(marks.reduce((acc, val)=>acc + val,0));
+      setMark(marks);
+    }catch(e){
+      console.error(e);
+    }
+  }
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -101,7 +158,7 @@ const ApplicantForm = ({ exportedData }) => {
               <div className="no-mark-items">
                 <label className="label-name">Annual income</label>
                 <p className="field-name">{formData.income}</p>
-                <label className="field-mark">Mark: 12/20</label>
+                <label className="field-mark">Mark:{mark?mark[0]:"null"}</label>
               </div>
               <div className="no-mark-items">
                 <label className="label-name">Kudumbasree</label>
@@ -131,6 +188,36 @@ const ApplicantForm = ({ exportedData }) => {
               <div className="no-mark-items">
                 <label className="label-name">Toilet facilities</label>
                 <p className="field-name">{formData.toilet.toUpperCase()}</p>
+                <label className="field-mark">Mark: 12/20</label>
+              </div>
+              <div className="no-mark-items">
+                <label className="label-name">Agriculture</label>
+                <p className="field-name">{formData.agriculture.toUpperCase()}</p>
+                <label className="field-mark">Mark: 12/20</label>
+              </div>
+              <div className="no-mark-items">
+                <label className="label-name">divorced/Widow</label>
+                <p className="field-name">{formData.widow.toUpperCase()}</p>
+                <label className="field-mark">Mark: 12/20</label>
+              </div>
+              <div className="no-mark-items">
+                <label className="label-name">Disease</label>
+                <p className="field-name">{formData.disease.toUpperCase()}</p>
+                <label className="field-mark">Mark: 12/20</label>
+              </div>
+              <div className="no-mark-items">
+                <label className="label-name">Unmarried daughters</label>
+                <p className="field-name">{formData.unmarried.toUpperCase()}</p>
+                <label className="field-mark">Mark: 12/20</label>
+              </div>
+              <div className="no-mark-items">
+                <label className="label-name">Previous Schemes</label>
+                <p className="field-name">{formData.previous.toUpperCase()}</p>
+                <label className="field-mark">Mark: 12/20</label>
+              </div>
+              <div className="no-mark-items">
+                <label className="label-name">Caste</label>
+                <p className="field-name">{formData.caste.toUpperCase()}</p>
                 <label className="field-mark">Mark: 12/20</label>
               </div>
               <div className="no-mark-items">
@@ -173,12 +260,18 @@ const ApplicantForm = ({ exportedData }) => {
         )
       }
       <div className="applicant-button">
-        <button className="applicant-button-reject"
-          onClick={() => setPopUp(true)}>
+        <button className="applicant-button-reject color-change-btn"
+          onClick={() => {
+            setDecission("rejection");
+            setPopUp(true)
+          }}>
           Reject candidate
         </button>
-        <button className="applicant-button-approve"
-          onClick={() => setPopUp(true)}>
+        <button className="applicant-button-approve color-change-btn"
+          onClick={() => {
+            setDecission("approval");
+            setPopUp(true)
+          }}>
           Approve candidate
         </button>
         <br />
@@ -189,7 +282,7 @@ const ApplicantForm = ({ exportedData }) => {
                 <input type="text"
                   required
                   className="comment-box"
-                  placeholder='Enter the reason for your approval/rejection of the specific candidate' />
+                  placeholder={`Enter the reason for your ${decission} of the specific candidate`} />
                 <br />
                 <button type='submit'
                   className="confirm-button">
