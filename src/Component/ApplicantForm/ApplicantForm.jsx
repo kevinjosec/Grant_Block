@@ -4,68 +4,77 @@ import { documentId, getDoc, getDocs, updateDoc, deleteDoc, query, where, increm
 import { useLocation, useNavigate } from 'react-router-dom';
 import './ApplicantForm.css';
 import Web3 from 'web3';
-import Evaluation from '../../Evaluation.json'
+import EvaluationABI from '../../Evaluation.json';
 
 const ApplicantForm = ({ exportedData }) => {
+
+  const evaluationABI = EvaluationABI.abi;
+  const contractAddress = '0x5Ef55369843d2A52c92eED82A591360E8eBfE633';
+  const web3 = new Web3(window.ethereum);
+  const evaluationContract = new web3.eth.Contract(evaluationABI, contractAddress); 
+
   const location = useLocation();
   const formData = location.state?.formData;
   const [showPopUp, setPopUp] = useState(false);
   const [decission, setDecission] = useState();
   const navigate = useNavigate();
 
-  const [web3, setWeb3] = useState(null);
-  const [contract, setContract] = useState(null);
-  const [applicant, setApplicant] = useState(null);
-  const [totalMarks, setTotalMarks] = useState(null);
-  const [mark, setMark] = useState(null);
+  const [totalMarks, setTotalMarks] = useState();
+  const [mark, setMark] = useState();
+  const [account, setAccount] = useState();
 
-  useEffect(() => {
-    const initWeb3 = async () => {
-      if (window.ethereum) {
-        const web3Instance = new Web3(window.ethereum);
-        setWeb3(web3Instance);
-        try {
-          await window.ethereum.request({ method: 'eth_requestAccounts' });
-          const networkId = await web3Instance.eth.net.getId();
-          const deployedNetwork = Evaluation.networks[networkId];
-          const contractInstance = new web3Instance.eth.Contract(
-            Evaluation.abi,
-            deployedNetwork && deployedNetwork.address
-          );
-          setContract(contractInstance);
-        } catch (e) {
-          console.error(e);
-        }
-      }
+  const calculateMarks = async () => {
+    if (!evaluationContract || !formData) {
+      console.log("Contract / Form data is missing.");
+      return;
     }
-    initWeb3();
-  }, []);
-  useEffect(()=>{calculateMarks()},[]);
-
-  const calculateMarks = async () =>{
-    if(!contract || !formData) return;
-    try{
+    else{
+    try {
       const fields = [
-        formData.agriculture,   
-        formData.pl,   
-        formData.widow,   
-        formData.disabled,   
-        formData.disease,   
-        formData.unmarried,   
-        formData.previous,   
-        formData.caste,   
-        formData.government,   
-        formData.land,   
-        formData.water,   
-        formData.toilet   
+        formData.agriculture,
+        formData.pl,
+        formData.widow,
+        formData.disabled,
+        formData.disease,
+        formData.unmarried,
+        formData.previous,
+        formData.caste,
+        formData.government,
+        formData.land,
+        formData.water,
+        formData.toilet,
       ];
-      const marks = await contract.methods.calculateMarks(fields).call();
-      setTotalMarks(marks.reduce((acc, val)=>acc + val,0));
-      setMark(marks);
-    }catch(e){
+      await evaluationContract.methods.calculateMarks(fields).send({from:account});
+      const result = await evaluationContract.methods.getMarks().call();
+      console.log(fields);
+      console.log("Result-1: ",result[0]);
+      console.log("Result-2: ",result[1]);
+      setTotalMarks(result[1]);
+      setMark(result[0]);
+    } catch (e) {
       console.error(e);
     }
   }
+  }
+  
+  useEffect(() => {
+    const initWeb3 = async () => {
+      if (window.ethereum) {
+        try {
+          await window.ethereum.request({method:'eth_requestAccounts'});
+          const accounts = await web3.eth.getAccounts();
+          setAccount(accounts[0]);
+         } catch (e) {
+          console.error(e);
+        }
+      } 
+      else{
+        alert("Metamask is not available.");
+      }
+    }    
+    initWeb3();
+  }, []);
+
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -158,72 +167,69 @@ const ApplicantForm = ({ exportedData }) => {
               <div className="no-mark-items">
                 <label className="label-name">Annual income</label>
                 <p className="field-name">{formData.income}</p>
-                <label className="field-mark">Mark:{mark?mark[0]:"null"}</label>
               </div>
               <div className="no-mark-items">
                 <label className="label-name">Kudumbasree</label>
                 <p className="field-name">{formData.kudumbasreed.toUpperCase()}</p>
-                <label className="field-mark">Mark: 12/20</label>
-              </div>
-              <div className="no-mark-items">
-                <label className="label-name">Disablity</label>
-                <p className="field-name">{formData.disabled.toUpperCase()}</p>
-                <label className="field-mark">Mark: 12/20</label>
-              </div>
-              <div className="no-mark-items">
-                <label className="label-name">APL or BPL</label>
-                <p className="field-name">{formData.pl}</p>
-                <label className="field-mark">Mark: 12/20</label>
-              </div>
-              <div className="no-mark-items">
-                <label className="label-name">Government employed</label>
-                <p className="field-name">{formData.government.toUpperCase()}</p>
-                <label className="field-mark">Mark: 12/20</label>
-              </div>
-              <div className="no-mark-items">
-                <label className="label-name">Source of water</label>
-                <p className="field-name">{formData.water.toUpperCase()}</p>
-                <label className="field-mark">Mark: 12/20</label>
-              </div>
-              <div className="no-mark-items">
-                <label className="label-name">Toilet facilities</label>
-                <p className="field-name">{formData.toilet.toUpperCase()}</p>
-                <label className="field-mark">Mark: 12/20</label>
-              </div>
-              <div className="no-mark-items">
-                <label className="label-name">Agriculture</label>
-                <p className="field-name">{formData.agriculture.toUpperCase()}</p>
-                <label className="field-mark">Mark: 12/20</label>
               </div>
               <div className="no-mark-items">
                 <label className="label-name">divorced/Widow</label>
                 <p className="field-name">{formData.widow.toUpperCase()}</p>
-                <label className="field-mark">Mark: 12/20</label>
+              </div>
+              <div className="no-mark-items">
+                <label className="label-name">Disablity</label>
+                <p className="field-name">{formData.disabled.toUpperCase()}</p>
+                <label className="field-mark">Mark: {mark && `${mark[3]}`}/20</label>
+              </div>
+              <div className="no-mark-items">
+                <label className="label-name">APL or BPL</label>
+                <p className="field-name">{formData.pl}</p>
+                <label className="field-mark">Mark: {mark && `${mark[1]}`}/20</label>
+              </div>
+              <div className="no-mark-items">
+                <label className="label-name">Government employed</label>
+                <p className="field-name">{formData.government.toUpperCase()}</p>
+                <label className="field-mark">Mark: {mark && `${mark[8]}`}/20</label>
+              </div>
+              <div className="no-mark-items">
+                <label className="label-name">Source of water</label>
+                <p className="field-name">{formData.water.toUpperCase()}</p>
+                <label className="field-mark">Mark: {mark && `${mark[10]}`}/20</label>
+              </div>
+              <div className="no-mark-items">
+                <label className="label-name">Toilet facilities</label>
+                <p className="field-name">{formData.toilet.toUpperCase()}</p>
+                <label className="field-mark">Mark: {mark && `${mark[11]}`}/20</label>
+              </div>
+              <div className="no-mark-items">
+                <label className="label-name">Agriculture</label>
+                <p className="field-name">{formData.agriculture.toUpperCase()}</p>
+                <label className="field-mark">Mark: {mark && `${mark[0]}`}/20</label>
               </div>
               <div className="no-mark-items">
                 <label className="label-name">Disease</label>
                 <p className="field-name">{formData.disease.toUpperCase()}</p>
-                <label className="field-mark">Mark: 12/20</label>
+                <label className="field-mark">Mark: {mark && `${mark[4]}`}/20</label>
               </div>
               <div className="no-mark-items">
                 <label className="label-name">Unmarried daughters</label>
                 <p className="field-name">{formData.unmarried.toUpperCase()}</p>
-                <label className="field-mark">Mark: 12/20</label>
+                <label className="field-mark">Mark: {mark && `${mark[5]}`}/20</label>
               </div>
               <div className="no-mark-items">
                 <label className="label-name">Previous Schemes</label>
                 <p className="field-name">{formData.previous.toUpperCase()}</p>
-                <label className="field-mark">Mark: 12/20</label>
+                <label className="field-mark">Mark: {mark && `${mark[6]}`}/20</label>
               </div>
               <div className="no-mark-items">
                 <label className="label-name">Caste</label>
                 <p className="field-name">{formData.caste.toUpperCase()}</p>
-                <label className="field-mark">Mark: 12/20</label>
+                <label className="field-mark">Mark: {mark && `${mark[7]}`}/20</label>
               </div>
               <div className="no-mark-items">
                 <label className="label-name">Land owned</label>
                 <p className="field-name">{formData.land.toUpperCase()}</p>
-                <label className="field-mark">Mark: 12/20</label>
+                <label className="field-mark">Mark: {mark && `${mark[9]}`}/20</label>
               </div>
               <div className="no-mark-items">
                 <label className="label-name">Village</label>
@@ -251,7 +257,7 @@ const ApplicantForm = ({ exportedData }) => {
               </div>
               <div className="no-mark-items">
                 <label className="label-name">Total Marks</label>
-                <p className="field-name">xx/100</p>
+                <p className="field-name">{`${totalMarks}`}/100</p>
               </div>
             </div>
           </div>
@@ -273,6 +279,9 @@ const ApplicantForm = ({ exportedData }) => {
             setPopUp(true)
           }}>
           Approve candidate
+        </button>
+        <button onClick={()=>{calculateMarks()}}>
+          Calculate
         </button>
         <br />
         {
