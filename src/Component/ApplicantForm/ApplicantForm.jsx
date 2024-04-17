@@ -9,9 +9,9 @@ import EvaluationABI from '../../Evaluation.json';
 const ApplicantForm = ({ exportedData }) => {
 
   const evaluationABI = EvaluationABI.abi;
-  const contractAddress = '0x5Ef55369843d2A52c92eED82A591360E8eBfE633';
+  const contractAddress = '0x23F5960C1a5F1bDcf96a85954fF2466BD01bb9e3';
   const web3 = new Web3(window.ethereum);
-  const evaluationContract = new web3.eth.Contract(evaluationABI, contractAddress); 
+  const evaluationContract = new web3.eth.Contract(evaluationABI, contractAddress);
 
   const location = useLocation();
   const formData = location.state?.formData;
@@ -22,58 +22,59 @@ const ApplicantForm = ({ exportedData }) => {
   const [totalMarks, setTotalMarks] = useState();
   const [mark, setMark] = useState();
   const [account, setAccount] = useState();
+  const [applicants, setApplicants] = useState([]);
 
   const calculateMarks = async () => {
     if (!evaluationContract || !formData) {
       console.log("Contract / Form data is missing.");
       return;
     }
-    else{
-    try {
-      const fields = [
-        formData.agriculture,
-        formData.pl,
-        formData.widow,
-        formData.disabled,
-        formData.disease,
-        formData.unmarried,
-        formData.previous,
-        formData.caste,
-        formData.government,
-        formData.land,
-        formData.water,
-        formData.toilet,
-      ];
-      await evaluationContract.methods.calculateMarks(fields).send({from:account});
-      const result = await evaluationContract.methods.getMarks().call();
-      console.log(fields);
-      console.log("Result-1: ",result[0]);
-      console.log("Result-2: ",result[1]);
-      setTotalMarks(result[1]);
-      setMark(result[0]);
-    } catch (e) {
-      console.error(e);
+    else {
+      try {
+        const fields = [
+          formData.agriculture,
+          formData.pl,
+          formData.widow,
+          formData.disabled,
+          formData.disease,
+          formData.unmarried,
+          formData.previous,
+          formData.caste,
+          formData.government,
+          formData.land,
+          formData.water,
+          formData.toilet,
+        ];
+        await evaluationContract.methods.calculateMarks(fields).send({ from: account });
+        const result = await evaluationContract.methods.getMarks().call();
+        console.log("Result-1: ", result[0]);
+        console.log("Result-2: ", result[1]);
+        setTotalMarks(result[1]);
+        setMark(result[0]);
+      } catch (e) {
+        console.error(e);
+      }
     }
   }
-  }
-  
+
   useEffect(() => {
     const initWeb3 = async () => {
       if (window.ethereum) {
         try {
-          await window.ethereum.request({method:'eth_requestAccounts'});
+          await window.ethereum.request({ method: 'eth_requestAccounts' });
           const accounts = await web3.eth.getAccounts();
           setAccount(accounts[0]);
-         } catch (e) {
+        } catch (e) {
           console.error(e);
         }
-      } 
-      else{
+      }
+      else {
         alert("Metamask is not available.");
       }
-    }    
+    }
     initWeb3();
   }, []);
+
 
 
   const handleSubmit = (event) => {
@@ -83,8 +84,27 @@ const ApplicantForm = ({ exportedData }) => {
 
   const confirmCandidate = async () => {
     const confirmed = window.confirm('Once changes are made, they cannot be reverted. \n Are you sure you want to confirm?');
-    if (confirmed) {
+    if (confirmed && decission) { 
       try {
+        await evaluationContract.methods.addApplicant(
+          formData.name,
+          formData.phoneNo,
+          formData.address,
+          formData.param,
+          formData.wardNo,
+          formData.houseNo,
+          `${totalMarks}`,
+        ).send({ from: account });
+        const applicantCount = await evaluationContract.methods.getApplicantsLength().call();
+        const fetchedApplicant = [];
+        for (let i = 0; i < applicantCount; i++) {
+          const applicant = await evaluationContract.methods.applicants(i).call();
+          fetchedApplicant.push(applicant);
+        }
+        console.log("Result-3: ", fetchedApplicant);
+        console.log("Result-4: ", applicantCount);
+        setApplicants(fetchedApplicant);
+
         const q = query(collection(db, 'applicantForm'), where('CID', '==', formData.CID));
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach(async (doc) => {
@@ -98,6 +118,22 @@ const ApplicantForm = ({ exportedData }) => {
         console.error(e);
       }
       navigate('/ApplicantList')
+    }
+    else if (confirmed){
+      try{
+        const q = query(collection(db, 'applicantForm'), where('CID', '==', formData.CID));
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach(async (doc) => {
+          await deleteDoc(doc.ref);
+        })
+        const schemeRef = doc(db, 'scheme', formData.param);
+        await updateDoc(schemeRef, {
+          count: increment(-1)
+        });
+      }
+      catch(e){
+        console.error(e);
+      }
     }
   }
 
@@ -257,7 +293,12 @@ const ApplicantForm = ({ exportedData }) => {
               </div>
               <div className="no-mark-items">
                 <label className="label-name">Total Marks</label>
-                <p className="field-name">{`${totalMarks}`}/100</p>
+                <p className="field-name">{`${totalMarks}`}/200</p>
+                <button
+                  className="calculate-button"
+                  onClick={() => { calculateMarks() }}>
+                  Calculate marks
+                </button>
               </div>
             </div>
           </div>
@@ -279,9 +320,6 @@ const ApplicantForm = ({ exportedData }) => {
             setPopUp(true)
           }}>
           Approve candidate
-        </button>
-        <button onClick={()=>{calculateMarks()}}>
-          Calculate
         </button>
         <br />
         {

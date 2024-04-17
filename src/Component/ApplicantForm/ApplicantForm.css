@@ -42,6 +42,22 @@
     margin: 2em 0em;
 }
 
+.calculate-button{
+    font-family: "plus jakarta sans", sans-serif;
+    font-weight: bold;
+    padding: 0.75em 1em;
+    margin: 10px;
+    border: 1px solid black;
+    border-radius: 20px;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+.calculate-button:hover{
+    background-color: black;
+    color: white;
+}
+
 .applicant-button-approve,.applicant-button-reject{
     font-family: "plus jakarta sans", sans-serif;
     font-weight: bold;
