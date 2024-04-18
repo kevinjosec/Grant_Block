@@ -1,10 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap');
 
 .active-main-body {
-    background-color: #EAEAEA;
     padding: 20px;
     color: white;
-    height: 90vh;
 }
 
 .active-body {
@@ -42,13 +40,18 @@
     transition: 0.3s;
 }
 
-.active-schemes-save-changes {
+.active-schemes-save-changes{
     border: 1px solid black;
     border-radius: 20px;
-    padding: 10px 100px;
+    padding: 13px 100px;
     background-color: transparent;
     margin-left: 40%;
     cursor: pointer;
     font-weight: bold;
     transition: 0.3s;
+}
+
+.active-schemes-save-changes:hover{
+    background-color: black;
+    color: white;
 }

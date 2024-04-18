@@ -88,14 +88,21 @@ const LoginPage = () => {
               onChange={(e) => setPassword(e.target.value)} />
           </div>
           <br />
-          <p className='forgot-password' onClick={()=>navigate('/ForgotPassword')}>
+          <p className='forgot-password' onClick={() => navigate('/ForgotPassword')}>
             Forgot password
           </p>
           {error && <p className="error-message">{error}</p>}
           <br />
-          <button type='submit' className='login-button' onClick={handleManualLogin}>
-            LOGIN
-          </button>
+          <br />
+          <br />
+          <br />
+          <div className="button-container">
+            <button type='submit' className='login-button' onClick={handleManualLogin}>
+              LOGIN
+            </button>
+          </div>
+          <br />
+          <br />
           <div className='create-account' onClick={() => navigate('/signUp')} >
             Create an account
           </div>

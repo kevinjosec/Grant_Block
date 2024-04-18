@@ -28,25 +28,25 @@ const UserHomePage = () => {
       <br />
       <br />
       <div className="footer-body">
-        <div className="footer-content">
+        <div className="footer-content one">
           <p className="footer-head">Explore variety of grants for your needs</p>
           <p className="footer-para"> Discover the different types of <br />grants available, their objectives, <br />and application deadlines.</p>
           <button className="footer-button">Schemes</button>
         </div>
-        <div className="footer-content"><Lottie animationData={variety} className='variety' /></div>
-        <div className="footer-content"><Lottie animationData={update} className='update' /></div>
-        <div className="footer-content">
+        <div className="footer-content two"><Lottie animationData={variety} className='variety' /></div>
+        <div className="footer-content three"><Lottie animationData={update} className='update' /></div>
+        <div className="footer-content four">
           <p className="footer-head updated">Stay updated on grant opportunities</p>
           <p className="footer-para">Get the latest information on new <br />grants and upcoming  deadlines.</p>
           <button className="footer-button">Schemes</button>
         </div>
-        <div className="footer-content">
+        <div className="footer-content five">
           <p className="footer-head">Track your grant application status</p>
           <p className="footer-para">Monitor the progress of your <br />grant application and
             stay informed.</p>
           <button className="footer-button">Schemes</button>
         </div>
-        <div className="footer-content"><Lottie animationData={tracking} className='tracking' /></div>
+        <div className="footer-content six"><Lottie animationData={tracking} className='tracking' /></div>
       </div>
     </div>
   )

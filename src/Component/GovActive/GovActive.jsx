@@ -15,7 +15,7 @@ const GovActive = () => {
       const schemesRef = doc(db, 'schemeActivation', 'hk9qbigYr3rjrHi0RJ9t');
       const schemesRefSnapshot = await getDoc(schemesRef);
       if (schemesRefSnapshot.exists()) {
-        const confirmed = window.confirm('Are you sure you want to activate?');
+        const confirmed = window.confirm('Are you sure you want to make the following changes?');
         if (confirmed) {
           const { activate } = schemesRefSnapshot.data();
           await updateDoc(schemesRef, {

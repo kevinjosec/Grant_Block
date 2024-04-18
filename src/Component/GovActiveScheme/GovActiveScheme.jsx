@@ -4,6 +4,7 @@ import { scheme, updateApplicantCount } from '../SchemeList'
 import { db, addDoc, collection, doc, onSnapshot } from '../../firebase';
 import { documentId, getDoc, getDocs, updateDoc } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
+import noscheme from '../Assests/noscheme.svg'
 
 const GovActiveScheme = () => {
 
@@ -14,6 +15,10 @@ const GovActiveScheme = () => {
     const redirectApplicant = (parameter) => {
         console.log(parameter)
         navigate('/ApplicantList', { state: { schemeParameter: parameter } });
+    }
+
+    const refresh = () => {
+        window.location.reload();
     }
 
     useEffect(() => {
@@ -66,10 +71,18 @@ const GovActiveScheme = () => {
                         ))}
                 </div>
             ) : (
-                <p className='no-active-schemes'>
-                    Currently no schems have been activated. <br />
-                    Please activate all the schemes to view all the applicants
-                </p>
+                <div>
+                    <div className="no-scheme-container">
+                        <img src={noscheme} alt="Schemes are currently closed" className="no-scheme" />
+                    </div>
+                    <p className='no-active-schemes'>
+                        Currently no schems have been activated. <br />
+                        Please activate all the schemes to view all the applicants
+                    </p>
+                    <div className="refresh-container">
+                        <button className="refresh" onClick={()=>{refresh()}}>Refresh page</button>
+                    </div>
+                </div>
             )}
         </div>
     )
