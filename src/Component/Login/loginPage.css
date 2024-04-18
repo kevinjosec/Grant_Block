@@ -2,7 +2,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@600&display=swap');
 
 .login-main{
-    padding-top: 10px;
     font-family: "open-sans",sans-serif;
     background-color: #1d284d;
 }
@@ -73,9 +72,13 @@
     text-decoration: underline;
 }
 
+.button-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .login-button{
-    margin: 4em;
-    margin-left: 9.5rem;
     border: 1px solid black;
     border-radius: 25px;
     padding: 10px 30px 10px 30px;
@@ -83,6 +86,10 @@
     color: white;
     font-weight: bolder;
     cursor: pointer;
+}
+
+.login-button:hover{
+    text-decoration: underline;
 }
 
 .error-message{

@@ -47,7 +47,6 @@
 }
 
  .footer-head{
-    margin-top: 5em;
     font-family: "roboto", sans-serif;
     font-weight: bold;
     font-size: 20px;
@@ -59,8 +58,16 @@
  }
 
  .footer-content{
-    margin-top: 2em; 
-    margin-bottom: 10em;
+    text-align: center;
+    margin-bottom: 3em;
+ }
+
+ .footer-content.one,.footer-content.four,.footer-content.five{
+    padding: 5em;
+ }
+
+ .footer-content.two,.footer-content.three{
+    padding: 3em;
  }
 
  .footer-button{
