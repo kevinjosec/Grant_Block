@@ -19,6 +19,14 @@ contract Evaluation {
 
     Applicant[] public applicants;
 
+    function addFinalApplicants (Applicant[] memory newApplicants)public{
+        for(uint256 i=0;i<newApplicants.length;i++)
+        {
+            applicants.push(newApplicants[i]);
+        }
+        sortApplicants();
+    }
+
     function getApplicants () public  returns (Applicant[] memory ){
         emit ApplicantRetrieved(applicants);
         return applicants;

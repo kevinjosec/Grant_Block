@@ -56,6 +56,10 @@
     margin-top: -2.5em;
 }
 
+.gov-active-scheme-name:hover{
+    text-decoration: underline;
+}
+
 .refresh{
     font-family: "plus jakarta sans", sans-serif;
     font-weight: bold;
@@ -64,6 +68,7 @@
     border-radius: 20px;
     background-color: transparent;
     cursor: pointer;
+    color: black;
 }
 
 .refresh:hover{
