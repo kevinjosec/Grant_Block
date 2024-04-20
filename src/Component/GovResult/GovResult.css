@@ -19,15 +19,41 @@
 }
 
 .result-body-container{
-    display: grid;
-    grid-template-columns: repeat(4,1fr);
-    margin: 2em;
+    margin: 1.5em;
+    padding: 15px;
+    border-radius: 15px;
     background-color: #EAEAEA;
 }
 
-.result-body{
-    border: 1px solid black;
+.result-name{
+    font-size: 1.5em;
+    font-weight: 600;
+}
+
+.result-number{
+    font-size: 1em;
+    margin-top: -1em;
+}
+
+.bc-button{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1em;
+}
+
+.block-button{
     font-family: "plus jakarta sans", sans-serif;
-    font-size: 14px;
-    padding: 20px;
+    font-weight: bold;
+    padding: 0.75em 1em;
+    margin: 10px;
+    border: 1px solid black;
+    border-radius: 20px;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+.block-button:hover{
+    background-color: black;
+    color: white;
 }

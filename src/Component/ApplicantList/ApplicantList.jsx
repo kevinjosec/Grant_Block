@@ -15,9 +15,7 @@ const ApplicantList = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const schemeParameter = location.state?.schemeParameter;
-  const [schemeActivated, setSchemeActivated] = useState(false);
   const [ipfsConnect, setIpfsConnect] = useState(false);
-
   const [formData, setFormData] = useState([]);
   const [contentID, setContentID] = useState(null);
 
@@ -49,13 +47,6 @@ const ApplicantList = () => {
     //database retrival
     const fetchData = async () => {
       try {
-        const docRef = doc(db, 'schemeActivation', 'hk9qbigYr3rjrHi0RJ9t')
-        const docRefSnapshot = await getDoc(docRef);
-        if (docRefSnapshot.exists()) {
-          const data = docRefSnapshot.data().activate;
-          setSchemeActivated(data);
-        }
-
         const collectionName = 'applicantForm';
         const collectRef = collection(db, collectionName);
         const snapshot = await getDocs(collectRef);
@@ -87,6 +78,9 @@ const ApplicantList = () => {
         if (ipfsStatus) {
           setIpfsConnect(true);
         }
+        else{
+          setIpfsConnect(false);
+        }
       }
       catch (e) {
         console.error("ERROR : ", e);
@@ -105,7 +99,7 @@ const ApplicantList = () => {
       <h1 className='candidates-header'>
         Applicants List
       </h1>
-      {schemeActivated ? (
+      {
         ipfsConnect ? (
           <div className='list-group'>
             {formData.length > 0 ? (
@@ -132,19 +126,12 @@ const ApplicantList = () => {
           </div>
         ) : (
           <div>
-            <p className="no-ipfs">Please check your IPFS backend to load the list of Applicants</p>
+            <p className="no-ipfs">Run the following command in your terminal to establish IPFS connection: <br/> ipfs daemon</p>
             <div className="refresh-container">
-              <button className="refresh" onClick={() => {refresh()}}>Refresh page</button>
+              <button className="refresh" onClick={() => { refresh() }}>Refresh page</button>
             </div>
           </div>
-        )) : (
-        <div>
-          <p className="no-activated-schemes">No schemes are currently activate to view the applicants.<br /></p>
-          <div className="refresh-container">
-            <button className="refresh" onClick={() => {refresh()}}>Refresh page</button>
-          </div>
-        </div>
-      )}
+        )}
     </div>
   )
 }

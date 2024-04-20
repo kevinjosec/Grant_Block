@@ -9,7 +9,7 @@ import EvaluationABI from '../../Evaluation.json';
 const ApplicantForm = ({ exportedData }) => {
 
   const evaluationABI = EvaluationABI.abi;
-  const contractAddress = '0x23F5960C1a5F1bDcf96a85954fF2466BD01bb9e3';
+  const contractAddress = '0x0516BD10641FcC85d5716026b56a4Cc2b27c0a86';
   const web3 = new Web3(window.ethereum);
   const evaluationContract = new web3.eth.Contract(evaluationABI, contractAddress);
 

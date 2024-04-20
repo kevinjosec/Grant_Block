@@ -22,8 +22,7 @@ export function AuthContext({ children }) {
           setUserData(initialUserData);
         }
       }
-      else
-      {
+      else {
         setUserData(null);
         localStorage.clear();
       }

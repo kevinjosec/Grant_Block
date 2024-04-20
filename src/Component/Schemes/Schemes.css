@@ -6,7 +6,7 @@
     background-position: center;
     background-size: cover;
     background-attachment: fixed;
-    height: 100vh;
+    height: 150vh;
 }
 
 .scheme-page {
@@ -104,3 +104,32 @@
     margin: 1em;
 }
 
+.no-ipfs{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50vh;
+    text-align: center;
+    color: white;
+}
+
+.refresh{
+    font-family: "plus jakarta sans", sans-serif;
+    font-weight: bold;
+    padding: 0.75em 1em;
+    border: 1px solid white;
+    border-radius: 20px;
+    background-color: transparent;
+    cursor: pointer;
+    color: white;
+}
+
+.refresh:hover{
+    background-color: transparent;
+}
+
+.refresh-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
