@@ -19,6 +19,8 @@ import GovActive from './Component/GovActive/GovActive.jsx';
 import GovResult from './Component/GovResult/GovResult.jsx';
 import GovActiveScheme from './Component/GovActiveScheme/GovActiveScheme.jsx';
 import ForgotPassowrd from './Component/ForgotPassword/ForgotPassowrd.jsx';
+import Faq from './Component/Faq/Faq.jsx';
+import Contact from './Component/Contactus/Contact.jsx'
 
 function App() {
   return (
@@ -27,6 +29,8 @@ function App() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/UserHomePage" element={<UserHomePage />} />
+          <Route path="/Faq" element={<Faq />} />
+          <Route path="/Contact" element={<Contact />} />
           <Route path="/Status" element={<Status />} />
           <Route path="/SignUp" element={<SignUp />} />
           <Route path="/Login" element={<Login />} />

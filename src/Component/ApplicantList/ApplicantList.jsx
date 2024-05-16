@@ -15,7 +15,6 @@ const ApplicantList = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const schemeParameter = location.state?.schemeParameter;
-  const [ipfsConnect, setIpfsConnect] = useState(false);
   const [formData, setFormData] = useState([]);
   const [contentID, setContentID] = useState(null);
 
@@ -64,6 +63,7 @@ const ApplicantList = () => {
           for await (const chunk of ipfsContentGenerator) {
             ipfsContent = concatenateUint8Arrays(ipfsContent, chunk);
           }
+          console.log(ipfsContent);
           // Decryption
           const decryptedData = CryptoJS.AES.decrypt(uint8ArrayToString(ipfsContent), "secretKey").toString(CryptoJS.enc.Utf8);
           const application = JSON.parse(decryptedData);
@@ -72,13 +72,6 @@ const ApplicantList = () => {
           if (!formData.find((item) => item.id === application.id)) {
             setFormData((prevData) => [...prevData, application]);
           }
-        }
-        const ipfsStatus = ipfs.id();
-        if (ipfsStatus) {
-          setIpfsConnect(true);
-        }
-        else{
-          setIpfsConnect(false);
         }
       }
       catch (e) {
@@ -98,8 +91,6 @@ const ApplicantList = () => {
       <h1 className='candidates-header'>
         Applicants List
       </h1>
-      {
-        ipfsConnect ? (
           <div className='list-group'>
             {formData.length > 0 ? (
               formData.filter((form) => form.param === schemeParameter)
@@ -123,14 +114,6 @@ const ApplicantList = () => {
                 <p>No Applicants found.</p>
               )}
           </div>
-        ) : (
-          <div>
-            <p className="no-ipfs">Run the following command in your terminal to establish IPFS connection: <br/> ipfs daemon</p>
-            <div className="refresh-container">
-              <button className="refresh" onClick={() => { refresh() }}>Refresh page</button>
-            </div>
-          </div>
-        )}
     </div>
   )
 }

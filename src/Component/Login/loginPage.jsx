@@ -74,7 +74,7 @@ const LoginPage = () => {
 
 
   return (
-    <div className='login-main'>
+    <div className='login-main-body'>
       <div className="login-container">
         <div className="login1">
           <h2 className='login-label'>Login</h2>
@@ -111,6 +111,7 @@ const LoginPage = () => {
             Login with Google
           </div>
         </div>
+        
         <div className="login2">
           <h1 className="welcome-to-grant-block">Welcome to Grant Block</h1>
           <p className="login-subheading">Empowering Communities, One Scheme at a Time</p>

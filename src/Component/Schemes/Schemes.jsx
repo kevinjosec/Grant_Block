@@ -54,6 +54,7 @@ const Schemes = () => {
   return (
     <div className='scheme-main-body'>
       <UserNavbar backgroundColor="transparent" />
+      <div className="scheme-second-body">
       {schemeActivated ? (
         ipfsStatus ?
           (
@@ -71,12 +72,12 @@ const Schemes = () => {
             </div>
           ) : (
             <div>
-              <div className="no-scheme-container">
-                <img src={noscheme} alt="Schemes are currently closed" className="no-scheme" />
+              <div className="no-ipfs-container">
+                <img src={noscheme} alt="IPFS not detected" className="no-ipfs-image" />
               </div>
               <p className="no-ipfs">Run the following command in your terminal to establish IPFS connection: <br /> ipfs daemon</p>
-              <div className="refresh-container">
-                <button className="refresh" onClick={() => { refresh() }}>Refresh page</button>
+              <div className="refresh-container one">
+                <button className="refresh one" onClick={() => { refresh() }}>Refresh page</button>
               </div>
             </div>
           )) : (
@@ -90,6 +91,7 @@ const Schemes = () => {
           </div>
         </div>
       )}
+      </div>
     </div>
   );
 };

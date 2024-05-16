@@ -1,48 +1,80 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap');
+
+
+body{
+    overflow-x: hidden;
+}
+
+.hp-main{
+    font-family: "plus jakarta sans", sans-serif;
+}
 
  .head-grid{
-    margin: 2em;
-    font-family: "roboto", sans-serif;
     display: grid;
-    grid-template-columns: repeat(2,1fr);
+    grid-template-columns: 2fr 2fr;
+    height: 500px;
+    margin-bottom: 10em;
 }
-.head-grid1, .head-grid2{
+.head-grid1{
     padding: 100px;
     padding-left: 2em;
-    border: 1px solid black;
     line-height: 90%;
-}
-
-.sub-heading{
-    font-stretch: expanded;
-    font-size: 100%;
-}
-
-.head-grid1{
     border-radius: 10px 0px 0px 10px;
-    border-right: 0;
-    background-image: linear-gradient(to right, #FF9933, #FFC266);
-    color: white;
+    overflow: auto;
 }
-.head-grid2{
-    position: relative;
-    border-radius: 0px 10px 10px 0px;
-    border-left: 0;
-    background-size: cover;
-    background-position: 0px -80px;
-    background-image:linear-gradient(to left, #FF9933, #FFC266);
+
+.sub-head-grid.one{
+    height: 700px;
+    width: 600px;
+    position: absolute;
+    right: -3em;
+    top: -3em;
+    border-radius: 50%/50%;
+    transform: rotate(30deg);
+    background-color: rgba(128, 0, 128, 0.5); /* Little purple with 50% opacity */
+}
+.sub-head-grid.two{
+    height: 700px;
+    width: 600px;
+    position: absolute;
+    right: 2em;
+    top: -3em;
+    background-color: rgba(255, 165, 0, 0.5); /* Orange with 50% opacity */
+    transform: rotate(-60deg);
+    border-radius: 50%;
+}
+.sub-head-grid.three{
+    height: 700px;
+    width: 600px;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    right: 6em;
+    top: -3em;
+    background-color: rgba(255, 255, 0, 0.5); /* Yellow with 50% opacity */
+    transform: rotate(-60deg);
+    border-radius: 50%;
+}
+
+.grant{
+    transform: rotate(60deg);
 }
 
 .grant-block{
     font-size: 300%;
 }
 
-.grant{
-    border-radius: 10px;
-    margin: -4em;
-    margin-left: 5em;
-    width:90%;
+.sub-heading.two{
+    font-weight: 600;
+    font-size: 1.em;
+}
+
+.sub-heading{
+    line-height: 1.25em;
+    text-align: justify;
 }
 
 .slogan{
@@ -50,8 +82,7 @@
     padding-bottom: 35px;
     padding-left: 13rem;
     height: 150px;
-    border: 1px solid black;
-    margin: 3em 2em 2em 2em;
+    margin: 3em 2em 10em 2em;
     border-radius: 5px;
     font-family: "roboto", sans-serif;
 }
@@ -83,8 +114,8 @@
     font-family: "open-sans", sans-serif;
     display: grid;
     grid-template-columns: repeat(3,1fr);
-    margin: 4em;
     gap: 3em;
+    margin: 2em;
 }
 
 .help-line1,
@@ -92,29 +123,19 @@
 .help-line3{
     border: 1px solid black;
     border-radius: 20px;
-    height: 400px;
-    padding-left: 2rem;
+    padding: 2rem;
     box-shadow: 0px 0px 10px rgba(0,0,0,0.5);
+    width: 300px;
 }
 
 .who-can-apply{
     font-size: 150%;
 }
 
-.wallet{
-    padding-top: 1rem;
-    padding-left: 5rem;
-    width: 100px;
+.home-icon {
+    max-width: 100%;  
+    height: 225px; ;
 }
 
-.howto{
-    padding-top: 1.5rem;
-    padding-left: 1rem;
-    width: 90%;
-}
+  
 
-.contactus{
-    padding-top: 3.8rem;
-    margin-left: -2.5rem;
-    width: 110%;
-}
