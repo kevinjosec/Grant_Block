@@ -6,8 +6,6 @@ import signUp from '../Signup/signUp';
 import { useNavigate } from 'react-router-dom';
 import HomePage from '../HomePage/HomePage'
 import { doc, getDoc, setDoc } from 'firebase/firestore';
-import { useEffect } from 'react';
-import loginbackground from '../Assests/login-background.jpg'
 
 const LoginPage = () => {
 
@@ -116,8 +114,6 @@ const LoginPage = () => {
           <p className="login-subheading">Empowering Communities, One Scheme at a Time</p>
         </div>
       </div>
-
-      <br /><br />
     </div>
 
   )
