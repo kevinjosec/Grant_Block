@@ -33,16 +33,8 @@ export function AuthContext({ children }) {
     };
   }, [currentUser]);
 
-  const updateFormData = (formData) => {
-    // Use the callback form of setUserData to ensure you are using the updated state
-    setUserData((prevUserData) => {
-      const updatedUserData = { ...prevUserData, formData };
-      localStorage.setItem(`userData_${currentUser.uid}`, JSON.stringify(updatedUserData));
-      return updatedUserData;
-    });
-  };
 
-  const value = { currentUser, userData, updateFormData };
+  const value = { currentUser, userData };
 
   return <authContext.Provider value={value}>{children}</authContext.Provider>;
 }
