@@ -1,0 +1,49 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap');
+
+.usebbbody {
+  background-image: url(../Assests/user-bg.jpg);
+  background-position: center;
+  background-size: cover;
+  background-attachment: fixed;
+  font-family: "plus jakarta sans", sans-serif;
+  padding: 2em;
+}
+
+.dg-main{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.dg {
+  width: 80%;
+  background-color: #212c37;
+  border-radius: 50px;
+  color: aliceblue;
+  padding: 1em;
+}
+
+.fAQ {
+  color: #e1d6d6;
+  font-size: 48px;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 0.5em;
+}
+
+.question {
+  font-weight: bold;
+}
+
+.para1,
+.para2 {
+  color: #d7d0d0;
+  font-size: 16px;
+  line-height: 25px;
+}
+
+.para2 {
+  font-style: italic;
+  font-size: 14px;
+  font-weight: 100;
+}

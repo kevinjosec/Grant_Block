@@ -60,7 +60,7 @@
     text-decoration: underline;
 }
 
-.refresh{
+.refresh.gov{
     font-family: "plus jakarta sans", sans-serif;
     font-weight: bold;
     padding: 0.75em 1em;
@@ -71,12 +71,24 @@
     color: black;
 }
 
-.refresh:hover{
+.no-scheme-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+
+.no-scheme-icon{
+    height: 400px;
+    width: 400px;
+}
+
+.refresh.gov:hover{
     background-color: black;
     color: white;
 }
 
-.refresh-container{
+.refresh-container.gov{
     display: flex;
     justify-content: center;
     align-items: center;

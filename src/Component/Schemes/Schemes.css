@@ -1,13 +1,18 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=open+sans&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap');
 
 .scheme-main-body {
     background-image: url(../Assests/user-bg.jpg);
     background-position: center;
     background-size: cover;
     background-attachment: fixed;
-    height: 150vh;
+    font-family: "plus jakarta sans", sans-serif;
+    height: 100vh;
+    width: 100vw;
+    color: white;
 }
+
 
 .scheme-page {
     border: 1px solid black;
@@ -67,25 +72,14 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    text-align: center;
     color: white;
     font-family: "plus jakarta-sans", sans-serif;
-    font-size: 1.25em;
+    font-size: 1.15em;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-    text-align: center;
     line-height: 1.75em;
     word-spacing: 0.15em;
-    margin-top: -2.5em;
-}
-
-.no-scheme-container{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 50vh;
-}
-
-.no-scheme{
-    height: 150px;
+    margin-top: 6em;
 }
 
 .scheme-content {
@@ -105,15 +99,23 @@
 }
 
 .no-ipfs{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 50vh;
+    margin-top: -4em;
     text-align: center;
     color: white;
 }
 
-.refresh{
+.no-ipfs-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+
+.no-ipfs-image{
+    height: 250px;
+}
+
+.refresh.one{
     font-family: "plus jakarta sans", sans-serif;
     font-weight: bold;
     padding: 0.75em 1em;
@@ -124,12 +126,13 @@
     color: white;
 }
 
-.refresh:hover{
+.refresh.one:hover{
     background-color: transparent;
 }
 
-.refresh-container{
+.refresh-container.one{
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-top: -7em;
 }

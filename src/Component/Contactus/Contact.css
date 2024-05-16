@@ -1,0 +1,52 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap');
+
+.usebbody {
+  background-image: url(../Assests/user-bg.jpg);
+  background-position: center;
+  background-size: cover;
+  background-attachment: fixed;
+  font-family: "plus jakarta sans", sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2em;
+}
+
+.dISTRICTMISSIONCOORDINATORPHON {
+  background-color: #1c2a39;
+  padding-left: 5cm;
+  padding-right: 0cm;
+  padding-top: 2cm;
+  padding-bottom: 0.5cm;
+  border-radius: 50px;
+  color: aliceblue;
+  font-family: 'plus jakarta sans';
+}
+
+.textBlock {
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  text-align: justify;
+}
+
+.contact-info-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  text-align: justify;
+  border-radius: 15px;
+  line-height: 1cm;
+  padding: auto;
+  gap: 20px;
+}
+
+.contact-info-grid {
+
+  border-radius: 15px;
+  padding: auto;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  line-height: 1cm;
+}

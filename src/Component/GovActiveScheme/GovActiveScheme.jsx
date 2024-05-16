@@ -73,14 +73,14 @@ const GovActiveScheme = () => {
             ) : (
                 <div>
                     <div className="no-scheme-container">
-                        <img src={noscheme} alt="Schemes are currently closed" className="no-scheme" />
+                        <img src={noscheme} alt="Schemes are currently closed" className="no-scheme-icon" />
                     </div>
                     <p className='no-active-schemes'>
                         Currently no schems have been activated. <br />
                         Please activate all the schemes to view all the applicants
                     </p>
-                    <div className="refresh-container">
-                        <button className="refresh" onClick={()=>{refresh()}}>Refresh page</button>
+                    <div className="refresh-container gov">
+                        <button className="refresh gov" onClick={()=>{refresh()}}>Refresh page</button>
                     </div>
                 </div>
             )}
