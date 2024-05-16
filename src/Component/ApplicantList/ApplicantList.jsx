@@ -16,10 +16,7 @@ const ApplicantList = () => {
   const location = useLocation();
   const schemeParameter = location.state?.schemeParameter;
   const [schemeActivated, setSchemeActivated] = useState(false);
-  const [ipfsConnect, setIpfsConnect] = useState(false);
-
   const [formData, setFormData] = useState([]);
-  const [contentID, setContentID] = useState(null);
 
   const ipfs = create({
     host: 'localhost',
@@ -67,26 +64,28 @@ const ApplicantList = () => {
           };
         })
         //cid formation
-        for (let i = 0; i < data.length; i++) {
-          const currentCID = data[i].CID;
-          const ipfsContentGenerator = ipfs.cat(currentCID);
-          let ipfsContent = new Uint8Array(0);
-          for await (const chunk of ipfsContentGenerator) {
-            ipfsContent = concatenateUint8Arrays(ipfsContent, chunk);
-          }
-          // Decryption
-          const decryptedData = CryptoJS.AES.decrypt(uint8ArrayToString(ipfsContent), "secretKey").toString(CryptoJS.enc.Utf8);
-          const application = JSON.parse(decryptedData);
-          application.CID = currentCID;
-          console.log(application);
-          if (!formData.find((item) => item.id === application.id)) {
-            setFormData((prevData) => [...prevData, application]);
-          }
-        }
-        const ipfsStatus = ipfs.id();
-        if (ipfsStatus) {
-          setIpfsConnect(true);
-        }
+       // Inside the fetchData function
+for (let i = 0; i < data.length; i++) {
+  const currentCID = data[i].CID;
+  try {
+    const ipfsContentGenerator = ipfs.cat(currentCID);
+    let ipfsContent = new Uint8Array(0);
+    for await (const chunk of ipfsContentGenerator) {
+      ipfsContent = concatenateUint8Arrays(ipfsContent, chunk);
+    }
+    // Decryption
+    const decryptedData = CryptoJS.AES.decrypt(uint8ArrayToString(ipfsContent), "secretKey").toString(CryptoJS.enc.Utf8);
+    const application = JSON.parse(decryptedData);
+    console.log("Parsed JSON:", application);
+    application.CID = currentCID;
+    console.log(application);
+    if (!formData.find((item) => item.id === application.id)) {
+      setFormData((prevData) => [...prevData, application]);
+    }
+  } catch (error) {
+    console.error("Error fetching IPFS content:", error);
+  }
+}
       }
       catch (e) {
         console.error("ERROR : ", e);
@@ -106,7 +105,6 @@ const ApplicantList = () => {
         Applicants List
       </h1>
       {schemeActivated ? (
-        ipfsConnect ? (
           <div className='list-group'>
             {formData.length > 0 ? (
               formData.filter((form) => form.param === schemeParameter)
@@ -131,13 +129,6 @@ const ApplicantList = () => {
               )}
           </div>
         ) : (
-          <div>
-            <p className="no-ipfs">Please check your IPFS backend to load the list of Applicants</p>
-            <div className="refresh-container">
-              <button className="refresh" onClick={() => {refresh()}}>Refresh page</button>
-            </div>
-          </div>
-        )) : (
         <div>
           <p className="no-activated-schemes">No schemes are currently activate to view the applicants.<br /></p>
           <div className="refresh-container">

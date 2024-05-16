@@ -74,7 +74,7 @@ const LoginPage = () => {
 
 
   return (
-    <div className='login-main'>
+    <div className='login-main-body'>
       <div className="login-container">
         <div className="login1">
           <h2 className='login-label'>Login</h2>
