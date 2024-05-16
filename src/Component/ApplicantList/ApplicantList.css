@@ -1,7 +1,6 @@
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap');
 
 .applicant-list-main-body {
-    font-family: "plus jakarta sans", sans-serif;
+    font-family: sans-serif;
     padding-bottom: 3em;
     margin-top: -2em;
 }

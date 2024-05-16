@@ -11,6 +11,7 @@
     "filecoin.js": "^0.0.5-alpha",
     "firebase": "^10.6.0",
     "formik": "^2.4.5",
+    "ipfs": "^0.66.1",
     "ipfs-http-client": "^60.0.1",
     "lottie-react": "^2.4.0",
     "lottie-web": "^5.12.2",
