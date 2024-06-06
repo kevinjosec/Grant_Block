@@ -1,10 +1,15 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import './GovResult.css'
 import Web3 from 'web3';
 import EvaluationABI from '../../Evaluation.json';
+import { authContext } from '../AuthContext'
+import { db, addDoc, collection, doc, auth } from '../../firebase';
+import { documentId, getDoc, getDocs, updateDoc } from 'firebase/firestore';
 
 
 const GovResult = () => {
+
+    const { setApplicant } = useContext(authContext);
 
     const evaluationABI = EvaluationABI.abi;
     const contractAddress = '0x0516BD10641FcC85d5716026b56a4Cc2b27c0a86';
@@ -48,18 +53,28 @@ const GovResult = () => {
                 }
                 console.log("Result: ", fetchedApplicants);
                 setApplicants(fetchedApplicants);
+                setApplicants(fetchedApplicants);
             } catch (e) {
                 console.error(e);
             }
         }
     }
 
-    const addFinalApplicants = async() => {
-        try{
-            await evaluationContract.methods.addFinalApplicants(applicants).send({from:accounts});
+    const addFinalApplicants = async () => {
+        try {
+            await evaluationContract.methods.addFinalApplicants(applicants).send({ from: accounts });
             console.log("Block added succesfully");
+
+            const schemesRef = doc(db, 'notification', 'JRl9yPdlCNYgPbji4VJi');
+            const schemesRefSnapshot = await getDoc(schemesRef);
+            if (schemesRefSnapshot.exists()) {
+                const { notified } = schemesRefSnapshot.data();
+                await updateDoc(schemesRef, {
+                    notify: true,
+                });
+            }
         }
-        catch(e){
+        catch (e) {
             console.error(e);
         }
     }
@@ -70,7 +85,7 @@ const GovResult = () => {
             <div className="result-content">
                 <p className="result-content-header">Beneficiary List</p>
                 {applicants.map((applicant, index) => (
-                    <div className="result-body-container">
+                    <div key={index} className="result-body-container">
                         <p className="result-serial"><strong>{index + 1}</strong>.</p>
                         <p className="result-name">{applicant.name.toUpperCase()}</p>
                         <p className="result-number">{`${applicant.number}`}</p>
@@ -81,8 +96,9 @@ const GovResult = () => {
                         <p className="result-total-marks"><strong>Total marks:  </strong>{`${applicant.marks_scored}`}</p>
                     </div>
                 ))}
+
                 <div className="bc-button">
-                    <button className="block-button" onClick={()=>{addFinalApplicants()}}>Publish Results</button>
+                    <button className="block-button" onClick={() => { addFinalApplicants() }}>Publish Results</button>
                 </div>
             </div>
         </div>

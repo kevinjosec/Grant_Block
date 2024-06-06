@@ -33,11 +33,11 @@ const UserNavbar = ({ backgroundColor }) => {
           <li className='li' onClick={() => navigate('/Schemes')}>
             Schemes
           </li>
-          <li className='li'>
-            History
+          <li className='li'onClick={()=> navigate('/Notification')}>
+            Notification
           </li>
           <li className='li' onClick={() => navigate('/Status')}>
-            Status
+            Guide
           </li>
         </ul>
       </div>
