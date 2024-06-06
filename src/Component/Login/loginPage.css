@@ -1,17 +1,31 @@
+<<<<<<< HEAD
 @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@600&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap');
+=======
+>>>>>>> 9d104b71a6617b271b5a984c2f2fe59759f7c5f0
 
 .login-main-body{
     font-family: "plus jakarta sans",sans-serif;
     background-color: #1d284d;
+<<<<<<< HEAD
     padding: 0.25em 4em 0.25em 4em;
+=======
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+>>>>>>> 9d104b71a6617b271b5a984c2f2fe59759f7c5f0
 }
 
 .login-container{
     font-family: "open-sans", sans-serif;
     display: grid;
+<<<<<<< HEAD
     grid-template-columns: 1fr 2fr;
+=======
+    grid-template-columns: 1fr 2f;
+>>>>>>> 9d104b71a6617b271b5a984c2f2fe59759f7c5f0
 }
 
 .login1,.login2{

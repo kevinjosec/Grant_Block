@@ -15,8 +15,11 @@ const ApplicantList = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const schemeParameter = location.state?.schemeParameter;
+<<<<<<< HEAD
+=======
+  const [schemeActivated, setSchemeActivated] = useState(false);
+>>>>>>> 9d104b71a6617b271b5a984c2f2fe59759f7c5f0
   const [formData, setFormData] = useState([]);
-  const [contentID, setContentID] = useState(null);
 
   const ipfs = create({
     host: 'localhost',
@@ -57,6 +60,7 @@ const ApplicantList = () => {
           };
         })
         //cid formation
+<<<<<<< HEAD
         for (let i = 0; i < data.length; i++) {
           const currentCID = data[i].CID;
           const ipfsContentGenerator = ipfs.cat(currentCID);
@@ -74,6 +78,30 @@ const ApplicantList = () => {
             setFormData((prevData) => [...prevData, application]);
           }
         }
+=======
+       // Inside the fetchData function
+for (let i = 0; i < data.length; i++) {
+  const currentCID = data[i].CID;
+  try {
+    const ipfsContentGenerator = ipfs.cat(currentCID);
+    let ipfsContent = new Uint8Array(0);
+    for await (const chunk of ipfsContentGenerator) {
+      ipfsContent = concatenateUint8Arrays(ipfsContent, chunk);
+    }
+    // Decryption
+    const decryptedData = CryptoJS.AES.decrypt(uint8ArrayToString(ipfsContent), "secretKey").toString(CryptoJS.enc.Utf8);
+    const application = JSON.parse(decryptedData);
+    console.log("Parsed JSON:", application);
+    application.CID = currentCID;
+    console.log(application);
+    if (!formData.find((item) => item.id === application.id)) {
+      setFormData((prevData) => [...prevData, application]);
+    }
+  } catch (error) {
+    console.error("Error fetching IPFS content:", error);
+  }
+}
+>>>>>>> 9d104b71a6617b271b5a984c2f2fe59759f7c5f0
       }
       catch (e) {
         console.error("ERROR : ", e);
@@ -92,6 +120,10 @@ const ApplicantList = () => {
       <h1 className='candidates-header'>
         Applicants List
       </h1>
+<<<<<<< HEAD
+=======
+      {schemeActivated ? (
+>>>>>>> 9d104b71a6617b271b5a984c2f2fe59759f7c5f0
           <div className='list-group'>
             {formData.length > 0 ? (
               formData.filter((form) => form.param === schemeParameter)
@@ -115,6 +147,17 @@ const ApplicantList = () => {
                 <p>No Applicants found.</p>
               )}
           </div>
+<<<<<<< HEAD
+=======
+        ) : (
+        <div>
+          <p className="no-activated-schemes">No schemes are currently activate to view the applicants.<br /></p>
+          <div className="refresh-container">
+            <button className="refresh" onClick={() => {refresh()}}>Refresh page</button>
+          </div>
+        </div>
+      )}
+>>>>>>> 9d104b71a6617b271b5a984c2f2fe59759f7c5f0
     </div>
   )
 }

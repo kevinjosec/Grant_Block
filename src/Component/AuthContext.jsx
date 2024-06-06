@@ -36,7 +36,14 @@ export function AuthProvider({ children }) {
         });
     };
 
+<<<<<<< HEAD
     const value = { currentUser, userData, updateFormData, applicants, setApplicants };
 
     return <authContext.Provider value={value}>{children}</authContext.Provider>;
+=======
+
+  const value = { currentUser, userData };
+
+  return <authContext.Provider value={value}>{children}</authContext.Provider>;
+>>>>>>> 9d104b71a6617b271b5a984c2f2fe59759f7c5f0
 }
