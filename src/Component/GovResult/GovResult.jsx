@@ -105,4 +105,4 @@ const GovResult = () => {
     )
 }
 
-export default GovResult
+export default GovResult;

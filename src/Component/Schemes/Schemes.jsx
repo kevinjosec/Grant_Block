@@ -31,7 +31,6 @@ const Schemes = () => {
       const docRef = doc(db, 'schemeActivation', 'hk9qbigYr3rjrHi0RJ9t')
       const docRefSnapshot = await getDoc(docRef);
       if (docRefSnapshot.exists()) {
-        const data = docRefSnapshot.data().activate;
         setSchemeActivated(data);
       }
     }

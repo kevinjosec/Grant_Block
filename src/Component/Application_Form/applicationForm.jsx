@@ -253,7 +253,6 @@ const ApplicationForm = () => {
             CID: cid,
           };
           await addDoc(collectionReference, dataToAdd);
-          updateFormData(applicationData);
           updateApplicantCount(param, true);
           navigate('/Schemes')
         }
