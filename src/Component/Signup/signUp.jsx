@@ -4,7 +4,7 @@ import * as yup from 'yup';
 import Login from '../Login/loginPage'
 import './signUp.css'
 import { auth, db } from '../../firebase'
-import { doc, setDoc, getDoc, updateDoc } from 'firebase/firestore';
+import { doc, setDoc } from 'firebase/firestore';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 import loginbackground from '../Assests/login-background.jpg'
@@ -22,43 +22,36 @@ const SignUp = () => {
   }, []);
 
   //creating new user
-  const handleSignUp = async (event) => {
-    const userRef = doc(db, "users", formik.values.email);
+  const [signUpError, setSignUpError] = useState('');
+
+  const handleSignUp = async (values, { setSubmitting }) => {
+    setSignUpError('');
     try {
-      //values from signup form
-      await setDoc(userRef, {
-        fname: formik.values.fname,
-        lname: formik.values.lname,
-        phone: formik.values.phone,
-        email: formik.values.email,
-        adharCard: formik.values.adharCard,
-        rationCard: formik.values.rationCard
+      // 1. Create the Firebase Auth account first, so the profile write below is authenticated
+      //    and an existing account can't be overwritten by someone who only knows the email.
+      const { user } = await createUserWithEmailAndPassword(auth, values.email, values.password);
+
+      // 2. Store the profile under the verified email of the new account
+      await setDoc(doc(db, "users", user.email), {
+        fname: values.fname,
+        lname: values.lname,
+        phone: values.phone,
+        email: user.email,
+        adharCard: values.adharCard,
+        rationCard: values.rationCard
       });
-    } catch (error) {
-      console.error("Error adding details to Firestore:", error);
-    }
-    try {
-      const userDoc = await getDoc(userRef);
-      if (userDoc.exists()) {
-        await updateDoc(userRef, {
-          fname: formik.values.fname,
-          lname: formik.values.lname,
-          phone: formik.values.phone,
-          adharCard: formik.values.adharCard,
-          rationCard: formik.values.rationCard
-        })
-        navigate('/Login');
-      }
-      else {
-
-        const result = await createUserWithEmailAndPassword(auth, formik.values.email, formik.values.password);
-        console.log("user created", result);
-        navigate('/Login');
-
-      }
-
+      navigate('/UserHomePage');
     } catch (err) {
-      console.log(err.message);
+      if (err.code === 'auth/email-already-in-use') {
+        setSignUpError('An account with this email already exists. Please log in.');
+      } else if (err.code === 'auth/weak-password') {
+        setSignUpError('Password is too weak.');
+      } else {
+        console.error(err);
+        setSignUpError('Could not create the account. Please try again.');
+      }
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -113,9 +106,10 @@ const SignUp = () => {
             <input type='text' name="adhar" className='signupInput adhar-input' {...formik.getFieldProps('adharCard')} placeholder='Adhar card number' />
             <input type='text' name="ration" className='signupInput ration-input' {...formik.getFieldProps('rationCard')} placeholder='Ration card number' />
             <br />
-            <button type='submit' className='signup-button' onClick={formik.handleSubmit}>
+            <button type='submit' className='signup-button' disabled={formik.isSubmitting}>
               SIGNUP
             </button>
+            {signUpError ? (<div className='error'>{signUpError}</div>) : null}
             {formik.touched.fname && formik.errors.fname ? (<div className='error'>{formik.errors.fname}</div>) : null}
             {formik.touched.lname && formik.errors.lname ? (<div className='error'>{formik.errors.lname}</div>) : null}
             {formik.touched.phone && formik.errors.phone ? (<div className='error'>{formik.errors.phone}</div>) : null}

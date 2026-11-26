@@ -33,7 +33,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "chain": "ganache --wallet.deterministic --chain.chainId 1337 --server.port 8545 --database.dbPath .ganache-db",
+    "deploy": "truffle migrate --reset --network development && node scripts/sync-contract.js"
   },
   "eslintConfig": {
     "extends": [

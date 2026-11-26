@@ -1,0 +1,71 @@
+rules_version = '2';
+
+// Deploy with:  firebase deploy --only firestore:rules
+// Government officers = accounts with a document at admins/{uid}.
+// Create those documents by hand in the Firebase console; clients can never write them.
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function isGov() {
+      return signedIn() && exists(/databases/$(database)/documents/admins/$(request.auth.uid));
+    }
+
+    function isOwnEmail(email) {
+      return signedIn() && request.auth.token.email == email;
+    }
+
+    // Role documents: a user may check their own role, nobody may write from the client.
+    match /admins/{uid} {
+      allow read: if signedIn() && request.auth.uid == uid;
+      allow write: if false;
+    }
+
+    // Citizen profiles, keyed by email.
+    match /users/{email} {
+      allow read: if isOwnEmail(email) || isGov();
+      allow create, update: if isOwnEmail(email) && request.resource.data.email == email;
+      allow delete: if false;
+    }
+
+    // Submitted applications (only the IPFS CID + timestamp live here).
+    match /applicantForm/{id} {
+      allow create: if signedIn()
+        && request.resource.data.keys().hasOnly(['CID', 'Submitted'])
+        && request.resource.data.CID is string;
+      allow read, delete: if isGov();
+      allow update: if false;
+    }
+
+    // Per-scheme applicant counters.
+    match /scheme/{name} {
+      allow read: if signedIn();
+      // Applicants may only bump the counter by exactly one.
+      allow update: if isGov()
+        || (signedIn()
+            && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['count'])
+            && request.resource.data.count == resource.data.count + 1);
+      allow create, delete: if isGov();
+    }
+
+    // Global "schemes are open" flag.
+    match /schemeActivation/{id} {
+      allow read: if signedIn();
+      allow write: if isGov();
+    }
+
+    // Published results / notify flag.
+    match /notification/{id} {
+      allow read: if signedIn();
+      allow write: if isGov();
+    }
+
+    // Everything else (including the old secretKey collection) is closed.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

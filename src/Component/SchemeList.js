@@ -3,8 +3,8 @@ import milk from './Assests/milk.jpg'
 import disabled from './Assests/disabled.jpg'
 import rennovation from './Assests/rennovation.jpg'
 import construction from './Assests/construction.jpg'
-import { db, addDoc, collection, doc } from '../firebase';
-import { documentId, getDoc, getDocs, updateDoc } from 'firebase/firestore';
+import { db, doc } from '../firebase';
+import { increment, updateDoc } from 'firebase/firestore';
 
 const scheme = [
     {
@@ -45,21 +45,11 @@ const scheme = [
     },
 ];
 
-const updateApplicantCount = async (schemeName, increment) => {
+// Atomic +1/-1 (no read-modify-write race). The Firestore rules only let applicants
+// change `count` by exactly +1, so this must stay a single-step increment.
+const updateApplicantCount = async (schemeName, up) => {
     try {
-      const schemeDocRef = doc(db, 'scheme', schemeName);
-      const schemeDocSnapshot = await getDoc(schemeDocRef);
-      if (schemeDocSnapshot.exists()) {
-        let currentCount = schemeDocSnapshot.data().count || 0;
-        if (increment) {
-          currentCount++;
-        } else {
-          currentCount--;
-        }
-        await updateDoc(schemeDocRef, { count: currentCount });
-      } else {
-        console.log("No Scheme found");
-      }
+      await updateDoc(doc(db, 'scheme', schemeName), { count: increment(up ? 1 : -1) });
     } catch (e) {
       console.error(e.message);
     }

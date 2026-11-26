@@ -1,70 +1,59 @@
-# Getting Started with Create React App
+# Grant Block
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Grant distribution portal for Kerala panchayats.
 
-## Available Scripts
+- **Citizens** sign up, pick a scheme and submit an application with PDF documents.
+  The application is encrypted and stored on IPFS; Firestore only keeps its CID.
+- **Government officers (V.E.O.)** open/close schemes, review applications, score them
+  with the `Evaluation` smart contract, approve or reject, and publish the beneficiary list.
 
-In the project directory, you can run:
+| Piece | What it does |
+|---|---|
+| React app (`src/`) | All UI. Citizen pages and officer pages (`/Gov*`, `/Applicant*`). |
+| Firebase Auth | Logins. An officer is any account with a document at `admins/{uid}`. |
+| Firestore | Profiles (`users`), pending applications (`applicantForm`), counters (`scheme`), the open/closed flag (`schemeActivation`), published results (`notification`). Access rules: `firestore.rules`. |
+| IPFS (local daemon) | Stores the encrypted application JSON + PDFs. |
+| `contracts/Evaluation.sol` | Scores the 12 answers (max 240) and keeps approved applicants sorted on-chain. Only the deploying account can add applicants. |
 
-### `npm start`
+## Running it locally
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+You need Node.js, [IPFS Kubo](https://docs.ipfs.tech/install/command-line/) and the MetaMask browser extension.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+```bash
+npm install                 # first time only
 
-### `npm test`
+# terminal 1: local blockchain (data persists in .ganache-db/)
+npm run chain
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+# terminal 2: deploy the contract (first time, or after changing Evaluation.sol)
+npm run deploy              # also writes the address to .env.local
 
-### `npm run build`
+# terminal 3: IPFS
+ipfs daemon
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+# terminal 4: the website
+npm start                   # http://localhost:3000
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### MetaMask (officer only)
+1. Add network: RPC `http://127.0.0.1:8545`, chain ID `1337`, symbol `ETH`.
+2. Import account with the private key printed as `(0)` under "Private Keys" when `npm run chain` starts.
+   This is the account that deployed the contract, so it is the only one allowed to approve applicants.
+   (It is a well-known local test key: never send real funds to it.)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Making someone an officer
+1. Let them sign up normally on the site.
+2. Firebase console → Authentication → copy their **User UID**.
+3. Firestore → start collection `admins` → document ID = that UID → any field (e.g. `role: "veo"`).
 
-### `npm run eject`
+### Firestore rules
+```bash
+npx firebase-tools login
+npx firebase-tools deploy --only firestore:rules --project grant-block
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+### Tests
+```bash
+npm run chain                                   # if not already running
+npx truffle test --network development          # contract tests
+```

@@ -9,6 +9,7 @@ import 'react-calendar/dist/Calendar.css'
 import { useNavigate } from 'react-router-dom';
 import GovActive from '../GovActive/GovActive';
 import GovActiveResult from '../GovActiveScheme/GovActiveScheme'
+import { auth } from '../../firebase';
 
 const GovHome = () => {
 
@@ -42,6 +43,7 @@ const GovHome = () => {
         <button className="gov-rules download">Regulation process overview</button>
         <button className="gov-rules user-guide">User Guide</button>
         <button className="gov-rules support">Contact Higher authority</button>
+        <button className="gov-rules logout" onClick={async () => { await auth.signOut(); navigate('/'); }}>Logout</button>
       </div>
       
       <br></br>

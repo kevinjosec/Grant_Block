@@ -1,17 +1,34 @@
 import React, { createContext, useEffect, useState } from 'react';
-import { auth } from '../firebase';
+import { doc, getDoc } from 'firebase/firestore';
+import { auth, db } from '../firebase';
 
 export const authContext = createContext();
+
+// A user is a government officer when a document exists at admins/{uid}.
+// Those documents can only be created from the Firebase console (see firestore.rules),
+// so the role can't be granted from the browser.
+export async function fetchIsGov(uid) {
+    try {
+        const snap = await getDoc(doc(db, 'admins', uid));
+        return snap.exists();
+    } catch (e) {
+        console.error('Could not read admin role:', e);
+        return false;
+    }
+}
 
 export function AuthProvider({ children }) {
     const [currentUser, setCurrentUser] = useState(null);
     const [userData, setUserData] = useState(null);
+    const [isGov, setIsGov] = useState(false);
+    const [authLoading, setAuthLoading] = useState(true);
     const [applicants, setApplicants] = useState([]);
 
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged(async (user) => {
             if (user) {
                 setCurrentUser(user);
+                setIsGov(await fetchIsGov(user.uid));
                 const storedUserData = localStorage.getItem(`userData_${user.uid}`);
                 if (storedUserData) {
                     setUserData(JSON.parse(storedUserData));
@@ -21,9 +38,14 @@ export function AuthProvider({ children }) {
                     setUserData(initialUserData);
                 }
             } else {
+                setCurrentUser(null);
+                setIsGov(false);
                 setUserData(null);
-                localStorage.clear();
+                Object.keys(localStorage)
+                    .filter((key) => key.startsWith('userData_'))
+                    .forEach((key) => localStorage.removeItem(key));
             }
+            setAuthLoading(false);
         });
         return () => unsubscribe();
     }, []);
@@ -36,14 +58,7 @@ export function AuthProvider({ children }) {
         });
     };
 
-<<<<<<< HEAD
-    const value = { currentUser, userData, updateFormData, applicants, setApplicants };
+    const value = { currentUser, userData, isGov, authLoading, updateFormData, applicants, setApplicants };
 
     return <authContext.Provider value={value}>{children}</authContext.Provider>;
-=======
-
-  const value = { currentUser, userData };
-
-  return <authContext.Provider value={value}>{children}</authContext.Provider>;
->>>>>>> 9d104b71a6617b271b5a984c2f2fe59759f7c5f0
 }

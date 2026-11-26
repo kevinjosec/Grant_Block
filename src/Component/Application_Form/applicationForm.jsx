@@ -21,22 +21,6 @@ const ApplicationForm = () => {
 
   const { updateFormData } = useContext(authContext);
   const navigate = useNavigate();
-  const [secretKey, setSecretKey] = useState();
-
-  useEffect(() => {
-    const fetchSecretKey = async () => {
-      const docRef = doc(db, 'secretKey', '0wP9TC9QAOkdvquWPYuS');
-      const docRefsnapshot = await getDoc(docRef);
-      if (docRefsnapshot.exists()) {
-        const secretdata = docRefsnapshot.data().secretkey.
-          setSecretKey(secretdata);
-      }
-      else {
-        console.log("Not present");
-      }
-      console.log(secretKey);
-    }
-  }, [])
 
   //for ipfs.cat()
   function concatenateUint8Arrays(a, b) {

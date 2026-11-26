@@ -1,59 +1,42 @@
-import React, { useEffect, useState } from 'react';
-import { db, addDoc, collection, doc } from '../../firebase';
-import { documentId, getDoc, getDocs, updateDoc, deleteDoc, query, where, increment } from 'firebase/firestore';
+import React, { useEffect, useMemo, useState } from 'react';
+import { db, collection, doc } from '../../firebase';
+import { getDocs, updateDoc, deleteDoc, query, where, increment } from 'firebase/firestore';
 import { useLocation, useNavigate } from 'react-router-dom';
 import './ApplicantForm.css';
 import Web3 from 'web3';
-import EvaluationABI from '../../Evaluation.json';
+import { EVALUATION_ABI, EVALUATION_ADDRESS, MAX_MARKS, buildEvaluationFields } from '../../contractConfig';
 
-const ApplicantForm = ({ exportedData }) => {
+const ApplicantForm = () => {
 
-  const evaluationABI = EvaluationABI.abi;
-  const contractAddress = '0x0516BD10641FcC85d5716026b56a4Cc2b27c0a86';
-  const web3 = new Web3(window.ethereum);
-  const evaluationContract = new web3.eth.Contract(evaluationABI, contractAddress);
+  const web3 = useMemo(() => new Web3(window.ethereum), []);
+  const evaluationContract = useMemo(
+    () => (EVALUATION_ADDRESS ? new web3.eth.Contract(EVALUATION_ABI, EVALUATION_ADDRESS) : null),
+    [web3]
+  );
 
   const location = useLocation();
   const formData = location.state?.formData;
   const [showPopUp, setPopUp] = useState(false);
   const [decission, setDecission] = useState();
+  const [busy, setBusy] = useState(false);
   const navigate = useNavigate();
 
   const [totalMarks, setTotalMarks] = useState();
   const [mark, setMark] = useState();
   const [account, setAccount] = useState();
-  const [applicants, setApplicants] = useState([]);
 
+  // Scoring is a free, read-only call: no transaction, no shared contract state.
   const calculateMarks = async () => {
     if (!evaluationContract || !formData) {
-      console.log("Contract / Form data is missing.");
+      alert("Contract address or form data is missing.");
       return;
     }
-    else {
-      try {
-        const fields = [
-          formData.agriculture,
-          formData.pl,
-          formData.widow,
-          formData.disabled,
-          formData.disease,
-          formData.unmarried,
-          formData.previous,
-          formData.caste,
-          formData.government,
-          formData.land,
-          formData.water,
-          formData.toilet,
-        ];
-        await evaluationContract.methods.calculateMarks(fields).send({ from: account });
-        const result = await evaluationContract.methods.getMarks().call();
-        console.log("Result-1: ", result[0]);
-        console.log("Result-2: ", result[1]);
-        setTotalMarks(result[1]);
-        setMark(result[0]);
-      } catch (e) {
-        console.error(e);
-      }
+    try {
+      const result = await evaluationContract.methods.calculateMarks(buildEvaluationFields(formData)).call();
+      setMark(result[0]);
+      setTotalMarks(result[1]);
+    } catch (e) {
+      console.error(e);
     }
   }
 
@@ -73,19 +56,34 @@ const ApplicantForm = ({ exportedData }) => {
       }
     }
     initWeb3();
-  }, []);
-
-
+  }, [web3]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
     confirmCandidate();
   };
 
+  // Removes the pending application from Firestore and decrements the scheme counter.
+  const removePendingApplication = async () => {
+    const q = query(collection(db, 'applicantForm'), where('CID', '==', formData.CID));
+    const querySnapshot = await getDocs(q);
+    await Promise.all(querySnapshot.docs.map((d) => deleteDoc(d.ref)));
+    await updateDoc(doc(db, 'scheme', formData.param), { count: increment(-1) });
+  }
+
   const confirmCandidate = async () => {
-    const confirmed = window.confirm('Once changes are made, they cannot be reverted. \n Are you sure you want to confirm?');
-    if (confirmed && decission) { 
-      try {
+    if (!formData || busy) return;
+    const confirmed = window.confirm('Once changes are made, they cannot be reverted.\nAre you sure you want to confirm?');
+    if (!confirmed) return;
+
+    setBusy(true);
+    try {
+      if (decission === 'approval') {
+        if (!evaluationContract || !account) {
+          alert("Connect MetaMask and set REACT_APP_EVALUATION_ADDRESS before approving.");
+          return;
+        }
+        // The contract recomputes the marks from these answers; the score is not taken from the UI.
         await evaluationContract.methods.addApplicant(
           formData.name,
           formData.phoneNo,
@@ -93,47 +91,17 @@ const ApplicantForm = ({ exportedData }) => {
           formData.param,
           formData.wardNo,
           formData.houseNo,
-          `${totalMarks}`,
+          buildEvaluationFields(formData),
         ).send({ from: account });
-        const applicantCount = await evaluationContract.methods.getApplicantsLength().call();
-        const fetchedApplicant = [];
-        for (let i = 0; i < applicantCount; i++) {
-          const applicant = await evaluationContract.methods.applicants(i).call();
-          fetchedApplicant.push(applicant);
-        }
-        console.log("Result-3: ", fetchedApplicant);
-        console.log("Result-4: ", applicantCount);
-        setApplicants(fetchedApplicant);
-
-        const q = query(collection(db, 'applicantForm'), where('CID', '==', formData.CID));
-        const querySnapshot = await getDocs(q);
-        querySnapshot.forEach(async (doc) => {
-          await deleteDoc(doc.ref);
-        })
-        const schemeRef = doc(db, 'scheme', formData.param);
-        await updateDoc(schemeRef, {
-          count: increment(-1)
-        });
-      } catch (e) {
-        console.error(e);
       }
-      navigate('/ApplicantList')
-    }
-    else if (confirmed){
-      try{
-        const q = query(collection(db, 'applicantForm'), where('CID', '==', formData.CID));
-        const querySnapshot = await getDocs(q);
-        querySnapshot.forEach(async (doc) => {
-          await deleteDoc(doc.ref);
-        })
-        const schemeRef = doc(db, 'scheme', formData.param);
-        await updateDoc(schemeRef, {
-          count: increment(-1)
-        });
-      }
-      catch(e){
-        console.error(e);
-      }
+      // Only reached if approval succeeded on-chain, or for a rejection.
+      await removePendingApplication();
+      navigate('/ApplicantList', { state: { schemeParameter: formData.param } });
+    } catch (e) {
+      console.error(e);
+      alert("The action failed and nothing was changed. See the console for details.");
+    } finally {
+      setBusy(false);
     }
   }
 
@@ -293,7 +261,7 @@ const ApplicantForm = ({ exportedData }) => {
               </div>
               <div className="no-mark-items">
                 <label className="label-name">Total Marks</label>
-                <p className="field-name">{`${totalMarks}`}/200</p>
+                <p className="field-name">{totalMarks !== undefined ? `${totalMarks}` : '-'}/{MAX_MARKS}</p>
                 <button
                   className="calculate-button"
                   onClick={() => { calculateMarks() }}>
@@ -332,7 +300,8 @@ const ApplicantForm = ({ exportedData }) => {
                   placeholder={`Enter the reason for your ${decission} of the specific candidate`} />
                 <br />
                 <button type='submit'
-                  className="confirm-button">
+                  className="confirm-button"
+                  disabled={busy}>
                   Confirm
                 </button>
               </form>

@@ -21,3 +21,8 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# local blockchain data and truffle build output
+/.ganache-db
+/build/contracts
+.env

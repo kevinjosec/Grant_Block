@@ -2,10 +2,9 @@ import React, { useState } from 'react'
 import './loginPage.css';
 import { auth, provider, db } from '../../firebase'
 import { signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
-import signUp from '../Signup/signUp';
 import { useNavigate } from 'react-router-dom';
-import HomePage from '../HomePage/HomePage'
 import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { fetchIsGov } from '../AuthContext';
 
 const LoginPage = () => {
 
@@ -23,20 +22,16 @@ const LoginPage = () => {
       return;
     }
     try {
-      if (email === 'govuser@example.in' && password === 'govUser@123') {
-        navigate('/GovHome');
-      }
-      else {
-        await signInWithEmailAndPassword(auth, email, password)
-        navigate('/UserHomePage')
-      }
+      // Officers sign in like everyone else; their role comes from admins/{uid} in Firestore.
+      const { user } = await signInWithEmailAndPassword(auth, email, password);
+      navigate((await fetchIsGov(user.uid)) ? '/GovHome' : '/UserHomePage');
     }
     catch (err) {
-      if (err.code === 'auth/wrong-password') {
-        setError("Wrong Password");
+      if (['auth/wrong-password', 'auth/user-not-found', 'auth/invalid-credential'].includes(err.code)) {
+        setError("Incorrect email or password");
       }
-      else if (err.code === 'auth/user-not-found') {
-        setError("User not found");
+      else if (err.code === 'auth/too-many-requests') {
+        setError("Too many attempts. Please try again later.");
       }
       else {
         setError("An unexpected error occurred");
@@ -62,8 +57,7 @@ const LoginPage = () => {
           rationCard: ''
         });
       }
-      navigate('/UserHomePage')
-      console.log("SUCCESS");
+      navigate((await fetchIsGov(user.uid)) ? '/GovHome' : '/UserHomePage');
     }
     catch (error) {
       console.log("ERROR", error);

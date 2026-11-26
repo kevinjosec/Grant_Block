@@ -15,10 +15,6 @@ const ApplicantList = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const schemeParameter = location.state?.schemeParameter;
-<<<<<<< HEAD
-=======
-  const [schemeActivated, setSchemeActivated] = useState(false);
->>>>>>> 9d104b71a6617b271b5a984c2f2fe59759f7c5f0
   const [formData, setFormData] = useState([]);
 
   const ipfs = create({
@@ -53,54 +49,33 @@ const ApplicantList = () => {
         const snapshot = await getDocs(collectRef);
         const data = snapshot.docs.map((doc) => {
           return {
+            ...doc.data(),
             id: doc.id,
             Submitted: doc.data().Submitted ? doc.data().Submitted.toDate() : null,
-            ...doc.data(),
           };
         })
         //cid formation
-<<<<<<< HEAD
+        const applications = [];
         for (let i = 0; i < data.length; i++) {
           const currentCID = data[i].CID;
-          const ipfsContentGenerator = ipfs.cat(currentCID);
-          let ipfsContent = new Uint8Array(0);
-          for await (const chunk of ipfsContentGenerator) {
-            ipfsContent = concatenateUint8Arrays(ipfsContent, chunk);
-          }
-          console.log(ipfsContent);
-          // Decryption
-          const decryptedData = CryptoJS.AES.decrypt(uint8ArrayToString(ipfsContent), "secretKey").toString(CryptoJS.enc.Utf8);
-          const application = JSON.parse(decryptedData);
-          application.CID = currentCID;
-          console.log(application);
-          if (!formData.find((item) => item.id === application.id)) {
-            setFormData((prevData) => [...prevData, application]);
+          try {
+            let ipfsContent = new Uint8Array(0);
+            for await (const chunk of ipfs.cat(currentCID)) {
+              ipfsContent = concatenateUint8Arrays(ipfsContent, chunk);
+            }
+            // Decryption
+            const decryptedData = CryptoJS.AES.decrypt(uint8ArrayToString(ipfsContent), "secretKey").toString(CryptoJS.enc.Utf8);
+            const application = JSON.parse(decryptedData);
+            application.id = data[i].id;
+            application.CID = currentCID;
+            application.Submitted = data[i].Submitted;
+            applications.push(application);
+          } catch (error) {
+            console.error("Error fetching IPFS content for", currentCID, error);
           }
         }
-=======
-       // Inside the fetchData function
-for (let i = 0; i < data.length; i++) {
-  const currentCID = data[i].CID;
-  try {
-    const ipfsContentGenerator = ipfs.cat(currentCID);
-    let ipfsContent = new Uint8Array(0);
-    for await (const chunk of ipfsContentGenerator) {
-      ipfsContent = concatenateUint8Arrays(ipfsContent, chunk);
-    }
-    // Decryption
-    const decryptedData = CryptoJS.AES.decrypt(uint8ArrayToString(ipfsContent), "secretKey").toString(CryptoJS.enc.Utf8);
-    const application = JSON.parse(decryptedData);
-    console.log("Parsed JSON:", application);
-    application.CID = currentCID;
-    console.log(application);
-    if (!formData.find((item) => item.id === application.id)) {
-      setFormData((prevData) => [...prevData, application]);
-    }
-  } catch (error) {
-    console.error("Error fetching IPFS content:", error);
-  }
-}
->>>>>>> 9d104b71a6617b271b5a984c2f2fe59759f7c5f0
+        // Replace (not append) so StrictMode's double effect run can't duplicate entries
+        setFormData(applications);
       }
       catch (e) {
         console.error("ERROR : ", e);
@@ -119,22 +94,18 @@ for (let i = 0; i < data.length; i++) {
       <h1 className='candidates-header'>
         Applicants List
       </h1>
-<<<<<<< HEAD
-=======
-      {schemeActivated ? (
->>>>>>> 9d104b71a6617b271b5a984c2f2fe59759f7c5f0
           <div className='list-group'>
             {formData.length > 0 ? (
               formData.filter((form) => form.param === schemeParameter)
                 .map((form, index) => (
-                  <div key={index} >
+                  <div key={form.id ?? index} >
                     <p className='input-Tag'
                       onClick={() => {
                         handleExportData(form)
                       }}>
                       <img src={dp} alt="Profile" className="applicant-list-dp" style={{ width: "2em" }} />
                       <span className='applicant-name'>{form.name}</span>
-                      <span className='applicant-date'>Applied on : {form.Submitted ? form.Submitted.toDate().toLocaleString() : 'Date not available'} </span>
+                      <span className='applicant-date'>Applied on : {form.Submitted ? new Date(form.Submitted).toLocaleString() : 'Date not available'} </span>
                       <IoIosArrowForward
                         className="arrow-icon"
                         size={"2rem"} />
@@ -146,17 +117,6 @@ for (let i = 0; i < data.length; i++) {
                 <p>No Applicants found.</p>
               )}
           </div>
-<<<<<<< HEAD
-=======
-        ) : (
-        <div>
-          <p className="no-activated-schemes">No schemes are currently activate to view the applicants.<br /></p>
-          <div className="refresh-container">
-            <button className="refresh" onClick={() => {refresh()}}>Refresh page</button>
-          </div>
-        </div>
-      )}
->>>>>>> 9d104b71a6617b271b5a984c2f2fe59759f7c5f0
     </div>
   )
 }

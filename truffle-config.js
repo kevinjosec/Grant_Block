@@ -58,6 +58,12 @@ module.exports = {
    */
 
   networks: {
+    // Local chain: start it with `npm run chain` (Ganache on 127.0.0.1:8545, chain id 1337).
+    development: {
+      host: "127.0.0.1",
+      port: 8545,
+      network_id: "*",
+    },
     // Useful for testing. The `development` name is special - truffle uses it by default
     // if it's defined here and no other network is specified at the command line.
     // You should run a client (like ganache, geth, or parity) in a separate terminal

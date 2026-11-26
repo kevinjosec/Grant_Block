@@ -1,81 +1,67 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import './GovResult.css'
 import Web3 from 'web3';
-import EvaluationABI from '../../Evaluation.json';
-import { authContext } from '../AuthContext'
-import { db, addDoc, collection, doc, auth } from '../../firebase';
-import { documentId, getDoc, getDocs, updateDoc } from 'firebase/firestore';
+import { db, doc } from '../../firebase';
+import { setDoc, serverTimestamp } from 'firebase/firestore';
+import { EVALUATION_ABI, EVALUATION_ADDRESS } from '../../contractConfig';
 
+const NOTIFICATION_DOC = 'JRl9yPdlCNYgPbji4VJi';
 
 const GovResult = () => {
 
-    const { setApplicant } = useContext(authContext);
-
-    const evaluationABI = EvaluationABI.abi;
-    const contractAddress = '0x0516BD10641FcC85d5716026b56a4Cc2b27c0a86';
-    const web3 = new Web3(window.ethereum);
-    const evaluationContract = new web3.eth.Contract(evaluationABI, contractAddress);
-    const [accounts, setAccounts] = useState([]);
+    const web3 = useMemo(() => new Web3(window.ethereum), []);
+    const evaluationContract = useMemo(
+        () => (EVALUATION_ADDRESS ? new web3.eth.Contract(EVALUATION_ABI, EVALUATION_ADDRESS) : null),
+        [web3]
+    );
     const [applicants, setApplicants] = useState([]);
+    const [publishing, setPublishing] = useState(false);
 
     useEffect(() => {
-        const initWeb3 = async () => {
-            if (window.ethereum) {
-                try {
-                    await window.ethereum.request({ method: 'eth_requestAccounts' });
-                    const accounts = await web3.eth.getAccounts();
-                    setAccounts(accounts[0]);
-                }
-                catch (e) {
-                    console.log(e);
-                }
+        const getFinalApplicants = async () => {
+            if (!evaluationContract) {
+                console.log('No evaluation contract address configured');
+                return;
             }
-            else {
-                console.log("Meta mask is not available");
-            }
-        }
-        initWeb3();
-        getFinalApplicants();
-    }, [])
-
-    const getFinalApplicants = async () => {
-        if (!evaluationContract) {
-            console.log('No evaluation Contract');
-            return;
-        }
-        else {
             try {
-                const count = await evaluationContract.methods.getApplicantsLength().call();
-                const fetchedApplicants = [];
-                for (let i = 0; i < count; i++) {
-                    const applicant = await evaluationContract.methods.applicants(i).call();
-                    fetchedApplicants.push(applicant);
-                }
-                console.log("Result: ", fetchedApplicants);
-                setApplicants(fetchedApplicants);
-                setApplicants(fetchedApplicants);
+                // Already sorted by marks on-chain.
+                setApplicants(await evaluationContract.methods.getApplicants().call());
             } catch (e) {
                 console.error(e);
             }
         }
-    }
+        getFinalApplicants();
+    }, [evaluationContract]);
 
-    const addFinalApplicants = async () => {
+    // Publishing only announces the list that is already on-chain.
+    // It no longer writes the applicants back to the contract (which duplicated every entry).
+    const publishResults = async () => {
+        if (applicants.length === 0) {
+            alert("There are no approved applicants to publish.");
+            return;
+        }
+        if (!window.confirm('Publish this beneficiary list to all applicants?')) return;
+        setPublishing(true);
         try {
-            await evaluationContract.methods.addFinalApplicants(applicants).send({ from: accounts });
-            console.log("Block added succesfully");
-
-            const schemesRef = doc(db, 'notification', 'JRl9yPdlCNYgPbji4VJi');
-            const schemesRefSnapshot = await getDoc(schemesRef);
-            if (schemesRefSnapshot.exists()) {
-                const { notified } = schemesRefSnapshot.data();
-                await updateDoc(schemesRef, {
-                    notify: true,
-                });
-            }
+            const results = applicants.map((a) => ({
+                name: a.name,
+                scheme_name: a.scheme_name,
+                ward_number: Number(a.ward_number),
+                marks_scored: Number(a.marks_scored),
+            }));
+            await setDoc(doc(db, 'notification', NOTIFICATION_DOC), {
+                notify: true,
+                results,
+                publishedAt: serverTimestamp(),
+            });
+            alert("Results published.");
         }
         catch (e) {
             console.error(e);
+            alert("Publishing failed. See the console for details.");
+        }
+        finally {
+            setPublishing(false);
         }
     }
 
@@ -98,7 +84,7 @@ const GovResult = () => {
                 ))}
 
                 <div className="bc-button">
-                    <button className="block-button" onClick={() => { addFinalApplicants() }}>Publish Results</button>
+                    <button className="block-button" disabled={publishing} onClick={publishResults}>Publish Results</button>
                 </div>
             </div>
         </div>
