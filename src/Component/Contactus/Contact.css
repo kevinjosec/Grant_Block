@@ -1,52 +1,75 @@
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap');
-
 .usebbody {
   background-image: url(../Assests/user-bg.jpg);
   background-position: center;
   background-size: cover;
   background-attachment: fixed;
-  font-family: "plus jakarta sans", sans-serif;
+  font-family: "Plus Jakarta Sans", sans-serif;
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 2em;
+  min-height: 100vh;
 }
 
 .dISTRICTMISSIONCOORDINATORPHON {
   background-color: #1c2a39;
-  padding-left: 5cm;
-  padding-right: 0cm;
-  padding-top: 2cm;
-  padding-bottom: 0.5cm;
+  padding: 2.5em 3em 1.5em;
   border-radius: 50px;
   color: aliceblue;
-  font-family: 'plus jakarta sans';
+  font-family: "Plus Jakarta Sans", sans-serif;
+  width: 100%;
+  max-width: 900px;
 }
 
 .textBlock {
   font-size: 22px;
   font-weight: bold;
   margin-bottom: 20px;
-  text-align: justify;
 }
 
+/* One row per district: name on the left, number on the right */
 .contact-info-container {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  text-align: justify;
-  border-radius: 15px;
-  line-height: 1cm;
-  padding: auto;
-  gap: 20px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
-.contact-info-grid {
-
-  border-radius: 15px;
-  padding: auto;
-  height: 100%;
+.contact-row {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  line-height: 1cm;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1em;
+  padding: 0.4em 0;
+  border-bottom: 1px solid rgba(240, 248, 255, 0.12);
+}
+
+.contact-phone {
+  color: aliceblue;
+  white-space: nowrap;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.contact-phone:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 600px) {
+  .usebbody {
+    padding: 1em;
+  }
+
+  .dISTRICTMISSIONCOORDINATORPHON {
+    border-radius: 24px;
+    padding: 1.5em 1.25em 1em;
+  }
+
+  .textBlock {
+    font-size: 18px;
+  }
+
+  .contact-row {
+    flex-direction: column;
+    gap: 0.15em;
+  }
 }

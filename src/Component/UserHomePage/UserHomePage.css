@@ -1,86 +1,138 @@
-
-
-.user-page-body{
+.user-page-body {
     background-image: url(../Assests/user-bg.jpg);
     background-position: center;
     background-size: cover;
     background-attachment: fixed;
     color: white;
+    min-height: 100vh;
+}
+
+.user-page-header {
+    padding: 0 2rem;
 }
 
 .userHeader {
-    font-size: 50px;
-    margin-left: 2rem;
-    font-family: "roboto sans", sans-serif;
+    font-size: clamp(32px, 6vw, 50px);
+    font-family: "Roboto", sans-serif;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .headerBody {
     line-height: 30px;
     font-weight: 400;
-    font-family: "roboto", sans-serif;
+    font-family: "Roboto", sans-serif;
     font-size: 15px;
-    margin-left: 2rem;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .footer-body {
     display: grid;
-    grid-template-columns: repeat(2 ,1fr);
+    grid-template-columns: repeat(2, 1fr);
     text-align: center;
 }
 
-.variety{
+.variety {
     height: 300px;
-    margin-top: -3em;
-    margin-bottom:2em;
+    margin: -3em 0 2em;
 }
 
-.update{
+.update {
     height: 250px;
 }
 
-.tracking{
+.tracking {
     height: 350px;
 }
 
- .footer-head{
-    font-family: "roboto", sans-serif;
+.footer-head {
+    font-family: "Roboto", sans-serif;
     font-weight: bold;
     font-size: 20px;
     text-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
- }
+}
 
- .footer-head.updated{
-    margin-top:2em ;
- }
+.footer-head.updated {
+    margin-top: 2em;
+}
 
- .footer-content{
+.footer-content {
     text-align: center;
     margin-bottom: 3em;
- }
+    min-width: 0;
+}
 
- .footer-content.one,.footer-content.four,.footer-content.five{
+.footer-content.one,
+.footer-content.four,
+.footer-content.five {
     padding: 5em;
- }
+}
 
- .footer-content.two,.footer-content.three{
+.footer-content.two,
+.footer-content.three,
+.footer-content.six {
     padding: 3em;
- }
+}
 
- .footer-button{
-    padding: 10px 20px 10px 20px;
+.footer-button {
+    padding: 10px 20px;
     border: 1px solid white;
     background-color: transparent;
     border-radius: 25px;
     font-weight: 500;
-    font-family: "roboto", sans-serif;
+    font-family: "Roboto", sans-serif;
     color: white;
     cursor: pointer;
     transition: 0.3s;
- }
+}
 
- .footer-button:hover{
-    padding: 12px 22px 12px 22px;
+.footer-button:hover {
     backdrop-filter: blur(20px);
+    text-decoration: underline;
+}
+
+@media (max-width: 800px) {
+    .user-page-header {
+        padding: 0 1.25rem;
+    }
+
+    .footer-body {
+        grid-template-columns: 1fr;
+    }
+
+    /* Keep each text block next to its animation when stacked */
+    .footer-content.one { order: 1; }
+    .footer-content.two { order: 2; }
+    .footer-content.four { order: 3; }
+    .footer-content.three { order: 4; }
+    .footer-content.five { order: 5; }
+    .footer-content.six { order: 6; }
+
+    .footer-content.one,
+    .footer-content.four,
+    .footer-content.five {
+        padding: 1.5em 1.25em 0;
+        margin-bottom: 0;
+    }
+
+    .footer-content.two,
+    .footer-content.three,
+    .footer-content.six {
+        padding: 0 1.25em;
+        margin-bottom: 1.5em;
+    }
+
+    .footer-head.updated {
+        margin-top: 0;
+    }
+
+    .footer-para br {
+        display: none;
+    }
+
+    .variety,
+    .update,
+    .tracking {
+        height: 220px;
+        margin: 0;
+    }
 }

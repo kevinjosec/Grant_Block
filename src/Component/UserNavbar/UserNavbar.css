@@ -1,41 +1,68 @@
-
-
-.userNavbar{
-    font-family: "noto sans", sans-serif;
-    height: 80px;
+.userNavbar {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.25em 1em;
+    font-family: "Noto Sans", sans-serif;
+    min-height: 80px;
     background-color: #1d284d;
     color: white;
     font-size: 40px;
-    text-align: left;
-    justify-self: center;
-    padding-left: 30px;
-    padding-top: 10px;
+    padding: 10px 2rem 10px 30px;
     font-weight: bolder;
 }
-.userProfile{
-    float: right;
-    margin-right: 2rem;
-    margin-top: .8rem;
-    cursor: pointer;
-}
-.userNavbarList{
+
+.userNavbarList {
+    order: 1;
+    flex: 1;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem 4rem;
     font-size: 16px;
     font-weight: 500;
     color: white;
-    text-align: center;
     list-style-type: none;
     margin: 0;
     padding: 0;
-    margin-top:-2rem;
-    margin-left: 10rem;
 }
-.li 
-{
-    display: inline-block;
-    margin-right: 4rem;
+
+.userProfile {
+    order: 2;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.li {
     cursor: pointer;
     transition: 0.3s;
-  }
-.li:hover{
-    font-size: 20px;
+    padding: 0.25em 0;
+}
+
+.li:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 700px) {
+    .userNavbar {
+        font-size: 28px;
+        padding: 10px 1rem;
+        min-height: 0;
+    }
+
+    .userProfile {
+        order: 1;
+        margin-left: auto;
+    }
+
+    /* Links wrap onto their own row under the brand */
+    .userNavbarList {
+        order: 3;
+        flex-basis: 100%;
+        justify-content: space-between;
+        gap: 0.5rem 1rem;
+        font-size: 15px;
+    }
 }

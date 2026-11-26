@@ -1,7 +1,7 @@
 import React from 'react'
 import './Navbar.css'
-import { auth, provider } from '../../firebase'
-import { useAuth } from '../AuthContext'
+
+
 import { useNavigate } from 'react-router-dom'
 
 export default function Navbar() {
@@ -11,10 +11,10 @@ export default function Navbar() {
     <div className='navbar-main-body'>
       <div className='Navbar'>
         <h1 className="grant-block-header">Grant Block</h1>
-        <li className="navbar-list">
+        <nav className="navbar-list">
           <button className="navbar faq" onClick={()=>{navigate('/Faq')}}>F A Q</button>
           <button className="navbar contact-us" onClick={()=>{navigate('/Contact')}}>Contact us </button>
-        </li>
+        </nav>
         <button className='profile-login' onClick={() => navigate('/Login')}>
           LOGIN
         </button>

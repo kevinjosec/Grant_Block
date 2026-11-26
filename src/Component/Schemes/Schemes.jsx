@@ -28,10 +28,14 @@ const Schemes = () => {
 
   useEffect(() => {
     const fetchActivateStatus = async () => {
-      const docRef = doc(db, 'schemeActivation', 'hk9qbigYr3rjrHi0RJ9t')
-      const docRefSnapshot = await getDoc(docRef);
-      if (docRefSnapshot.exists()) {
-        setSchemeActivated(Boolean(docRefSnapshot.data().activate));
+      try {
+        const docRef = doc(db, 'schemeActivation', 'hk9qbigYr3rjrHi0RJ9t')
+        const docRefSnapshot = await getDoc(docRef);
+        if (docRefSnapshot.exists()) {
+          setSchemeActivated(Boolean(docRefSnapshot.data().activate));
+        }
+      } catch (e) {
+        console.error('Could not read scheme status:', e);
       }
     }
     fetchActivateStatus();

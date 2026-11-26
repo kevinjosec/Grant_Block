@@ -26,3 +26,6 @@ yarn-error.log*
 /.ganache-db
 /build/contracts
 .env
+
+# browser test artifacts
+/.playwright-mcp

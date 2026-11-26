@@ -30,17 +30,17 @@ const Notification = () => {
     <div className='notify-main-body'>
       <UserNavbar backgroundColor="transparent" />{
         resultsPublish && results.length > 0 ? (
-          <div>
+          <div className="notify-content">
             <h1>Published Beneficiary List</h1>
             {results.map((applicant, index) => (
-              <div key={index}>
+              <div key={index} className="notify-row">
                 <p>{index + 1}. {applicant.name} | {applicant.scheme_name} | Ward {applicant.ward_number} | Marks {applicant.marks_scored}</p>
               </div>
             ))}
           </div>
         ) : (
-          <div>
-            <h1>No Results are published</h1>
+          <div className="notify-content">
+            <h1 className="no-results">No Results are published</h1>
           </div>
         )
       }

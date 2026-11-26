@@ -1,15 +1,14 @@
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap');
-
 .usebbbody {
   background-image: url(../Assests/user-bg.jpg);
   background-position: center;
   background-size: cover;
   background-attachment: fixed;
-  font-family: "plus jakarta sans", sans-serif;
+  font-family: "Plus Jakarta Sans", sans-serif;
   padding: 2em;
+  min-height: 100vh;
 }
 
-.dg-main{
+.dg-main {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -17,10 +16,11 @@
 
 .dg {
   width: 80%;
+  max-width: 1000px;
   background-color: #212c37;
   border-radius: 50px;
   color: aliceblue;
-  padding: 1em;
+  padding: 1em 2em;
 }
 
 .fAQ {
@@ -45,5 +45,21 @@
 .para2 {
   font-style: italic;
   font-size: 14px;
-  font-weight: 100;
+  font-weight: 300;
+}
+
+@media (max-width: 700px) {
+  .usebbbody {
+    padding: 1em;
+  }
+
+  .dg {
+    width: 100%;
+    border-radius: 24px;
+    padding: 1em 1.25em;
+  }
+
+  .fAQ {
+    font-size: 34px;
+  }
 }

@@ -1,12 +1,40 @@
-.notify-main-body{
+.notify-main-body {
     background-image: url(../Assests/user-bg.jpg);
     background-position: center;
     background-size: cover;
     background-attachment: fixed;
     color: white;
-    height: 100vh;
+    min-height: 100vh;
+    font-family: "Open Sans", sans-serif;
 }
 
-.no-results{
+.notify-content {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 1em 1.5em 2em;
+}
+
+.notify-content h1,
+.no-results {
     text-align: center;
+}
+
+.notify-row {
+    margin: 0.5em 0;
+    padding: 0.75em 1em;
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(0, 0, 0, 0.4);
+    overflow-wrap: anywhere;
+}
+
+@media (max-width: 600px) {
+    .notify-content {
+        padding: 1em 0.75em 2em;
+    }
+
+    .notify-content h1,
+    .no-results {
+        font-size: 1.5em;
+    }
 }

@@ -23,6 +23,7 @@ const GovActiveScheme = () => {
 
     useEffect(() => {
         const fetchSchemeCount = async () => {
+          try {
             const counts = {};
             for (const schemeID of scheme) {
                 const count = await getSchemeCount(schemeID.name);
@@ -35,6 +36,9 @@ const GovActiveScheme = () => {
                 setSchemeActivated(data);
             }
             setSchemeCount(counts);
+          } catch (e) {
+            console.error('Could not load scheme counts:', e);
+          }
         }
         fetchSchemeCount();
     }, [scheme]);

@@ -1,51 +1,52 @@
-@import url('https://fonts.googleapis.com/css2?family=plus+jakarta+sans&display=swap');
-
-.candidate-header{
+.candidate-header {
     text-align: center;
-    font-family: "plus jakarta sans", sans-serif;
+    font-family: "Plus Jakarta Sans", sans-serif;
     margin: 1em;
 }
 
-.applicant-form-container{
-    font-family: "plus jakarta sans",sans-serif;
+.applicant-form-container {
+    font-family: "Plus Jakarta Sans", sans-serif;
     display: grid;
-    grid-template-rows: 1fr 2fr;
-    height: 100%;
     margin: 2em;
     border: 1px solid black;
 }
 
-.field-mark{
+.field-mark {
+    display: inline-block;
     border: 1px solid black;
     padding: 10px;
 }
 
-.no-mark-items{
-    margin-top: 1em;
+.no-mark-items {
+    margin: 1em 0 3em;
     text-align: center;
-    margin-bottom: 3em;
+    min-width: 0;
+    overflow-wrap: anywhere;
+    padding: 0 0.5em;
 }
 
-.label-name{
+.label-name {
     font-weight: bold;
 }
 
-.applicant-form{
+.applicant-form {
     padding: 20px;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    border: 1px solid  black; 
+    border: 1px solid black;
 }
 
-.applicant-button{
+.applicant-button {
     text-align: center;
-    margin: 2em 0em;
+    margin: 2em 1em;
 }
 
-.calculate-button{
-    font-family: "plus jakarta sans", sans-serif;
+.calculate-button,
+.confirm-button,
+.applicant-button-approve,
+.applicant-button-reject {
+    font-family: "Plus Jakarta Sans", sans-serif;
     font-weight: bold;
-    padding: 0.75em 1em;
     margin: 10px;
     border: 1px solid black;
     border-radius: 20px;
@@ -53,54 +54,73 @@
     cursor: pointer;
 }
 
-.calculate-button:hover{
+.calculate-button {
+    padding: 0.75em 1em;
+}
+
+.calculate-button:hover,
+.confirm-button:hover,
+.applicant-button-approve:hover,
+.applicant-button-reject:hover {
     background-color: black;
     color: white;
 }
 
-.applicant-button-approve,.applicant-button-reject{
-    font-family: "plus jakarta sans", sans-serif;
-    font-weight: bold;
+.applicant-button-approve,
+.applicant-button-reject {
     padding: 1em 2em;
-    margin: 10px;
-    border: 1px solid black;
-    border-radius: 20px;
-    background-color: transparent;
-    cursor: pointer;
 }
 
-.comment-box{
-    width: 90vw;
+.confirm-button {
+    padding: 0.75em 2.5em;
+}
+
+.confirm-button:disabled {
+    opacity: 0.6;
+    cursor: wait;
+}
+
+.comment-box {
+    width: 100%;
+    max-width: 900px;
     height: 100px;
     border: 1px solid gray;
     border-radius: 10px;
-    font-family: "plus jakarta sans", sans-serif;    
-    text-indent: 1em;
+    font-family: "Plus Jakarta Sans", sans-serif;
+    padding: 0 1em;
 }
 
-.comment-box-container{
-    position: relative;
+.comment-box-container {
     margin-top: 1em;
 }
-.comment-box::placeholder{
-    position: absolute;
-    top: 0;
-    right: 1;
-    padding-left: 1em;
-    padding-top: 1em;
-}
 
-.confirm-button{
-    font-family: "plus jakarta sans", sans-serif;
-    font-weight: bold;
-    padding: 0.75em 2.5em;
-    margin: 10px;
-    border: 1px solid black;
-    border-radius: 20px;
-    background-color: transparent;
-    cursor: pointer;
-}
-
-.color-change-btn.clicked{
+.color-change-btn.clicked {
     background-color: #182d4d;
+}
+
+@media (max-width: 1000px) {
+    .applicant-form {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .applicant-form-container {
+        margin: 1em 0.5em;
+    }
+
+    .applicant-form {
+        grid-template-columns: 1fr;
+        padding: 10px;
+    }
+
+    .no-mark-items {
+        margin: 0.5em 0 1.5em;
+    }
+
+    .applicant-button-approve,
+    .applicant-button-reject {
+        display: block;
+        width: calc(100% - 20px);
+    }
 }

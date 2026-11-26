@@ -1,18 +1,13 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=open+sans&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap');
-
 .scheme-main-body {
     background-image: url(../Assests/user-bg.jpg);
     background-position: center;
     background-size: cover;
     background-attachment: fixed;
-    font-family: "plus jakarta sans", sans-serif;
-    height: 100vh;
-    width: 100vw;
+    font-family: "Plus Jakarta Sans", sans-serif;
+    min-height: 100vh;
+    padding-bottom: 2em;
     color: white;
 }
-
 
 .scheme-page {
     border: 1px solid black;
@@ -20,51 +15,56 @@
     backdrop-filter: blur(10px);
     padding: 2em;
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    margin: 0 2rem 0rem 2rem;
+    grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr));
+    justify-items: center;
+    margin: 0 2rem;
 }
 
 .scheme-card {
-    font-family: "roboto", sans-serif;
+    font-family: "Roboto", sans-serif;
     position: relative;
     margin: 1rem;
     border: 1px solid #000;
     background-color: white;
     height: 20rem;
     width: 15rem;
+    max-width: 100%;
     border-radius: 20px;
     font-size: 15px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     cursor: pointer;
+    overflow: hidden;
 }
 
 .scheme-name {
     padding-top: 1em;
-    font-family: "robot", sans-serif;
+    font-family: "Roboto", sans-serif;
     position: absolute;
     bottom: 0;
+    left: 0;
+    right: 0;
     height: 3rem;
     backdrop-filter: blur(10px);
     color: white;
-    width: 15rem;
     border-radius: 20px;
     transition: 1s;
-    box-shadow: 0px -20px 10px -10px rgba(0, 0, 0, 0.5);
-    cursor: grabbing;
+    box-shadow: 0 -20px 10px -10px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
 }
 
 .scheme-name:hover {
     background-color: transparent;
     height: 15rem;
+    overflow-y: auto;
     transition: 1s ease-in-out;
 }
 
 .scheme-title {
-    font-family: "open sans", sans-serif;
+    font-family: "Open Sans", sans-serif;
     font-size: 15px;
     font-weight: 600;
     text-align: left;
-    text-shadow: 1px 1px 2px rgb(0, 0, 0.5);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
     padding-left: 1em;
 }
 
@@ -74,65 +74,89 @@
     align-items: center;
     text-align: center;
     color: white;
-    font-family: "plus jakarta-sans", sans-serif;
+    font-family: "Plus Jakarta Sans", sans-serif;
     font-size: 1.15em;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
     line-height: 1.75em;
     word-spacing: 0.15em;
-    margin-top: 6em;
+    margin: 6em 1em 1em;
 }
 
 .scheme-content {
     opacity: 0;
-    margin-left: 1em;
+    margin: 0.5em 1em;
     font-size: 13px;
-    text-shadow: 1px 1px 2px rgb(0, 0, 0.5);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
 }
 
 .scheme-name:hover .scheme-content {
     opacity: 1;
-    transition: opacity 7s;
+    transition: opacity 1.5s;
+}
+
+/* Touch screens have no hover: show the description up front */
+@media (hover: none) {
+    .scheme-name {
+        height: auto;
+        max-height: 70%;
+        overflow-y: auto;
+        background-color: rgba(0, 0, 0, 0.35);
+    }
+
+    .scheme-content {
+        opacity: 1;
+    }
 }
 
 .poultry {
     margin: 1em;
 }
 
-.no-ipfs{
-    margin-top: -4em;
+.no-ipfs {
+    margin: -4em 1em 0;
     text-align: center;
     color: white;
 }
 
-.no-ipfs-container{
+.no-ipfs-container {
     display: flex;
     justify-content: center;
     align-items: center;
     color: white;
 }
 
-.no-ipfs-image{
+.no-ipfs-image {
     height: 250px;
 }
 
-.refresh.one{
-    font-family: "plus jakarta sans", sans-serif;
-    font-weight: bold;
-    padding: 0.75em 1em;
-    border: 1px solid white;
-    border-radius: 20px;
-    background-color: transparent;
-    cursor: pointer;
+.refresh.one {
+    border-color: white;
     color: white;
 }
 
-.refresh.one:hover{
+.refresh.one:hover {
     background-color: transparent;
 }
 
-.refresh-container.one{
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.refresh-container.one {
     margin-top: -7em;
+}
+
+/* the generic refresh button on this page sits on a dark background */
+.scheme-main-body .refresh {
+    border-color: white;
+    color: white;
+}
+
+@media (max-width: 600px) {
+    .scheme-page {
+        margin: 0 1rem;
+        padding: 0.5em;
+    }
+
+    .scheme-card {
+        width: 100%;
+        max-width: 20rem;
+        margin: 0.75rem 0;
+    }
 }

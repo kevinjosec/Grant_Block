@@ -1,42 +1,42 @@
-
-
 .application-form-body {
-    font-family: "open sans", sans-serif;
-    background-image: url(../Assests//user-bg.jpg);
+    font-family: "Open Sans", sans-serif;
+    background-image: url(../Assests/user-bg.jpg);
     background-position: center;
     background-size: cover;
     background-attachment: fixed;
     padding-bottom: 25px;
+    min-height: 100vh;
 }
 
 .application-form {
-    font-family: "open sans", sans-serif;
+    font-family: "Open Sans", sans-serif;
     border: 1px solid black;
     text-align: left;
     padding: 25px;
     border-radius: 20px;
-    margin: 0 7rem 0rem 7rem;
+    margin: 0 7rem;
     backdrop-filter: blur(10px);
     color: white;
 }
 
 .application-form-grid {
     padding: 0 0 0 1em;
+    min-width: 0;
 }
 
 .general-details-grid {
     padding: 2em 2em 2em 1em;
+    min-width: 0;
 }
 
-.personal-details {
+.personal-details,
+.general-details {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
 }
 
 .general-details {
     margin-top: -1em;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
 }
 
 .personal-details-para,
@@ -61,20 +61,21 @@
     border-radius: 5px;
 }
 
-.inputTag.annual-income,.inputTag.caste {
+.inputTag.annual-income,
+.inputTag.caste {
     margin-top: 1.7em;
 }
 
 .header {
     text-align: center;
     color: white;
-    font-family: "roboto", sans-serif;
-    font-family: 'Open Sans', sans-serif;
+    font-family: "Open Sans", sans-serif;
+    padding: 0 0.5em;
 }
 
 .application-form-error {
     font-size: 13px;
-    color: #FF0000;
+    color: #ff4d4d;
 }
 
 .application-submit-button {
@@ -83,15 +84,21 @@
     font-weight: 600;
     border-radius: 25px;
     font-size: 15px;
-    padding: 10px 30px 10px 30px;
+    padding: 10px 30px;
     margin-left: 2rem;
     background-color: transparent;
     transition: 0.3s;
     color: white;
 }
 
+.application-submit-button:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+}
+
 .documentTag {
+    display: block;
     margin-top: 1em;
+    max-width: 100%;
 }
 
 .documentTag.adhar-pic {
@@ -99,5 +106,47 @@
 }
 
 .application-form-label.scheme-header {
+    display: block;
     margin-top: 2em;
+}
+
+@media (max-width: 1000px) {
+    .application-form {
+        margin: 0 2rem;
+    }
+}
+
+@media (max-width: 700px) {
+    .application-form {
+        margin: 0 0.75rem;
+        padding: 15px;
+    }
+
+    .personal-details,
+    .general-details {
+        grid-template-columns: 1fr;
+    }
+
+    .application-form-grid {
+        padding: 0;
+    }
+
+    .general-details-grid {
+        padding: 1em 0;
+    }
+
+    .inputTag,
+    .inputTag1 {
+        width: 100%;
+    }
+
+    .inputTag.annual-income,
+    .inputTag.caste {
+        margin-top: 1em;
+    }
+
+    .application-submit-button {
+        display: block;
+        margin: 0 auto;
+    }
 }

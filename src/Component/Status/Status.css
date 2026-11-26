@@ -1,76 +1,109 @@
-
-
-.status-bg-body{
+.status-bg-body {
     color: white;
     background-image: url(../Assests/user-bg.jpg);
     background-position: center;
     background-size: cover;
     background-attachment: fixed;
     padding-bottom: 2em;
+    min-height: 100vh;
 }
 
-.status-main-body{
-    font-family: "open sans",sans-serif;
-    padding: 0 8em 0 8em;
+.status-main-body {
+    font-family: "Open Sans", sans-serif;
+    padding: 0 8em;
 }
-.status-body{
+
+.status-body {
     border: 1px solid black;
     border-radius: 20px;
     margin: 0;
     backdrop-filter: blur(10px);
 }
 
-.status-header{
+.status-header {
     padding-left: 1em;
 }
 
-.status-application-form-icon{
+.status-application-form-icon {
     width: 100px;
 }
 
-.status-steps{
+.status-steps {
     line-height: 7em;
 }
 
-.status-icon{
+.status-icon {
     padding-right: 1em;
-    margin-bottom: -0.3em;
-    margin-right: 2em;
-    margin-left: 2em;
+    margin: 0 2em -0.3em;
 }
 
-.status-block{
+.status-block {
     position: relative;
     border: 1px solid black;
     border-radius: 10px;
     margin: 2em;
-    padding-left: 1em;
-    padding-bottom: 7em;
+    padding: 0 1em 7em;
 }
 
-.status-approved{
+.status-approved {
     position: absolute;
     right: 2em;
     top: 1em;
 }
 
-.status-name{
+.status-name {
     font-weight: bolder;
 }
 
-.status-date{
-    font-size:75%;
+.status-date {
+    font-size: 75%;
 }
 
-.status-cancel-button{
+.status-cancel-button {
     border: 1px solid white;
     color: white;
     border-radius: 20px;
     background-color: transparent;
-    font-family: "open sans", sans-serif;
+    font-family: "Open Sans", sans-serif;
     font-weight: bolder;
     padding: 1em;
-    margin-left: 2em;
-    margin-bottom: 2em;
+    margin: 0 0 2em 2em;
     cursor: pointer;
+}
+
+@media (max-width: 900px) {
+    .status-main-body {
+        padding: 0 1.5em;
+    }
+}
+
+@media (max-width: 600px) {
+    .status-main-body {
+        padding: 0 0.75em;
+    }
+
+    .status-block {
+        margin: 1em;
+        padding-bottom: 1em;
+    }
+
+    .status-approved {
+        position: static;
+        display: block;
+        width: 140px !important;
+        margin: 0 auto;
+    }
+
+    .status-steps {
+        line-height: 3.5em;
+    }
+
+    .status-icon {
+        margin: 0 0.5em -0.3em 1em;
+        padding-right: 0.5em;
+    }
+
+    .status-cancel-button {
+        margin-left: 1em;
+    }
 }

@@ -71,7 +71,7 @@ const SignUp = () => {
       fname: yup.string().trim().matches(/^[a-zA-Z]+$/, "Invalid").min(3, 'Too short').required('First Name is required'),
       lname: yup.string().trim().matches(/^[a-zA-Z]+$/, "Invalid").min(3, 'Too short').required('Last Name is required'),
       phone: yup.string().matches(/^[0-9]{10}$/, "Invalid").required('Phone Number is required'),
-      email: yup.string().email().required('Email is requied'),
+      email: yup.string().email().required('Email is required'),
       password: yup.string().trim().matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{6,}$/,
         'Password must contain at least one lowercase letter, one uppercase letter, and one digit, and be at least 6 characters long.'
         , "A captial letter, small letter and a number").required("Password is required"),
@@ -91,7 +91,7 @@ const SignUp = () => {
           </h1>
         </div>
         <div className="signup-grid2">
-          <h1 className="create-an-account">Create an Acoount</h1>
+          <h1 className="create-an-account">Create an Account</h1>
           <form onSubmit={formik.handleSubmit} className='sign-up-form'>
             <input type='text' name="fname" className='signupInput fname-input' {...formik.getFieldProps('fname')} placeholder='First name' />
             <input type='text' name="lname" className='signupInput lname-input' {...formik.getFieldProps('lname')} placeholder='Last name' />

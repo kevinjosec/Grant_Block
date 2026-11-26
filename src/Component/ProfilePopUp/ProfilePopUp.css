@@ -1,35 +1,37 @@
-
-
 .profile-settings {
-    font-family: "open sans", sans-serif ;
-    list-style-type: none;
-    position: absolute;
-    top: 2em;
-    right: 2rem;
-    width:20%;
-    height: 20%;
-    background-color: #fff;
-    box-shadow: 0 0 10px rgb(0, 0, 0.5);
-    border-radius: 15px;
-    z-index: 1;
-  }
+  font-family: "Open Sans", sans-serif;
+  list-style-type: none;
+  position: absolute;
+  top: calc(100% - 0.5em);
+  right: 1rem;
+  width: 220px;
+  max-width: calc(100vw - 2rem);
+  padding: 0.5em 0;
+  margin: 0;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  border-radius: 15px;
+  z-index: 20;
+  font-size: 16px;
+}
 
-  .settings-button,.logout-button{
-    padding-left: 0.5em;
-    font-weight: 600;
-    text-align: left;
-    font-family: "open sans", sans-serif ;
-    margin-left: 0.5em;
-    margin-bottom: -0.5em;
-    width:95%;
-    height: 50px;
-    border-style: none;
-    border-radius: 15px;
-    background-color: white;
-    cursor: pointer;
-  }
+.settings-button,
+.logout-button {
+  display: block;
+  padding: 0 0.75em;
+  font-weight: 600;
+  text-align: left;
+  font-family: "Open Sans", sans-serif;
+  margin: 0 auto;
+  width: 95%;
+  height: 50px;
+  border: none;
+  border-radius: 15px;
+  background-color: white;
+  cursor: pointer;
+}
 
-  
-  .settings-button:hover,.logout-button:hover{
-    background-color: #EAEAEA;
-  }
+.settings-button:hover,
+.logout-button:hover {
+  background-color: #eaeaea;
+}
